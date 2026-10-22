@@ -25,14 +25,46 @@
 
 No apliques una skill si la funcionalidad no la necesita.
 
+## Estructura de capas
+
+Arquitectura en capas con MVVM + Repository y regla de dependencia explícita.
+
+```text
+lib/
+├── app/                          # bootstrap, router, tema, l10n, composition root
+├── core/                         # Result/Failure, excepciones, logger, config, formatters
+├── domain/
+│   ├── models/                   # entidades inmutables, sin JSON
+│   ├── value_objects/            # unidades, pesos, macros, periodos
+│   ├── repositories/             # CONTRATOS (clases abstractas)
+│   └── use_cases/                # lógica de negocio reutilizable
+├── data/
+│   ├── models/                   # DTOs con fromJson/toJson
+│   ├── datasources/remote/       # clientes HTTP
+│   ├── datasources/local/        # drift/sqflite, caché persistente
+│   ├── services/                 # plataforma: health, notificaciones, barcode
+│   └── repositories/             # implementan los contratos de domain
+└── ui/
+    ├── core/                     # widgets, tema y formatters compartidos
+    └── features/<feature>/{views, view_models, widgets}
+```
+
+- **Regla de dependencia**: `ui → domain`, `data → domain`; `core` sin dependencias de capas. `ui` y `domain` nunca importan `data/`.
+- **Contratos obligatorios**: todo repositorio expone una interfaz abstracta en `domain/repositories/`; el provider apunta a la interfaz y se sobreescribe en tests.
+- **Use cases obligatorios** cuando haya cálculo, agregación, conversión de unidades, sincronización o regla compartida entre features. Un CRUD simple puede ir directo al repositorio.
+- **Errores tipados**: repositorios y use cases devuelven `Result<T>` (`Success`/`Failure` en `core/`); `data` traduce excepciones a `Failure` sin exponer bodies ni detalles internos.
+- **Sin lógica de negocio en `views` ni en `view_models`** más allá del estado y la orquestación.
+- **Tests**: `test/` replica la estructura de `lib/` (`test/domain/`, `test/data/`, `test/ui/`); los flujos van en `integration_test/`.
+- **`main.dart` solo arranca** (`ProviderScope` + `App`); router, tema y l10n viven en `lib/app/`.
+
 ## Decisiones vinculantes
 
-- **Modelos**: una sola estrategia. Propiedades `final` con `fromJson`/`toJson` manuales. No añadas `freezed` ni `build_runner` sin justificarlo.
-- **Capas**: `data/models` (API), `data/services` (HTTP), `data/repositories`, `domain/models`, `ui/features/<feature>/{views,view_models}`. La UI nunca importa modelos de API.
+- **Modelos**: una sola estrategia. Propiedades `final` con `fromJson`/`toJson` manuales, solo en `data/models` cuando exista capa de dominio. No añadas `freezed` ni `build_runner` sin justificarlo.
+- **Capas**: sigue el árbol de "Estructura de capas". La UI nunca importa modelos de API ni implementaciones de `data/`.
 - **Estado/DI**: Riverpod 3 (`flutter_riverpod`). Un único `ProviderScope` en la raíz. `Provider` para servicios/repositorios; `Notifier`/`AsyncNotifier` para estado; `AsyncValue` para loading/error. No usar `ChangeNotifierProvider`, `StateProvider` ni `StateNotifierProvider` (legacy) ni mezclar con `provider` o `get_it`.
 - **App raíz**: `ProviderScope` > `MaterialApp.router` con `routerConfig`, `localizationsDelegates` y `supportedLocales`.
-- **Navegación**: `routerProvider` con `authProvider` y `ref.listen(authProvider, ...) => router.refresh()`; valida los `pathParameters`; el `errorBuilder` muestra un mensaje genérico. No usar un `GoRouter` global ni `ValueNotifier` para la sesión.
-- **Tests**: `ProviderScope(overrides: [...])` para widgets e integración; `ProviderContainer.test(overrides: [...])` para unit tests. Nunca usar servicios reales ni datos PHI.
+- **Navegación**: `routerProvider` en `lib/app/` con `authProvider` y `ref.listen(authProvider, ...) => router.refresh()`; valida los `pathParameters`; el `errorBuilder` muestra un mensaje genérico. No usar un `GoRouter` global ni `ValueNotifier` para la sesión.
+- **Tests**: `ProviderContainer.test(overrides: [...])` para unit tests en `test/domain` y `test/data`; `ProviderScope(overrides: [...])` para widgets en `test/ui` e integración en `integration_test/`. Nunca usar servicios reales ni datos PHI.
 - **l10n**: `flutter: generate: true` + `l10n.yaml` con `synthetic-package: false` y `nullable-getter: false`; importa el archivo generado, nunca `package:flutter_gen`.
 - **Layout**: `LayoutBuilder` o `MediaQuery.sizeOf`; shell con `NavigationBar` por debajo de 600 px y `NavigationRail` desde 600 px.
 

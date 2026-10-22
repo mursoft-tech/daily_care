@@ -22,17 +22,18 @@ Enforce strict Separation of Concerns by dividing the application into distinct 
 ### UI Layer (Presentation)
 Implement the MVVM (Model-View-ViewModel) pattern with Riverpod 3.
 *   **Views:** Write reusable, lean `ConsumerWidget`/`Consumer` widgets. Restrict logic in Views to UI-specific operations (e.g., animations, layout constraints, simple routing). Read state with `ref.watch` and keep the widget free of business logic.
-*   **ViewModels:** Implement them as `Notifier` o `AsyncNotifier`; el estado se expone mediante `NotifierProvider`/`AsyncNotifierProvider`. Usa `AsyncValue` para loading/error en lugar de `_isLoading`/`_error` manuales. Inyecta Repositories a través de providers.
+*   **ViewModels:** Implement them as `Notifier` o `AsyncNotifier`; el estado se expone mediante `NotifierProvider`/`AsyncNotifierProvider`. Usa `AsyncValue` para loading/error en lugar de `_isLoading`/`_error` manuales. Inyecta contratos de repositorio o Use Cases a través de providers; nunca implementaciones de `data/`.
 *   **Legacy:** No uses `ChangeNotifier`, `ChangeNotifierProvider`, `StateProvider` ni `StateNotifierProvider`; en Riverpod 3 están en `package:flutter_riverpod/legacy.dart` y están desaconsejados.
 
 ### Data Layer
 Implement the Repository pattern to isolate data access logic and create a single source of truth.
-*   **Services:** Create stateless classes to wrap external APIs (HTTP clients, local databases, platform plugins). Return raw API models or `Result` wrappers.
-*   **Repositories:** Consume one or more Services. Transform raw API models into clean Domain Models. Handle caching, offline synchronization, and retry logic. Expose Domain Models to ViewModels.
+*   **Data Sources / Services:** Create stateless classes to wrap external APIs (`data/datasources/remote`), local persistence (`data/datasources/local`) and platform plugins (`data/services`). Return DTOs or throw infrastructure exceptions; never return domain entities.
+*   **Repositories:** Implement the domain contract. Consume one or more data sources, transform DTOs into domain entities, translate exceptions into `Result<T>`, and handle caching, offline synchronization and retry logic.
 *   **Sensitive data:** Nunca cachees datos sensibles (PHI, credenciales o datos personales) sin TTL e invalidación explícita al cerrar sesión o cambiar de usuario.
 
-### Logic Layer (Domain - Optional)
-*   **Use Cases:** Implement this layer only if the application contains complex business logic that clutters the ViewModel, or if logic must be reused across multiple ViewModels. Extract this logic into dedicated Use Case (interactor) classes that sit between ViewModels and Repositories.
+### Logic Layer (Domain)
+*   **Use Cases:** Obligatorios cuando la aplicación contiene cálculos, agregaciones, conversiones de unidades, sincronización o reglas compartidas entre ViewModels. Extráelos a clases Use Case entre el ViewModel y el contrato del repositorio. Un CRUD simple puede llamar al repositorio directamente.
+*   **Contracts:** Define una clase abstracta por repositorio en `domain/repositories/`; la implementación vive en `data/repositories/`. El dominio no importa nada de `data/`.
 
 ## Project Structure
 
@@ -40,36 +41,113 @@ Organize the codebase using a hybrid approach: group UI components by feature, a
 
 ```text
 lib/
-├── data/
-│   ├── models/         # API models
-│   ├── repositories/   # Repository implementations
-│   └── services/       # API clients, local storage wrappers
+├── app/                          # bootstrap, router, theme, l10n, composition root
+├── core/                         # Result/Failure, exceptions, logger, config, formatters
 ├── domain/
-│   ├── models/         # Clean domain models
-│   └── use_cases/      # Optional business logic classes
+│   ├── models/                   # Immutable entities, no JSON
+│   ├── value_objects/            # Units, weights, periods, money
+│   ├── repositories/             # ABSTRACT contracts (dependency inversion)
+│   └── use_cases/                # Reusable business logic
+├── data/
+│   ├── models/                   # DTOs with fromJson/toJson
+│   ├── datasources/remote/       # HTTP clients
+│   ├── datasources/local/        # drift/sqflite, persistent cache
+│   ├── services/                 # Platform: health, notifications, barcode
+│   └── repositories/             # Implement domain contracts
 └── ui/
-    ├── core/           # Shared widgets, themes, typography
+    ├── core/                     # Shared widgets, themes, formatters
     └── features/
         └── [feature_name]/
-            ├── view_models/   # Notifier/AsyncNotifier + providers
-            └── views/
+            ├── view_models/      # Notifier/AsyncNotifier + providers
+            ├── views/
+            └── widgets/          # Feature-specific widgets
 ```
+
+### Dependency Rule
+
+Dependencies point inward: `ui → domain` and `data → domain`. `ui` and `domain` never import `data/`. `core/` holds cross-cutting types without depending on any layer.
+
+```dart
+// domain/repositories/user_repository.dart
+abstract class UserRepository {
+  Future<Result<User>> getUser(String id, {bool forceRefresh = false});
+}
+```
+
+```dart
+// data/repositories/user_repository_impl.dart
+class UserRepositoryImpl implements UserRepository {
+  UserRepositoryImpl({required ApiClient apiClient}) : _apiClient = apiClient;
+
+  final ApiClient _apiClient;
+
+  @override
+  Future<Result<User>> getUser(String id, {bool forceRefresh = false}) async {
+    try {
+      final dto = await _apiClient.fetchUser(id);
+      return Success(User(id: dto.id, name: dto.fullName));
+    } on TimeoutException {
+      return const Failure(TimeoutFailure());
+    } on AppException catch (error) {
+      return Failure(NetworkFailure(error.code));
+    }
+  }
+}
+```
+
+```dart
+// core/result.dart
+sealed class Result<T> {
+  const Result();
+}
+
+final class Success<T> extends Result<T> {
+  const Success(this.value);
+  final T value;
+}
+
+final class Failure<T> extends Result<T> {
+  const Failure(this.failure);
+  final AppFailure failure;
+}
+
+sealed class AppFailure {
+  const AppFailure();
+}
+
+final class TimeoutFailure extends AppFailure {
+  const TimeoutFailure();
+}
+
+final class NetworkFailure extends AppFailure {
+  const NetworkFailure(this.code);
+  final int code;
+}
+```
+
+Rules:
+- Every repository has an abstract contract in `domain/repositories/`; providers expose the contract type.
+- Use cases are mandatory for calculations, aggregations, unit conversions, synchronization, or rules shared by several ViewModels.
+- Repositories and use cases return `Result<T>`; `data` translates exceptions into `Failure` without leaking bodies or internal details.
+- `main.dart` only runs `ProviderScope` + `App`; router, theme and l10n live in `lib/app/`.
+- `test/` mirrors `lib/` (`test/domain/`, `test/data/`, `test/ui/`); end-to-end flows live in `integration_test/`.
 
 ## Workflow: Implementing a New Feature
 
 Follow this sequential workflow when adding a new feature to the application. Copy the checklist to track progress.
 
 ### Task Progress
-- [ ] **Step 1: Define Domain Models.** Crea clases inmutables con propiedades `final`. Si usas separación data/domain, los `fromJson`/`toJson` van en `data/models` y el modelo de dominio queda libre de JSON; para apps pequeñas, un único modelo inmutable con serialización manual es aceptable (ver skill `flutter-implement-json-serialization`). Usa `freezed` + `json_serializable` solo si necesitas uniones o `copyWith`, y añade `build_runner`; no mezcles ambas estrategias.
-- [ ] **Step 2: Implement Services.** Create or update Service classes to handle external API communication.
-- [ ] **Step 3: Implement Repositories.** Create the Repository to consume Services and return Domain Models.
-- [ ] **Step 4: Apply Conditional Logic (Domain Layer).**
-  - *If the feature requires complex data transformation or cross-repository logic:* Create a Use Case class.
-  - *If the feature is a simple CRUD operation:* Skip to Step 5.
-- [ ] **Step 5: Implement the ViewModel.** Crea un `Notifier`/`AsyncNotifier` y su provider. Inyecta Repositories/Use Cases con `ref.watch`/`ref.read`. Expón `AsyncValue` y comandos; no uses `ChangeNotifier`.
-- [ ] **Step 6: Implement the View.** Crea un `ConsumerWidget`/`Consumer` y lee el estado con `ref.watch`. Renderiza loading/error/data con pattern matching sobre `AsyncValue`.
-- [ ] **Step 7: Inject Dependencies.** Expón Services, Repositories y ViewModels como providers de Riverpod (`Provider`, `NotifierProvider`, `AsyncNotifierProvider`). Envuelve la app en un único `ProviderScope`; no mezcles con `provider` ni `get_it`.
-- [ ] **Step 8: Run Validator.** Execute unit tests for Notifiers and Repositories using `ProviderContainer.test(overrides: [...])` con fakes para Services. No uses red real ni datos de producción.
+- [ ] **Step 1: Define Domain Models.** Crea entidades inmutables con propiedades `final` y value objects para unidades o medidas. Los `fromJson`/`toJson` van en `data/models` y el modelo de dominio queda libre de JSON; para apps pequeñas, un único modelo inmutable con serialización manual es aceptable (ver skill `flutter-implement-json-serialization`). Usa `freezed` + `json_serializable` solo si necesitas uniones o `copyWith`, y añade `build_runner`; no mezcles ambas estrategias.
+- [ ] **Step 2: Define Repository Contracts.** Crea la clase abstracta en `domain/repositories/`; es la única superficie que verán ViewModels y Use Cases.
+- [ ] **Step 3: Implement Services and Data Sources.** Añade clientes HTTP en `data/datasources/remote` y persistencia/caché en `data/datasources/local`. Los clients devuelven DTOs o lanzan excepciones de infraestructura.
+- [ ] **Step 4: Implement Repositories.** `data/repositories/` implementa el contrato, transforma DTOs a entidades y traduce excepciones a `Result<T>`.
+- [ ] **Step 5: Apply Domain Logic.**
+  - *Si hay cálculos, agregaciones, conversión de unidades, sincronización o lógica compartida:* crea un Use Case en `domain/use_cases/`.
+  - *Si es un CRUD simple:* el ViewModel puede llamar al contrato del repositorio.
+- [ ] **Step 6: Implement the ViewModel.** Crea un `Notifier`/`AsyncNotifier` y su provider. Inyecta el Use Case o el contrato del repositorio con `ref.watch`/`ref.read`. Expón `AsyncValue` y comandos; no uses `ChangeNotifier` y mantén el ViewModel libre de reglas de negocio.
+- [ ] **Step 7: Implement the View.** Crea un `ConsumerWidget`/`Consumer` y lee el estado con `ref.watch`. Renderiza loading/error/data con pattern matching sobre `AsyncValue`.
+- [ ] **Step 8: Inject Dependencies.** Declara los providers en la capa de composición (`lib/app/`), tipados como el contrato de dominio. Envuelve la app en un único `ProviderScope`; no mezcles con `provider` ni `get_it`.
+- [ ] **Step 9: Run Validator.** Unit tests de Use Cases y repositorios con `ProviderContainer.test(overrides: [...])` y fakes de Data Sources. Widget tests en `test/ui`, flujos en `integration_test`. No uses red real ni datos de producción.
   - *Feedback Loop:* Run tests -> Review failures -> Fix logic -> Re-run until passing.
 
 ## Examples
@@ -77,37 +155,44 @@ Follow this sequential workflow when adding a new feature to the application. Co
 ### Data Layer: Service and Repository
 
 ```dart
-// 1. Service (Raw API interaction)
+// 1. Service (Raw API interaction, returns DTO)
 class ApiClient {
-  Future<UserApiModel> fetchUser(String id) async {
+  Future<UserDto> fetchUser(String id) async {
     // HTTP GET implementation...
   }
 }
 
-// 2. Repository (Single source of truth, returns Domain Model)
-class UserRepository {
-  UserRepository({required ApiClient apiClient}) : _apiClient = apiClient;
+// 2. Repository (Implements the domain contract, returns Domain Model)
+class UserRepositoryImpl implements UserRepository {
+  UserRepositoryImpl({required ApiClient apiClient}) : _apiClient = apiClient;
 
   static const _cacheTtl = Duration(minutes: 5);
   final ApiClient _apiClient;
   final Map<String, User> _cache = {};
   final Map<String, DateTime> _cachedAt = {};
 
-  Future<User> getUser(String id, {bool forceRefresh = false}) async {
+  @override
+  Future<Result<User>> getUser(String id, {bool forceRefresh = false}) async {
     final cached = _cache[id];
     final cachedAt = _cachedAt[id];
     if (!forceRefresh &&
         cached != null &&
         cachedAt != null &&
         DateTime.now().difference(cachedAt) < _cacheTtl) {
-      return cached;
+      return Success(cached);
     }
 
-    final apiModel = await _apiClient.fetchUser(id);
-    final user = User(id: apiModel.id, name: apiModel.fullName); // Transform to Domain Model
-    _cache[id] = user;
-    _cachedAt[id] = DateTime.now();
-    return user;
+    try {
+      final dto = await _apiClient.fetchUser(id);
+      final user = User(id: dto.id, name: dto.fullName); // Transform to Domain Model
+      _cache[id] = user;
+      _cachedAt[id] = DateTime.now();
+      return Success(user);
+    } on TimeoutException {
+      return const Failure(TimeoutFailure());
+    } on AppException catch (error) {
+      return Failure(NetworkFailure(error.code));
+    }
   }
 
   // Llama a esto al cerrar sesión o cambiar de usuario.
@@ -125,8 +210,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final apiClientProvider = Provider<ApiClient>((ref) => ApiClient());
 
+// El provider expone el contrato de dominio, no la implementación.
 final userRepositoryProvider = Provider<UserRepository>((ref) {
-  return UserRepository(apiClient: ref.watch(apiClientProvider));
+  return UserRepositoryImpl(apiClient: ref.watch(apiClientProvider));
 });
 ```
 
@@ -143,15 +229,21 @@ class ProfileNotifier extends AsyncNotifier<User> {
   final String id;
 
   @override
-  Future<User> build() {
-    return ref.watch(userRepositoryProvider).getUser(id);
-  }
+  Future<User> build() => _load();
 
   Future<void> refreshProfile() async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(
-      () => ref.read(userRepositoryProvider).getUser(id, forceRefresh: true),
-    );
+    state = await AsyncValue.guard(() => _load(forceRefresh: true));
+  }
+
+  Future<User> _load({bool forceRefresh = false}) async {
+    final result = await ref
+        .read(userRepositoryProvider)
+        .getUser(id, forceRefresh: forceRefresh);
+    return switch (result) {
+      Success(:final value) => value,
+      Failure(:final failure) => throw failure,
+    };
   }
 }
 
@@ -195,7 +287,7 @@ class ProfileView extends ConsumerWidget {
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: App()));
 }
 ```
 

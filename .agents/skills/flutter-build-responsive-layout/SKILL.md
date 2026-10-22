@@ -40,7 +40,7 @@ Ensure the app behaves correctly across all device form factors and input method
 *   **Do not lock screen orientation.** Locking orientation causes severe layout issues on foldable devices, often resulting in letterboxing (the app centered with black borders). Android large format tiers require both portrait and landscape support.
 *   **Fallback for Locked Orientation:** If business requirements strictly mandate a locked orientation, use the `Display API` to retrieve physical screen dimensions instead of `MediaQuery`. `MediaQuery` fails to receive the larger window size in compatibility modes.
 *   **Support Multiple Inputs:** Implement support for basic mice, trackpads, and keyboard shortcuts. Ensure touch targets are appropriately sized and keyboard navigation is accessible.
-*   **Adaptive navigation shell:** A tabbed shell must use `NavigationBar` en anchos compactos y `NavigationRail` en anchos expandidos (por ejemplo, `maxWidth > 600`), manteniendo una sola `StatefulNavigationShell`. Ver `flutter-setup-declarative-routing`.
+*   **Adaptive navigation shell:** A tabbed shell must use `NavigationBar` en anchos compactos y `NavigationRail` en anchos expandidos (por ejemplo, `maxWidth > 600`), manteniendo una sola `StatefulNavigationShell`. El shell vive en `lib/app/` o `lib/ui/core/`; los widgets específicos de una feature, en `lib/ui/features/<feature>/widgets/`. Ver `flutter-setup-declarative-routing`.
 
 ## Workflow: Constructing an Adaptive Layout
 

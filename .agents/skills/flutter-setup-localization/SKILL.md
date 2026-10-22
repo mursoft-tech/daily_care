@@ -25,7 +25,7 @@ Copy and track this checklist when initializing internationalization in a Flutte
   - [ ] 1. Add dependencies to `pubspec.yaml`.
   - [ ] 2. Enable the `generate` flag.
   - [ ] 3. Create the `l10n.yaml` configuration file.
-  - [ ] 4. Configure `MaterialApp` or `CupertinoApp`.
+  - [ ] 4. Configure `MaterialApp` o `CupertinoApp` en `lib/app/app.dart`.
 
 ### 1. Add Dependencies
 Add the required localization packages to the project. Execute the following commands in the terminal:
@@ -64,18 +64,20 @@ nullable-getter: false
 > **Importante:** la generación mediante paquete sintético (`package:flutter_gen`) fue eliminada a partir de Flutter 3.32. Usa siempre `synthetic-package: false`; los archivos se generan dentro de `arb-dir` (o en `output-dir` si se especifica).
 
 ### 4. Configure the App Entry Point
-Import the generated localizations and the `flutter_localizations` library in your `main.dart`. Inject the delegates and supported locales into your `MaterialApp`, `MaterialApp.router` o `CupertinoApp`.
+Declara los delegates y locales en el widget raíz `lib/app/app.dart` (`MaterialApp`, `MaterialApp.router` o `CupertinoApp`), no en `main.dart`. `main.dart` solo ejecuta `ProviderScope` + `App`.
 
 > Los ejemplos usan `material_ui`. Si el proyecto aún no lo tiene, ejecuta `flutter pub add material_ui`.
 > Con Riverpod, el `ProviderScope` va por encima de `MaterialApp.router`; los `localizationsDelegates` no cambian.
 
 ```dart
+// lib/app/app.dart
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:daily_care/l10n/app_localizations.dart';
 
 // ... inside build method
-return MaterialApp(
+return MaterialApp.router(
+  routerConfig: ref.watch(routerProvider),
   localizationsDelegates: const [
     AppLocalizations.delegate,
     GlobalMaterialLocalizations.delegate,
@@ -86,7 +88,6 @@ return MaterialApp(
     Locale('en'), // English
     Locale('es'), // Spanish
   ],
-  home: const MyHomePage(),
 );
 ```
 

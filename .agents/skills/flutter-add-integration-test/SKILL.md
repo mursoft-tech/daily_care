@@ -29,6 +29,7 @@ Configure the project to support integration testing with `integration_test`.
    ```
 2. No habilites `flutter_driver` para `integration_test`. El binding se inicializa dentro del propio test con `IntegrationTestWidgetsFlutterBinding.ensureInitialized()`. `enableFlutterDriverExtension()` pertenece a la API legacy de `flutter_driver` y no debe añadirse al entry point de la aplicación.
 3. Add `Key` parameters (e.g., `ValueKey('login_button')`) to critical widgets in the application code to ensure reliable targeting during tests.
+4. Organiza los tests por capa: `test/domain/` para use cases, `test/data/` para repositorios y datasources, `test/ui/` para widgets. `test/` replica la estructura de `lib/`. Reserva `integration_test/` para flujos completos.
 
 ## Interactive Exploration via MCP
 
@@ -47,7 +48,7 @@ Structure integration tests using the `flutter_test` API paradigm.
 - Create a dedicated `integration_test/` directory at the project root.
 - Name all test files using the `<name>_test.dart` convention.
 - Initialize the binding by calling `IntegrationTestWidgetsFlutterBinding.ensureInitialized();` at the start of `main()`.
-- Load the application UI inside a test `ProviderScope` with fakes: `await tester.pumpWidget(ProviderScope(overrides: [...], child: const MyApp()));`.
+- Load the application UI inside a test `ProviderScope` with fakes: `await tester.pumpWidget(ProviderScope(overrides: [...], child: const App()));`.
 - Trigger frames and wait for animations to complete using `await tester.pumpAndSettle();` after interactions like `tester.tap()`.
 - Assert widget visibility using `expect(find.byKey(ValueKey('foo')), findsOneWidget);` or `findsNothing`.
 - Scroll to specific off-screen widgets using `await tester.scrollUntilVisible(itemFinder, 500.0, scrollable: listFinder);`.
@@ -102,7 +103,7 @@ Copy and follow this checklist to implement and verify integration tests.
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:my_app/main.dart';
+import 'package:my_app/app/app.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -116,7 +117,7 @@ void main() {
             // Ejemplo:
             // userRepositoryProvider.overrideWithValue(FakeUserRepository()),
           ],
-          child: const MyApp(),
+          child: const App(),
         ),
       );
 

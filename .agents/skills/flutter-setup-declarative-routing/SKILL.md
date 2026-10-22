@@ -31,8 +31,10 @@ Follow this workflow to bootstrap a new Flutter application with `go_router` and
 - [ ] Create the Flutter application.
 - [ ] Add `go_router`, `material_ui` y `flutter_riverpod` (y `cupertino_ui` si aplica); migra imports con `dart fix`.
 - [ ] Configure the URL strategy for web/deep linking (solo web).
-- [ ] Implementa `authProvider` y `routerProvider`.
+- [ ] Implementa `authProvider` y `routerProvider` en `lib/app/`.
 - [ ] Bind the router to `MaterialApp.router` dentro de `ProviderScope`.
+
+> Distribución: `lib/main.dart` solo ejecuta `runApp(const ProviderScope(child: App()))`. `routerProvider` vive en `lib/app/providers.dart` (o `lib/app/router/router_provider.dart`), el `GoRouter` se construye en `lib/app/router/app_router.dart`, y `MaterialApp.router` en `lib/app/app.dart`.
 
 ### 1. Scaffold the Application
 Run the following commands to create the app and add the required routing package:
@@ -62,9 +64,10 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 void main() {
+  // lib/main.dart: solo arranque de la app.
   // Solo tiene efecto en web: elimina el '#' de las URLs.
   usePathUrlStrategy();
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: App()));
 }
 
 enum AuthStatus { signedOut, signedIn }
@@ -81,6 +84,7 @@ final authProvider = NotifierProvider<AuthNotifier, AuthStatus>(
   AuthNotifier.new,
 );
 
+// lib/app/providers.dart
 final routerProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
     initialLocation: '/',
@@ -119,8 +123,9 @@ final routerProvider = Provider<GoRouter>((ref) {
   return router;
 });
 
-class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+// lib/app/app.dart
+class App extends ConsumerWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -217,7 +222,7 @@ Use `StatefulShellRoute` to implement persistent UI shells (like a bottom naviga
 ### Task Progress
 - [ ] Define `StatefulShellRoute.indexedStack` dentro de `routes` en `routerProvider`.
 - [ ] Create `StatefulShellBranch` instances for each navigation tab.
-- [ ] Implement the shell widget using `StatefulNavigationShell`.
+- [ ] Implement the shell widget using `StatefulNavigationShell` (en `lib/app/` o `lib/ui/core/`).
 
 ```dart
 // Fragmento de routes dentro de routerProvider.

@@ -18,7 +18,7 @@ metadata:
 - **Import `dart:convert`**: Utilize Flutter's built-in `dart:convert` library for manual JSON encoding (`jsonEncode`) and decoding (`jsonDecode`).
 - **Enforce Type Safety**: Cast the `dynamic` result of `jsonDecode()` to `Map<String, Object?>` for objects or `List<Object?>` for arrays. Evita `dynamic` en las firmas de los modelos.
 - **Decode UTF-8 explicitly**: Usa `utf8.decode(response.bodyBytes)`; `response.body` asume Latin-1 cuando el servidor no declara `charset`, lo que corrompe acentos y `ñ`.
-- **Encapsulate Serialization Logic**: Define plain model classes containing properties corresponding to the JSON structure. Implement a `fromJson` factory constructor and a `toJson` method within the model. La clase solo se encarga de serialización; las peticiones HTTP van en la capa Service (`lib/data/services/`).
+- **Encapsulate Serialization Logic**: Define plain model classes containing properties corresponding to the JSON structure. Implement a `fromJson` factory constructor and a `toJson` method within the model. La clase solo se encarga de serialización; las peticiones HTTP van en `lib/data/datasources/remote/`.
 - **Handle Background Parsing**: If parsing large JSON documents (execution time > 16ms), offload both the UTF-8 decoding and parsing to a separate isolate using Flutter's `compute()` function to prevent UI jank.
 - **Throw Exceptions on Failure**: When handling HTTP responses, throw an exception if the status code is not successful (e.g., not 200 OK or 201 Created). Do not return `null`.
 - **Bound the response**: Define un timeout, limita el tamaño del payload y valida el `Content-Type` antes de decodificar. Nunca confíes en el tamaño que anuncia el servidor.
@@ -57,7 +57,7 @@ Use this conditional workflow when retrieving and parsing JSON from a network re
 3. **Determine Parsing Strategy**:
    - If parsing a **small payload** (e.g., a single object), parse synchronously on the main thread.
    - If parsing a **large payload** (e.g., an array of thousands of objects), use `compute(parseFunction, response.bodyBytes)` y decodifica UTF-8 dentro del isolate.
-4. **Decode and Map**: `utf8.decode(response.bodyBytes)` -> `jsonDecode(...)` -> `Model.fromJson(...)`.
+4. **Decode and Map**: `utf8.decode(response.bodyBytes)` -> `jsonDecode(...)` -> `Model.fromJson(...)`. El Service devuelve el DTO; el repositorio lo mapea a `lib/domain/models/` y traduce las excepciones a `Result<T>`.
 
 ## Examples
 
@@ -107,8 +107,25 @@ class User {
 
 > Si el backend puede enviar `1.0` para un `int`, usa `(json['id'] as num).toInt()` en lugar del patrón `int id`. No uses `toString()` para convertir tipos numéricos.
 
-> Ubicación: si usas la arquitectura por capas, este modelo va en `lib/data/models/` y el repositorio lo transforma al modelo de `lib/domain/models/`. Si la app es pequeña, usa un único modelo inmutable y evita duplicarlo.
-> El modelo no conoce Riverpod ni HTTP. Expón `UserService`/`UserRepository` como providers en la capa de composición.
+> Ubicación: el DTO va siempre en `lib/data/models/`. El repositorio de `lib/data/repositories/` lo transforma a la entidad de `lib/domain/models/`; los Services devuelven DTOs o lanzan excepciones, nunca entidades de dominio. Si la app es pequeña, usa un único modelo inmutable y evita duplicarlo.
+> El modelo no conoce Riverpod ni HTTP. Expón `UserService`/`UserRepository` como providers en `lib/app/`; el provider apunta al contrato de `lib/domain/repositories/`.
+
+### Mapping DTO to Domain Model
+
+```dart
+// domain/models/user.dart
+class User {
+  const User({required this.id, required this.name});
+
+  final int id;
+  final String name;
+}
+
+// data/repositories/user_repository_impl.dart
+User _toDomain(UserDto dto) => User(id: dto.id, name: dto.fullName);
+```
+
+> Un DTO sin capa de dominio no se justifica: si el proyecto es pequeño o el payload coincide con la entidad, usa un único modelo. En cuanto haya `domain/`, ningún widget importa `data/models`.
 
 ### Synchronous Parsing (Small Payload)
 
@@ -116,7 +133,7 @@ class User {
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-// Service layer: lib/data/services/user_service.dart
+// Remote data source: lib/data/datasources/remote/user_service.dart
 class UserService {
   UserService(this._client);
 
