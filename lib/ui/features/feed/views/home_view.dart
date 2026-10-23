@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../../app/providers.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -19,9 +21,11 @@ class HomeView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final feed = ref.watch(feedViewModelProvider);
+    final sessionUser = ref.watch(sessionUserProvider);
     final l10n = AppLocalizations.of(context);
 
     return AppShell(
+      onLogout: () => context.go('/login'),
       child: SingleChildScrollView(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -35,8 +39,12 @@ class HomeView extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      FeedHeader(name: 'Caro', childCount: 12, date: _demoDate),
-                      const ComposerBar(),
+                      FeedHeader(
+                        name: sessionUser.firstName,
+                        childCount: 12,
+                        date: _demoDate,
+                      ),
+                      ComposerBar(initial: sessionUser.initial),
                       const SizedBox(height: 24),
                       FeedSectionLabel(label: l10n.publishedToday),
                       switch (feed) {

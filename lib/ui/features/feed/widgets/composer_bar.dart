@@ -8,7 +8,9 @@ import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/app_link.dart';
 
 class ComposerBar extends StatelessWidget {
-  const ComposerBar({super.key});
+  const ComposerBar({required this.initial, super.key});
+
+  final String initial;
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +35,8 @@ class ComposerBar extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const AppAvatar(
-              label: 'C',
+            AppAvatar(
+              label: initial,
               backgroundColor: AppColors.avatarCoral,
               foregroundColor: AppColors.white,
               size: 40,

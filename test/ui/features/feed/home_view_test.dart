@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:daily_care/app/localization.dart';
 import 'package:daily_care/app/providers.dart';
+import 'package:daily_care/app/router/app_router.dart';
 import 'package:daily_care/app/theme/app_theme.dart';
 import 'package:daily_care/core/result.dart';
 import 'package:daily_care/domain/models/post.dart';
@@ -10,6 +11,7 @@ import 'package:daily_care/domain/models/post_type.dart';
 import 'package:daily_care/domain/repositories/feed_repository.dart';
 import 'package:daily_care/ui/core/widgets/app_shell.dart';
 import 'package:daily_care/ui/features/feed/views/home_view.dart';
+import 'package:daily_care/ui/features/login/views/login_placeholder_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -136,7 +138,7 @@ void main() {
     expect(repository.calls, 2);
   });
 
-  testWidgets('uses sidebar, rail and bottom bar at the breakpoints', (
+  testWidgets('uses sidebar, rail and app bar at the breakpoints', (
     tester,
   ) async {
     addTearDown(tester.view.resetPhysicalSize);
@@ -156,7 +158,50 @@ void main() {
 
     tester.view.physicalSize = const Size(400, 800);
     await tester.pumpAndSettle();
-    expect(find.byKey(const Key('app-bottom-nav')), findsOneWidget);
+    expect(find.byKey(const Key('app-top-bar')), findsOneWidget);
+    expect(find.byKey(const Key('app-bottom-nav')), findsNothing);
     expect(tester.takeException(), isNull);
+
+    await tester.tap(find.byKey(const Key('app-menu-button')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('app-drawer')), findsOneWidget);
+    expect(find.text('Caro Giménez'), findsOneWidget);
+    expect(find.text('Maestra · Soles'), findsOneWidget);
+  });
+
+  testWidgets('logout opens the login placeholder', (tester) async {
+    addTearDown(tester.view.reset);
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(400, 800);
+
+    final container = ProviderContainer.test(
+      overrides: [feedRepositoryProvider.overrideWithValue(_FakeFeedRepository())],
+    );
+    final router = container.read(routerProvider);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp.router(
+          locale: const Locale('es'),
+          localizationsDelegates: appLocalizationsDelegates,
+          supportedLocales: appSupportedLocales,
+          theme: buildAppTheme(),
+          routerConfig: router,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('app-menu-button')));
+    await tester.pumpAndSettle();
+    final logoutRect = tester.getRect(
+      find.byKey(const Key('app-panel-logout')),
+    );
+    await tester.tapAt(logoutRect.topLeft + const Offset(3, 3));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(LoginPlaceholderView), findsOneWidget);
+    expect(find.byKey(const Key('app-drawer')), findsNothing);
   });
 }

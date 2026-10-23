@@ -34,7 +34,26 @@ class AppLocalizationsEs extends AppLocalizations {
   String get logoutTooltip => 'Cerrar sesión';
 
   @override
+  String get logoutLabel => 'Cerrar sesión';
+
+  @override
+  String get menuTooltip => 'Abrir menú';
+
+  @override
+  String get loginComingSoonTitle => 'Inicio de sesión en preparación';
+
+  @override
+  String get loginComingSoonBody =>
+      'La autenticación real llegará en la próxima etapa. Mientras tanto, podés volver al feed.';
+
+  @override
+  String get backToFeed => 'Volver al feed';
+
+  @override
   String get teacherRole => 'Maestra · Soles';
+
+  @override
+  String get familyRole => 'Familia';
 
   @override
   String greeting(String name) {

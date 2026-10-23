@@ -142,11 +142,47 @@ abstract class AppLocalizations {
   /// **'Cerrar sesión'**
   String get logoutTooltip;
 
+  /// No description provided for @logoutLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Cerrar sesión'**
+  String get logoutLabel;
+
+  /// No description provided for @menuTooltip.
+  ///
+  /// In es, this message translates to:
+  /// **'Abrir menú'**
+  String get menuTooltip;
+
+  /// No description provided for @loginComingSoonTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Inicio de sesión en preparación'**
+  String get loginComingSoonTitle;
+
+  /// No description provided for @loginComingSoonBody.
+  ///
+  /// In es, this message translates to:
+  /// **'La autenticación real llegará en la próxima etapa. Mientras tanto, podés volver al feed.'**
+  String get loginComingSoonBody;
+
+  /// No description provided for @backToFeed.
+  ///
+  /// In es, this message translates to:
+  /// **'Volver al feed'**
+  String get backToFeed;
+
   /// No description provided for @teacherRole.
   ///
   /// In es, this message translates to:
   /// **'Maestra · Soles'**
   String get teacherRole;
+
+  /// No description provided for @familyRole.
+  ///
+  /// In es, this message translates to:
+  /// **'Familia'**
+  String get familyRole;
 
   /// Saludo de la cabecera del home
   ///

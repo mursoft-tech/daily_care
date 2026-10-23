@@ -1,24 +1,40 @@
+﻿import 'dart:math' as math;
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../app/providers.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
+import '../../../domain/models/session_user.dart';
 import '../../../l10n/app_localizations.dart';
 import 'app_avatar.dart';
 import 'app_icon.dart';
 import 'app_link.dart';
+import 'app_logo_mark.dart';
+import 'app_logout_button.dart';
+import 'app_navigation_panel.dart';
 
-class AppShell extends StatelessWidget {
-  const AppShell({required this.child, this.selectedIndex = 0, super.key});
+class AppShell extends ConsumerWidget {
+  const AppShell({
+    required this.child,
+    required this.onLogout,
+    this.selectedIndex = 0,
+    super.key,
+  });
 
   final Widget child;
+  final VoidCallback onLogout;
   final int selectedIndex;
 
   static const _largeBreakpoint = 900.0;
   static const _mediumBreakpoint = 600.0;
-  static const _accountName = 'Caro Giménez';
+  static const _sidebarWidth = 248.0;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sessionUser = ref.watch(sessionUserProvider);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
@@ -30,8 +46,10 @@ class AppShell extends StatelessWidget {
                 _Sidebar(
                   key: const Key('app-sidebar'),
                   selectedIndex: selectedIndex,
+                  sessionUser: sessionUser,
+                  onLogout: onLogout,
                 ),
-                Expanded(child: child),
+                Expanded(child: SafeArea(child: child)),
               ],
             ),
           );
@@ -45,38 +63,25 @@ class AppShell extends StatelessWidget {
                 _AppRail(
                   key: const Key('app-rail'),
                   selectedIndex: selectedIndex,
+                  sessionUser: sessionUser,
+                  onLogout: onLogout,
                 ),
-                Expanded(child: child),
+                Expanded(child: SafeArea(child: child)),
               ],
             ),
           );
         }
 
-        return Scaffold(
-          body: child,
-          bottomNavigationBar: _AppBottomBar(
-            key: const Key('app-bottom-nav'),
-            selectedIndex: selectedIndex,
-          ),
+        return _CompactShell(
+          selectedIndex: selectedIndex,
+          sessionUser: sessionUser,
+          onLogout: onLogout,
+          child: child,
         );
       },
     );
   }
 }
-
-class _Destination {
-  const _Destination(this.asset, this.label);
-
-  final String asset;
-  final String label;
-}
-
-List<_Destination> _destinations(AppLocalizations l10n) => [
-  _Destination('assets/icons/home.svg', l10n.navFeed),
-  _Destination('assets/icons/children.svg', l10n.navChildren),
-  _Destination('assets/icons/bell.svg', l10n.navNotices),
-  _Destination('assets/icons/account.svg', l10n.navAccount),
-];
 
 void _onDestination(BuildContext context, int index) {
   if (index == 0) return;
@@ -88,271 +93,172 @@ void _onDestination(BuildContext context, int index) {
 }
 
 class _Sidebar extends StatelessWidget {
-  const _Sidebar({required this.selectedIndex, super.key});
+  const _Sidebar({
+    required this.selectedIndex,
+    required this.sessionUser,
+    required this.onLogout,
+    super.key,
+  });
 
   final int selectedIndex;
+  final SessionUser sessionUser;
+  final VoidCallback onLogout;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final destinations = _destinations(l10n);
-
     return Container(
-      width: 248,
+      width: AppShell._sidebarWidth,
       decoration: const BoxDecoration(
         color: AppColors.surface,
         border: Border(right: BorderSide(color: AppColors.border)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          AppLink(
-            borderRadius: BorderRadius.circular(12),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 4, 8, 22),
-              child: Row(
+      child: AppNavigationPanel(
+        selectedIndex: selectedIndex,
+        onDestinationSelected: (index) => _onDestination(context, index),
+        onLogout: onLogout,
+        sessionUser: sessionUser,
+      ),
+    );
+  }
+}
+
+class _CompactShell extends StatelessWidget {
+  const _CompactShell({
+    required this.child,
+    required this.selectedIndex,
+    required this.sessionUser,
+    required this.onLogout,
+  });
+
+  final Widget child;
+  final int selectedIndex;
+  final SessionUser sessionUser;
+  final VoidCallback onLogout;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final availableWidth = MediaQuery.sizeOf(context).width;
+    final panelWidth = math.min(
+      AppShell._sidebarWidth,
+      availableWidth * 0.85,
+    );
+
+    return Scaffold(
+      appBar: AppBar(
+        key: const Key('app-top-bar'),
+        backgroundColor: AppColors.surface,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        toolbarHeight: 56,
+        titleSpacing: 0,
+        shape: const Border(bottom: BorderSide(color: AppColors.border)),
+        leading: Builder(
+          builder: (buttonContext) => IconButton(
+            key: const Key('app-menu-button'),
+            tooltip: l10n.menuTooltip,
+            onPressed: () => Scaffold.of(buttonContext).openDrawer(),
+            icon: const AppIcon(
+              asset: 'assets/icons/menu.svg',
+              size: 22,
+              color: AppColors.textStrong,
+            ),
+          ),
+        ),
+        title: Row(
+          children: [
+            const AppLogoMark(size: 32),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const _LogoMark(size: 38),
-                  const SizedBox(width: 11),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l10n.brandName,
-                          style: AppTypography.fredoka(size: 17, height: 1),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          l10n.salaName,
-                          style: AppTypography.nunito(
-                            size: 11.5,
-                            color: AppColors.textSoft,
-                          ),
-                        ),
-                      ],
+                  Text(
+                    l10n.brandName,
+                    style: AppTypography.fredoka(size: 16, height: 1),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    l10n.salaName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.nunito(
+                      size: 11,
+                      color: AppColors.textSoft,
                     ),
                   ),
                 ],
               ),
             ),
+          ],
+        ),
+        actions: [
+          AppAvatar(
+            label: sessionUser.initial,
+            semanticLabel: sessionUser.fullName,
+            backgroundColor: AppColors.avatarCoral,
+            foregroundColor: AppColors.white,
+            size: 34,
           ),
-          _NewPostButton(label: l10n.newPost),
-          const SizedBox(height: 18),
-          for (var i = 0; i < destinations.length; i++)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: _SidebarDestination(
-                destination: destinations[i],
-                active: i == selectedIndex,
-                onTap: () => _onDestination(context, i),
-              ),
-            ),
-          const Spacer(),
-          Container(
-            margin: const EdgeInsets.only(top: 10),
-            padding: const EdgeInsets.only(top: 14),
-            decoration: const BoxDecoration(
-              border: Border(top: BorderSide(color: AppColors.border)),
-            ),
-            child: Row(
-              children: [
-                const AppAvatar(
-                  label: 'C',
-                  backgroundColor: AppColors.avatarCoral,
-                  foregroundColor: AppColors.white,
-                  size: 38,
-                ),
-                const SizedBox(width: 11),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppShell._accountName,
-                        style: AppTypography.nunito(
-                          size: 14,
-                          weight: FontWeight.w800,
-                          color: AppColors.textStrong,
-                        ),
-                      ),
-                      const SizedBox(height: 1),
-                      Text(
-                        l10n.teacherRole,
-                        style: AppTypography.nunito(
-                          size: 12,
-                          color: AppColors.textSoft,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                AppLink(
-                  tooltip: l10n.logoutTooltip,
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    width: 32,
-                    height: 32,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: AppColors.background,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: AppIcon(
-                      asset: 'assets/icons/logout.svg',
-                      size: 16,
-                      color: AppColors.textMuted,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          const SizedBox(width: 6),
+          AppLogoutButton(
+            key: const Key('app-bar-logout'),
+            onLogout: onLogout,
+            visualSize: 36,
+            iconSize: 17,
           ),
+          const SizedBox(width: 12),
         ],
       ),
-    );
-  }
-}
-
-class _LogoMark extends StatelessWidget {
-  const _LogoMark({this.size = 40});
-
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(size * 0.32),
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.logoGradientStart, AppColors.logoGradientEnd],
-        ),
-      ),
-      child: AppIcon(
-        asset: 'assets/icons/logo_sun.svg',
-        size: size * 0.55,
-        color: AppColors.white,
-      ),
-    );
-  }
-}
-
-class _NewPostButton extends StatelessWidget {
-  const _NewPostButton({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return AppLink(
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
-          gradient: const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [AppColors.primarySoft, AppColors.primary],
+      drawer: Drawer(
+        key: const Key('app-drawer'),
+        width: panelWidth,
+        backgroundColor: AppColors.surface,
+        shape: const RoundedRectangleBorder(),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: Builder(
+              builder: (drawerContext) => AppNavigationPanel(
+                selectedIndex: selectedIndex,
+                onDestinationSelected: (index) {
+                  Scaffold.of(drawerContext).closeDrawer();
+                  _onDestination(drawerContext, index);
+                },
+                onLogout: () {
+                  Scaffold.of(drawerContext).closeDrawer();
+                  onLogout();
+                },
+                sessionUser: sessionUser,
+              ),
+            ),
           ),
-          boxShadow: const [
-            BoxShadow(
-              color: AppColors.primaryShadow,
-              blurRadius: 18,
-              offset: Offset(0, 8),
-              spreadRadius: -8,
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const AppIcon(
-              asset: 'assets/icons/plus.svg',
-              size: 17,
-              color: AppColors.white,
-            ),
-            const SizedBox(width: 8),
-            Flexible(
-              child: Text(
-                label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                style: AppTypography.nunito(
-                  size: 14.5,
-                  weight: FontWeight.w800,
-                  color: AppColors.white,
-                ),
-              ),
-            ),
-          ],
         ),
       ),
-    );
-  }
-}
-
-class _SidebarDestination extends StatelessWidget {
-  const _SidebarDestination({
-    required this.destination,
-    required this.active,
-    required this.onTap,
-  });
-
-  final _Destination destination;
-  final bool active;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final foreground = active
-        ? AppColors.navActiveForeground
-        : AppColors.navInactive;
-
-    return AppLink(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
-        decoration: BoxDecoration(
-          color: active ? AppColors.navActiveBackground : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          children: [
-            AppIcon(asset: destination.asset, color: foreground),
-            const SizedBox(width: 12),
-            Text(
-              destination.label,
-              style: AppTypography.nunito(
-                size: 14.5,
-                weight: active ? FontWeight.w800 : FontWeight.w600,
-                color: foreground,
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: SafeArea(child: child),
     );
   }
 }
 
 class _AppRail extends StatelessWidget {
-  const _AppRail({required this.selectedIndex, super.key});
+  const _AppRail({
+    required this.selectedIndex,
+    required this.sessionUser,
+    required this.onLogout,
+    super.key,
+  });
 
   final int selectedIndex;
+  final SessionUser sessionUser;
+  final VoidCallback onLogout;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final destinations = _destinations(l10n);
+    final destinations = appNavigationDestinations(l10n);
 
     return NavigationRail(
       selectedIndex: selectedIndex,
@@ -362,16 +268,18 @@ class _AppRail extends StatelessWidget {
       indicatorColor: AppColors.navActiveBackground,
       useIndicator: true,
       minWidth: 76,
-      leading: Padding(
-        padding: const EdgeInsets.only(top: 16, bottom: 12),
-        child: AppLink(child: const _LogoMark(size: 38)),
+      leading: const Padding(
+        padding: EdgeInsets.only(top: 16, bottom: 12),
+        child: AppLink(child: AppLogoMark(size: 38)),
       ),
       trailing: Padding(
         padding: const EdgeInsets.only(top: 12),
-        child: AppLink(
-          tooltip: l10n.logoutTooltip,
-          child: const AppAvatar(
-            label: 'C',
+        child: AppLogoutButton(
+          key: const Key('app-rail-logout'),
+          onLogout: onLogout,
+          child: AppAvatar(
+            label: sessionUser.initial,
+            semanticLabel: sessionUser.fullName,
             backgroundColor: AppColors.avatarCoral,
             foregroundColor: AppColors.white,
             size: 36,
@@ -392,40 +300,6 @@ class _AppRail extends StatelessWidget {
               color: AppColors.navActiveForeground,
             ),
             label: Text(destinations[i].label),
-          ),
-      ],
-    );
-  }
-}
-
-class _AppBottomBar extends StatelessWidget {
-  const _AppBottomBar({required this.selectedIndex, super.key});
-
-  final int selectedIndex;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final destinations = _destinations(l10n);
-
-    return NavigationBar(
-      selectedIndex: selectedIndex,
-      onDestinationSelected: (index) => _onDestination(context, index),
-      backgroundColor: AppColors.surface,
-      indicatorColor: AppColors.navActiveBackground,
-      height: 72,
-      destinations: [
-        for (var i = 0; i < destinations.length; i++)
-          NavigationDestination(
-            icon: AppIcon(
-              asset: destinations[i].asset,
-              color: AppColors.navInactive,
-            ),
-            selectedIcon: AppIcon(
-              asset: destinations[i].asset,
-              color: AppColors.navActiveForeground,
-            ),
-            label: destinations[i].label,
           ),
       ],
     );

@@ -14,7 +14,13 @@
   "navAccount": "Mi cuenta",
   "newPost": "Nueva publicación",
   "logoutTooltip": "Cerrar sesión",
+  "logoutLabel": "Cerrar sesión",
+  "menuTooltip": "Abrir menú",
+  "loginComingSoonTitle": "Inicio de sesión en preparación",
+  "loginComingSoonBody": "La autenticación real llegará en la próxima etapa. Mientras tanto, podés volver al feed.",
+  "backToFeed": "Volver al feed",
   "teacherRole": "Maestra · Soles",
+  "familyRole": "Familia",
   "greeting": "Buenas, {name}",
   "@greeting": {
     "description": "Saludo de la cabecera del home",
