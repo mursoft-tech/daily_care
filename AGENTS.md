@@ -2,14 +2,14 @@
 
 ## Estado actual
 
-- El repo es un esqueleto Flutter: solo existe `lib/main.dart` (plantilla "Hello World", aún con `package:flutter/material.dart` y sin `ProviderScope`). No hay `test/`, `l10n.yaml` ni capas `data/`/`domain/`/`ui/`.
-- Las reglas de abajo son vinculantes para el código nuevo; migra `main.dart` cuando lo toques.
+- El home (`/`) ya está implementado con la estructura por capas: `lib/app`, `lib/core`, `lib/domain`, `lib/data`, `lib/ui` y `lib/l10n`. `lib/main.dart` solo arranca la app; existen `test/` e `integration_test/`.
+- Las reglas de abajo son vinculantes para el código nuevo; sigue el árbol de "Estructura de capas".
 - Plataformas registradas: solo `android` y `web`. Para otra plataforma usa `flutter create --platforms=<p> .`.
 
 ## Entorno
 
 - Flutter 3.47.7 / Dart 3.13.5 (`pubspec.yaml` exige `^3.13.5`).
-- `flutter_riverpod 3.4.3`, `go_router 18.1.1`, `material_ui 1.8.0`, `flutter_lints 6.0.0`.
+- `flutter_riverpod 3.4.3`, `go_router 18.1.1`, `material_ui 1.8.0`, `flutter_svg 2.3.0`, `flutter_lints 6.0.0`. `flutter_localizations` (SDK) e `intl` para l10n y fechas.
 - `package:flutter/material.dart` y `package:flutter/cupertino.dart` están congelados y serán deprecados en noviembre de 2026. El código nuevo importa `package:material_ui/material_ui.dart` o `package:cupertino_ui/cupertino_ui.dart`; migra un archivo legacy con `dart fix --apply --code=migrate_design_widgets` solo cuando lo modifiques, salvo que se pida una migración completa.
 - `cupertino_ui` (1.1.4) es hoy dependencia transitiva: añádela con `flutter pub add cupertino_ui` antes de importarla o `depend_on_referenced_packages` fallará.
 - Si una dependencia todavía usa los imports legacy, envuélvela con `MaterialUiCompatibilityBridge` en `MaterialApp.builder` solo durante la transición.
@@ -65,7 +65,7 @@ lib/
 - **App raíz**: `ProviderScope` > `MaterialApp.router` con `routerConfig`, `localizationsDelegates` y `supportedLocales`.
 - **Navegación**: `routerProvider` en `lib/app/` con `authProvider` y `ref.listen(authProvider, ...) => router.refresh()`; valida los `pathParameters`; el `errorBuilder` muestra un mensaje genérico. No usar un `GoRouter` global ni `ValueNotifier` para la sesión.
 - **Tests**: `ProviderContainer.test(overrides: [...])` para unit tests en `test/domain` y `test/data`; `ProviderScope(overrides: [...])` para widgets en `test/ui` e integración en `integration_test/`. Nunca usar servicios reales ni datos PHI.
-- **l10n**: `flutter: generate: true` + `l10n.yaml` con `synthetic-package: false` y `nullable-getter: false`; importa el archivo generado, nunca `package:flutter_gen`.
+- **l10n**: `flutter: generate: true` + `l10n.yaml` con `arb-dir: lib/l10n` y `nullable-getter: false`. Flutter 3.47 ya no acepta `synthetic-package` (se ignora y avisa); no lo incluyas. Importa el archivo generado en `lib/l10n/`, nunca `package:flutter_gen`.
 - **Layout**: `LayoutBuilder` o `MediaQuery.sizeOf`; shell con `NavigationBar` por debajo de 600 px y `NavigationRail` desde 600 px.
 
 ## Seguridad (datos de salud)
@@ -91,9 +91,9 @@ lib/
 ## Validación
 
 ```bash
-flutter analyze                      # único paso que pasa hoy tal cual
-flutter test                         # requiere crear test/ primero
-flutter gen-l10n                     # requiere generate: true y l10n.yaml primero
+flutter analyze
+flutter test
+flutter gen-l10n
 ```
 
 `analysis_options.yaml` usa `flutter_lints` y excluye `build/`, `android/` y `web/` del analyzer.

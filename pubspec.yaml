@@ -7,12 +7,17 @@ environment:
   sdk: ^3.13.5
 
 dependencies:
+  cupertino_icons: ^2.0.0
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   flutter_riverpod: ^3.4.3
+  flutter_svg: ^2.3.0
   flutter_web_plugins:
     sdk: flutter
   go_router: ^18.1.1
+  intl: any
   material_ui: ^1.8.0
 
 dev_dependencies:
@@ -22,3 +27,13 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
+  assets:
+    - assets/icons/
+  fonts:
+    - family: Fredoka
+      fonts:
+        - asset: assets/fonts/Fredoka.ttf
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/Nunito.ttf

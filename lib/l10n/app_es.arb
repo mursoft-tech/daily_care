@@ -1,0 +1,100 @@
+{
+  "@@locale": "es",
+  "brandName": "OpenDayCare",
+  "@brandName": {
+    "description": "Nombre de la aplicación"
+  },
+  "salaName": "Sala Soles",
+  "@salaName": {
+    "description": "Nombre de la sala"
+  },
+  "navFeed": "Feed",
+  "navChildren": "Niños",
+  "navNotices": "Avisos",
+  "navAccount": "Mi cuenta",
+  "newPost": "Nueva publicación",
+  "logoutTooltip": "Cerrar sesión",
+  "teacherRole": "Maestra · Soles",
+  "greeting": "Buenas, {name}",
+  "@greeting": {
+    "description": "Saludo de la cabecera del home",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "summary": "{count, plural, =1{1 niño} other{{count} niños}} · {date}",
+  "@summary": {
+    "description": "Resumen de cantidad de niños y fecha",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "eyebrow": "GUARDERÍA · SALA SOLES",
+  "@eyebrow": {
+    "description": "Etiqueta sobre el saludo"
+  },
+  "publishedToday": "PUBLICADO HOY",
+  "composerHint": "Compartí un momento…",
+  "composerPhotoTooltip": "Agregar foto",
+  "audienceFamily": "Para: familia de {childName}",
+  "@audienceFamily": {
+    "description": "Audiencia de una publicación dirigida a una familia",
+    "placeholders": {
+      "childName": {
+        "type": "String"
+      }
+    }
+  },
+  "audienceAll": "Para: toda la sala",
+  "postMeta": "{time} · publicado por vos",
+  "@postMeta": {
+    "description": "Hora y autor de la publicación",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "typeAchievement": "LOGRO",
+  "typeActivity": "ACTIVIDAD",
+  "typeAnnouncement": "ANUNCIO",
+  "edit": "Editar",
+  "comingSoon": "Próximamente",
+  "retry": "Reintentar",
+  "feedError": "No se pudo cargar el feed",
+  "loadingFeed": "Cargando feed",
+  "photoLabel": "Foto · {label}",
+  "@photoLabel": {
+    "description": "Etiqueta del placeholder de foto",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "likesSemantics": "{count, plural, =1{1 me gusta} other{{count} me gusta}}",
+  "@likesSemantics": {
+    "description": "Etiqueta accesible del contador de likes",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "commentsSemantics": "{count, plural, =1{1 comentario} other{{count} comentarios}}",
+  "@commentsSemantics": {
+    "description": "Etiqueta accesible del contador de comentarios",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+}
