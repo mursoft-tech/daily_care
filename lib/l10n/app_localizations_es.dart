@@ -217,4 +217,74 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get loadingKids => 'Cargando niños';
+
+  @override
+  String get backToKids => 'Volver a Niños';
+
+  @override
+  String get childProfileAllergyTitle => 'Alergias y notas';
+
+  @override
+  String get childProfileBirthDate => 'Fecha de nacimiento';
+
+  @override
+  String get childProfileRoom => 'Sala';
+
+  @override
+  String get childProfileEnrollment => 'Ingreso';
+
+  @override
+  String get childProfileParentsTitle => 'PADRES VINCULADOS';
+
+  @override
+  String get childProfileDaySummary => 'Resumen del día';
+
+  @override
+  String get childProfileNoParents => 'Sin padres vinculados';
+
+  @override
+  String get linkParent => 'Vincular un padre';
+
+  @override
+  String get linkAnotherParent => 'Vincular otro padre';
+
+  @override
+  String get parentRoleMother => 'Mamá';
+
+  @override
+  String get parentRoleFather => 'Papá';
+
+  @override
+  String get parentRoleGuardian => 'Tutor';
+
+  @override
+  String get parentStatusActiveFemale => 'activa';
+
+  @override
+  String get parentStatusActiveMale => 'activo';
+
+  @override
+  String get parentStatusActiveNeutral => 'con cuenta activa';
+
+  @override
+  String get parentStatusInvited => 'invitación enviada';
+
+  @override
+  String get parentBadgeActive => 'ACTIVA';
+
+  @override
+  String get parentBadgePending => 'PENDIENTE';
+
+  @override
+  String get childProfileLoading => 'Cargando ficha';
+
+  @override
+  String get childProfileError => 'No se pudo cargar la ficha';
+
+  @override
+  String get childProfileNotFound => 'No encontramos este perfil';
+
+  @override
+  String get childProfileNotFoundBody =>
+      'El niño que buscás no está en esta sala.';
 }

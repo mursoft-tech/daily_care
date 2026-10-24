@@ -6,21 +6,23 @@ import 'package:daily_care/ui/features/kids/view_models/kids_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const _children = <Child>[
+final _children = <Child>[
   Child(
     id: 'mateo',
     firstName: 'Mateo',
     lastName: 'Fernández',
-    ageYears: 3,
-    linkedParents: 2,
+    birthDate: DateTime(2023, 3, 12),
+    room: 'Soles',
+    enrolledAt: DateTime(2025, 2),
     colorToken: 'blue',
   ),
   Child(
     id: 'sofia',
     firstName: 'Sofía',
     lastName: 'Méndez',
-    ageYears: 2,
-    linkedParents: 1,
+    birthDate: DateTime(2024, 5, 9),
+    room: 'Soles',
+    enrolledAt: DateTime(2025, 2),
     colorToken: 'pink',
   ),
 ];
@@ -31,7 +33,15 @@ class _FakeKidsRepository implements KidsRepository {
   @override
   Future<Result<List<Child>>> loadChildren() async {
     calls++;
-    return const Success(_children);
+    return Success(_children);
+  }
+
+  @override
+  Future<Result<Child?>> loadChild(String id) async {
+    for (final child in _children) {
+      if (child.id == id) return Success(child);
+    }
+    return const Success(null);
   }
 }
 
@@ -39,7 +49,10 @@ void main() {
   test('filters locally and reloads on retry', () async {
     final repository = _FakeKidsRepository();
     final container = ProviderContainer.test(
-      overrides: [kidsRepositoryProvider.overrideWithValue(repository)],
+      overrides: [
+        kidsRepositoryProvider.overrideWithValue(repository),
+        todayProvider.overrideWithValue(() => DateTime(2026, 10, 24)),
+      ],
     );
     addTearDown(container.dispose);
     final subscription = container.listen(kidsViewModelProvider, (_, _) {});
@@ -47,11 +60,13 @@ void main() {
 
     final initial = await container.read(kidsViewModelProvider.future);
     expect(initial.all, hasLength(2));
+    expect(initial.ageOf(initial.all.first), 3);
     expect(repository.calls, 1);
 
     container.read(kidsViewModelProvider.notifier).search('sofia');
     final filtered = container.read(kidsViewModelProvider).value!;
     expect(filtered.visible.single.firstName, 'Sofía');
+    expect(filtered.ageOf(filtered.visible.single), 2);
     expect(repository.calls, 1);
 
     container.read(kidsViewModelProvider.notifier).retry();

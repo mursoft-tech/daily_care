@@ -2,29 +2,32 @@ import 'package:daily_care/domain/models/child.dart';
 import 'package:daily_care/domain/use_cases/filter_children.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const _children = <Child>[
+final _children = <Child>[
   Child(
     id: 'mateo',
     firstName: 'Mateo',
     lastName: 'Fernández',
-    ageYears: 3,
-    linkedParents: 2,
+    birthDate: DateTime(2023, 3, 12),
+    room: 'Soles',
+    enrolledAt: DateTime(2025, 2),
     colorToken: 'blue',
   ),
   Child(
     id: 'sofia',
     firstName: 'Sofía',
     lastName: 'Méndez',
-    ageYears: 2,
-    linkedParents: 1,
+    birthDate: DateTime(2024, 5, 9),
+    room: 'Soles',
+    enrolledAt: DateTime(2025, 2),
     colorToken: 'pink',
   ),
   Child(
     id: 'benjamin',
     firstName: 'Benjamín',
     lastName: 'Ruiz',
-    ageYears: 3,
-    linkedParents: 2,
+    birthDate: DateTime(2023, 8, 21),
+    room: 'Soles',
+    enrolledAt: DateTime(2025, 2),
     colorToken: 'green',
   ),
 ];

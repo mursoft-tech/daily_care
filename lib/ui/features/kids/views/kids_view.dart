@@ -45,6 +45,7 @@ class KidsView extends ConsumerWidget {
                       const KidsHeader(),
                       const SizedBox(height: 22),
                       KidsSearchField(
+                        query: state?.query ?? '',
                         onChanged: (query) => ref
                             .read(kidsViewModelProvider.notifier)
                             .search(query),
@@ -55,7 +56,13 @@ class KidsView extends ConsumerWidget {
                       switch (kids) {
                         AsyncData(:final value) => value.visible.isEmpty
                             ? const _EmptyResults()
-                            : _KidsGrid(children: value.visible),
+                            : _KidsGrid(
+                                children: value.visible,
+                                ageYearsOf: value.ageOf,
+                                onChildTap: (child) => context.go(
+                                  AppRoutes.childProfilePath(child.id),
+                                ),
+                              ),
                         AsyncError() => _KidsError(
                           onRetry: () =>
                               ref.read(kidsViewModelProvider.notifier).retry(),
@@ -75,9 +82,15 @@ class KidsView extends ConsumerWidget {
 }
 
 class _KidsGrid extends StatelessWidget {
-  const _KidsGrid({required this.children});
+  const _KidsGrid({
+    required this.children,
+    required this.ageYearsOf,
+    required this.onChildTap,
+  });
 
   final List<Child> children;
+  final int Function(Child child) ageYearsOf;
+  final void Function(Child child) onChildTap;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +107,14 @@ class _KidsGrid extends StatelessWidget {
           runSpacing: KidsView._gridGap,
           children: [
             for (final child in children)
-              SizedBox(width: itemWidth, child: ChildCard(child: child)),
+              SizedBox(
+                width: itemWidth,
+                child: ChildCard(
+                  child: child,
+                  ageYears: ageYearsOf(child),
+                  onTap: () => onChildTap(child),
+                ),
+              ),
           ],
         );
       },

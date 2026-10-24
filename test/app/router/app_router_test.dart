@@ -41,6 +41,12 @@ void main() {
     expect(find.byType(KidsView), findsOneWidget);
     expect(find.text('SALA SOLES'), findsOneWidget);
 
+    router.go('/kids/mateo-fernandez');
+    await tester.pumpAndSettle();
+    expect(find.text('Mateo Fernández'), findsOneWidget);
+    expect(find.text('Fecha de nacimiento'), findsOneWidget);
+    expect(find.text('Alergias y notas'), findsOneWidget);
+
     router.go('/ruta-inexistente');
     await tester.pumpAndSettle();
     expect(find.text('No pudimos abrir esa pantalla'), findsOneWidget);

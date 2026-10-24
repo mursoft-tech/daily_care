@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:daily_care/app/localization.dart';
 import 'package:daily_care/app/providers.dart';
+import 'package:daily_care/app/router/app_routes.dart';
 import 'package:daily_care/app/theme/app_theme.dart';
 import 'package:daily_care/core/result.dart';
 import 'package:daily_care/data/datasources/local/demo_kids_data_source.dart';
@@ -11,6 +12,7 @@ import 'package:daily_care/ui/features/kids/views/kids_view.dart';
 import 'package:daily_care/ui/features/kids/widgets/child_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 class _FakeKidsRepository implements KidsRepository {
@@ -31,20 +33,58 @@ class _FakeKidsRepository implements KidsRepository {
 
     return Success(await const DemoKidsDataSource().fetchChildren());
   }
+
+  @override
+  Future<Result<Child?>> loadChild(String id) async {
+    return const Success(null);
+  }
 }
 
 Widget _pumpKids(KidsRepository repository) {
+  final router = GoRouter(
+    initialLocation: AppRoutes.kids,
+    routes: [
+      GoRoute(
+        path: AppRoutes.kids,
+        builder: (context, state) => const KidsView(),
+      ),
+      GoRoute(
+        path: AppRoutes.childProfile,
+        builder: (context, state) => Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Perfil ${state.pathParameters['childId']}'),
+                TextButton(
+                  onPressed: () => context.go(AppRoutes.kids),
+                  child: const Text('Volver al listado'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+
   return ProviderScope(
-    overrides: [kidsRepositoryProvider.overrideWithValue(repository)],
-    child: MaterialApp(
+    overrides: [
+      kidsRepositoryProvider.overrideWithValue(repository),
+      todayProvider.overrideWithValue(() => DateTime(2026, 10, 24)),
+    ],
+    child: MaterialApp.router(
       locale: const Locale('es'),
       localizationsDelegates: appLocalizationsDelegates,
       supportedLocales: appSupportedLocales,
       theme: buildAppTheme(),
-      home: const KidsView(),
+      routerConfig: router,
     ),
   );
 }
+
+String _searchText(WidgetTester tester) =>
+    tester.widget<TextField>(find.byType(TextField)).controller!.text;
 
 void main() {
   testWidgets('renders the kids header, section and eight cards', (
@@ -88,6 +128,62 @@ void main() {
     await tester.tap(find.byKey(const Key('kids-search-clear')));
     await tester.pumpAndSettle();
 
+    expect(find.byType(ChildCard), findsNWidgets(8));
+  });
+
+  testWidgets('navigates to the child profile when a card is tapped', (
+    tester,
+  ) async {
+    await tester.pumpWidget(_pumpKids(_FakeKidsRepository()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byType(ChildCard).first);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Perfil mateo-fernandez'), findsOneWidget);
+  });
+
+  testWidgets('keeps the search text and filter after returning from a profile', (
+    tester,
+  ) async {
+    await tester.pumpWidget(_pumpKids(_FakeKidsRepository()));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextField), 'so');
+    await tester.pumpAndSettle();
+    expect(_searchText(tester), 'so');
+    expect(find.byType(ChildCard), findsNWidgets(2));
+
+    await tester.tap(find.byType(ChildCard).first);
+    await tester.pumpAndSettle();
+    expect(find.text('Perfil sofia-mendez'), findsOneWidget);
+
+    await tester.tap(find.text('Volver al listado'));
+    await tester.pumpAndSettle();
+
+    expect(_searchText(tester), 'so');
+    expect(find.byType(ChildCard), findsNWidgets(2));
+    expect(find.text('Sofía Méndez'), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('kids-search-clear')));
+    await tester.pumpAndSettle();
+
+    expect(_searchText(tester), '');
+    expect(find.byType(ChildCard), findsNWidgets(8));
+  });
+
+  testWidgets('returns without a search to an empty field and the full list', (
+    tester,
+  ) async {
+    await tester.pumpWidget(_pumpKids(_FakeKidsRepository()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byType(ChildCard).first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Volver al listado'));
+    await tester.pumpAndSettle();
+
+    expect(_searchText(tester), '');
     expect(find.byType(ChildCard), findsNWidgets(8));
   });
 

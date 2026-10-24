@@ -14,6 +14,8 @@ final sessionUserProvider = Provider<SessionUser>(
   (ref) => const SessionUser.demo(),
 );
 
+final todayProvider = Provider<DateTime Function()>((ref) => DateTime.now);
+
 final feedDataSourceProvider = Provider<FeedDataSource>(
   (ref) => const DemoFeedDataSource(),
 );

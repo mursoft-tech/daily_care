@@ -97,6 +97,25 @@ El buscador SHALL filtrar las tarjetas por nombre completo sin distinguir mayús
 - **WHEN** el usuario borra el texto del buscador
 - **THEN** vuelven a mostrarse las ocho tarjetas
 
+### Requirement: Kids search persistence
+
+El buscador SHALL conservar el texto ingresado y el filtro aplicado al volver de una ficha de niño, de modo que el campo y el listado permanezcan sincronizados.
+
+#### Scenario: Volver con búsqueda activa
+
+- **WHEN** el usuario escribe "so", abre la ficha de Sofía y vuelve a `/kids`
+- **THEN** el buscador muestra "so" y solo se ven las tarjetas que coinciden con esa búsqueda
+
+#### Scenario: Limpiar después de volver
+
+- **WHEN** el usuario vuelve con la búsqueda "so" y borra el texto del buscador
+- **THEN** se muestran las ocho tarjetas de la sala
+
+#### Scenario: Volver sin búsqueda
+
+- **WHEN** el usuario no escribió nada, abre una ficha y vuelve a `/kids`
+- **THEN** el buscador está vacío y se muestran las ocho tarjetas
+
 ### Requirement: Kids states
 
 El sistema SHALL representar los estados de carga, error y datos del listado de niños sin bloquear el shell de navegación.
@@ -136,7 +155,7 @@ La grilla SHALL usar dos columnas cuando el ancho disponible del contenido sea s
 
 ### Requirement: Kids placeholder actions
 
-Las acciones "Agregar niño" y las tarjetas de niño SHALL comportarse como enlaces y, al activarse, SHALL mostrar el aviso "Próximamente" sin cambiar de ruta.
+La acción "Agregar niño" SHALL mostrar el aviso "Próximamente" sin cambiar de ruta. Cada tarjeta de niño SHALL navegar a la ficha de ese niño al activarse y SHALL mostrar cursor de mano y una elevación ligera al pasar el puntero.
 
 #### Scenario: Agregar niño
 
@@ -145,8 +164,8 @@ Las acciones "Agregar niño" y las tarjetas de niño SHALL comportarse como enla
 
 #### Scenario: Abrir una tarjeta
 
-- **WHEN** el usuario activa una tarjeta de niño
-- **THEN** aparece el aviso "Próximamente" y la ruta sigue siendo `/kids`
+- **WHEN** el usuario activa la tarjeta de Mateo Fernández
+- **THEN** la aplicación navega a `/kids/mateo-fernandez` y muestra la ficha de Mateo
 
 #### Scenario: Hover sobre una tarjeta
 

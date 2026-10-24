@@ -11,4 +11,13 @@ void main() {
     expect(user.fullName, 'Caro Giménez');
     expect(container.read(sessionUserProvider), same(user));
   });
+
+  test('todayProvider can be overridden with a fixed date', () {
+    final fixed = DateTime(2026, 10, 24);
+    final container = ProviderContainer.test(
+      overrides: [todayProvider.overrideWithValue(() => fixed)],
+    );
+
+    expect(container.read(todayProvider)(), fixed);
+  });
 }

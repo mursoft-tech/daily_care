@@ -7,11 +7,18 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../core/widgets/app_avatar.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/app_link.dart';
+import 'child_avatar_palette.dart';
 
 class ChildCard extends StatefulWidget {
-  const ChildCard({required this.child, this.onTap, super.key});
+  const ChildCard({
+    required this.child,
+    required this.ageYears,
+    this.onTap,
+    super.key,
+  });
 
   final Child child;
+  final int ageYears;
   final VoidCallback? onTap;
 
   @override
@@ -25,7 +32,7 @@ class _ChildCardState extends State<ChildCard> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final child = widget.child;
-    final palette = _avatarFor(child.colorToken);
+    final palette = childAvatarPalette(child.colorToken);
 
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
@@ -77,7 +84,7 @@ class _ChildCardState extends State<ChildCard> {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          '${l10n.childAge(child.ageYears)} · '
+                          '${l10n.childAge(widget.ageYears)} · '
                           '${l10n.linkedParents(child.linkedParents)}',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -103,7 +110,7 @@ class _ChildCardState extends State<ChildCard> {
   Widget _trailing(AppLocalizations l10n, Child child) {
     if (child.hasAllergy) {
       return _ChildBadge(
-        label: child.allergyLabel!,
+        label: child.allergy!.label,
         background: AppColors.allergyBackground,
         foreground: AppColors.allergyForeground,
       );
@@ -125,37 +132,11 @@ class _ChildCardState extends State<ChildCard> {
   String _semanticLabel(AppLocalizations l10n, Child child) {
     final parts = [
       child.fullName,
-      l10n.childAge(child.ageYears),
+      l10n.childAge(widget.ageYears),
       l10n.linkedParents(child.linkedParents),
-      if (child.hasAllergy) child.allergyLabel!,
+      if (child.hasAllergy) child.allergy!.label,
     ];
     return parts.join('. ');
-  }
-
-  ({Color background, Color foreground}) _avatarFor(String token) {
-    return switch (token) {
-      'blue' => (
-        background: AppColors.avatarBlueBackground,
-        foreground: AppColors.avatarBlueForeground,
-      ),
-      'pink' => (
-        background: AppColors.avatarPinkBackground,
-        foreground: AppColors.avatarPinkForeground,
-      ),
-      'green' => (
-        background: AppColors.avatarGreenBackground,
-        foreground: AppColors.avatarGreenForeground,
-      ),
-      'yellow' => (
-        background: AppColors.avatarYellowBackground,
-        foreground: AppColors.avatarYellowForeground,
-      ),
-      'purple' => (
-        background: AppColors.avatarPurpleBackground,
-        foreground: AppColors.avatarPurpleForeground,
-      ),
-      _ => (background: AppColors.avatarCoral, foreground: AppColors.white),
-    };
   }
 }
 

@@ -177,5 +177,97 @@
   "loadingKids": "Cargando niños",
   "@loadingKids": {
     "description": "Etiqueta accesible del indicador de carga del listado"
+  },
+  "backToKids": "Volver a Niños",
+  "@backToKids": {
+    "description": "Acción para volver al listado de niños desde la ficha"
+  },
+  "childProfileAllergyTitle": "Alergias y notas",
+  "@childProfileAllergyTitle": {
+    "description": "Título del bloque de alergias de la ficha"
+  },
+  "childProfileBirthDate": "Fecha de nacimiento",
+  "@childProfileBirthDate": {
+    "description": "Etiqueta de la fecha de nacimiento en la ficha"
+  },
+  "childProfileRoom": "Sala",
+  "@childProfileRoom": {
+    "description": "Etiqueta de la sala en la ficha"
+  },
+  "childProfileEnrollment": "Ingreso",
+  "@childProfileEnrollment": {
+    "description": "Etiqueta del mes de ingreso en la ficha"
+  },
+  "childProfileParentsTitle": "PADRES VINCULADOS",
+  "@childProfileParentsTitle": {
+    "description": "Título del bloque de padres vinculados"
+  },
+  "childProfileDaySummary": "Resumen del día",
+  "@childProfileDaySummary": {
+    "description": "Acción principal de la ficha"
+  },
+  "childProfileNoParents": "Sin padres vinculados",
+  "@childProfileNoParents": {
+    "description": "Estado vacío del bloque de padres"
+  },
+  "linkParent": "Vincular un padre",
+  "@linkParent": {
+    "description": "Acción para vincular al primer padre"
+  },
+  "linkAnotherParent": "Vincular otro padre",
+  "@linkAnotherParent": {
+    "description": "Acción para vincular a otro padre"
+  },
+  "parentRoleMother": "Mamá",
+  "@parentRoleMother": {
+    "description": "Rol de madre en la ficha"
+  },
+  "parentRoleFather": "Papá",
+  "@parentRoleFather": {
+    "description": "Rol de padre en la ficha"
+  },
+  "parentRoleGuardian": "Tutor",
+  "@parentRoleGuardian": {
+    "description": "Rol de tutor en la ficha"
+  },
+  "parentStatusActiveFemale": "activa",
+  "@parentStatusActiveFemale": {
+    "description": "Estado de una madre con cuenta activa"
+  },
+  "parentStatusActiveMale": "activo",
+  "@parentStatusActiveMale": {
+    "description": "Estado de un padre con cuenta activa"
+  },
+  "parentStatusActiveNeutral": "con cuenta activa",
+  "@parentStatusActiveNeutral": {
+    "description": "Estado de un tutor con cuenta activa"
+  },
+  "parentStatusInvited": "invitación enviada",
+  "@parentStatusInvited": {
+    "description": "Estado de un padre con invitación pendiente"
+  },
+  "parentBadgeActive": "ACTIVA",
+  "@parentBadgeActive": {
+    "description": "Badge de una cuenta activa"
+  },
+  "parentBadgePending": "PENDIENTE",
+  "@parentBadgePending": {
+    "description": "Badge de una invitación pendiente"
+  },
+  "childProfileLoading": "Cargando ficha",
+  "@childProfileLoading": {
+    "description": "Etiqueta accesible de la carga de la ficha"
+  },
+  "childProfileError": "No se pudo cargar la ficha",
+  "@childProfileError": {
+    "description": "Mensaje genérico de error de la ficha"
+  },
+  "childProfileNotFound": "No encontramos este perfil",
+  "@childProfileNotFound": {
+    "description": "Título del estado de perfil inexistente"
+  },
+  "childProfileNotFoundBody": "El niño que buscás no está en esta sala.",
+  "@childProfileNotFoundBody": {
+    "description": "Detalle del estado de perfil inexistente"
   }
 }

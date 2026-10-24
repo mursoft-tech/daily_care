@@ -18,4 +18,15 @@ class KidsRepositoryImpl implements KidsRepository {
       return const Failure(UnexpectedFailure());
     }
   }
+
+  @override
+  Future<Result<Child?>> loadChild(String id) async {
+    try {
+      return Success(await _dataSource.fetchChild(id));
+    } on Exception {
+      return const Failure(DataFailure());
+    } catch (_) {
+      return const Failure(UnexpectedFailure());
+    }
+  }
 }

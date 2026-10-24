@@ -7,8 +7,13 @@ import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/app_link.dart';
 
 class KidsSearchField extends StatefulWidget {
-  const KidsSearchField({required this.onChanged, super.key});
+  const KidsSearchField({
+    required this.query,
+    required this.onChanged,
+    super.key,
+  });
 
+  final String query;
   final ValueChanged<String> onChanged;
 
   @override
@@ -16,7 +21,24 @@ class KidsSearchField extends StatefulWidget {
 }
 
 class _KidsSearchFieldState extends State<KidsSearchField> {
-  final _controller = TextEditingController();
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.query);
+  }
+
+  @override
+  void didUpdateWidget(covariant KidsSearchField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.query != _controller.text) {
+      _controller.value = TextEditingValue(
+        text: widget.query,
+        selection: TextSelection.collapsed(offset: widget.query.length),
+      );
+    }
+  }
 
   @override
   void dispose() {
