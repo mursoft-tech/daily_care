@@ -1,6 +1,7 @@
 ﻿import 'dart:math' as math;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../app/providers.dart';
@@ -84,7 +85,15 @@ class AppShell extends ConsumerWidget {
 }
 
 void _onDestination(BuildContext context, int index) {
-  if (index == 0) return;
+  final destination = appNavigationDestinations(
+    AppLocalizations.of(context),
+  )[index];
+  final route = destination.route;
+  if (route != null) {
+    context.go(route);
+    return;
+  }
+
   final messenger = ScaffoldMessenger.of(context);
   messenger.hideCurrentSnackBar();
   messenger.showSnackBar(

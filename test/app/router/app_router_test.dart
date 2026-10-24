@@ -1,6 +1,7 @@
 import 'package:daily_care/app/localization.dart';
 import 'package:daily_care/app/router/app_router.dart';
 import 'package:daily_care/app/theme/app_theme.dart';
+import 'package:daily_care/ui/features/kids/views/kids_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -34,6 +35,11 @@ void main() {
     router.go('/login');
     await tester.pumpAndSettle();
     expect(find.text('Inicio de sesión en preparación'), findsOneWidget);
+
+    router.go('/kids');
+    await tester.pumpAndSettle();
+    expect(find.byType(KidsView), findsOneWidget);
+    expect(find.text('SALA SOLES'), findsOneWidget);
 
     router.go('/ruta-inexistente');
     await tester.pumpAndSettle();

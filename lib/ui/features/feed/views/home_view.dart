@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../../app/providers.dart';
+import '../../../../app/router/app_routes.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -25,7 +26,7 @@ class HomeView extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
 
     return AppShell(
-      onLogout: () => context.go('/login'),
+      onLogout: () => context.go(AppRoutes.login),
       child: SingleChildScrollView(
         child: LayoutBuilder(
           builder: (context, constraints) {

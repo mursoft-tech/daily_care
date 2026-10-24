@@ -315,6 +315,84 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'{count, plural, =1{1 comentario} other{{count} comentarios}}'**
   String commentsSemantics(int count);
+
+  /// Etiqueta sobre el título de la pantalla de niños
+  ///
+  /// In es, this message translates to:
+  /// **'GESTIÓN'**
+  String get kidsEyebrow;
+
+  /// Título de la pantalla de niños
+  ///
+  /// In es, this message translates to:
+  /// **'Niños'**
+  String get kidsTitle;
+
+  /// Acción para dar de alta un niño
+  ///
+  /// In es, this message translates to:
+  /// **'Agregar niño'**
+  String get addChild;
+
+  /// Texto de ayuda y etiqueta accesible del buscador de niños
+  ///
+  /// In es, this message translates to:
+  /// **'Buscar niño…'**
+  String get searchChildHint;
+
+  /// Etiqueta accesible de la acción que limpia el buscador
+  ///
+  /// In es, this message translates to:
+  /// **'Limpiar búsqueda'**
+  String get clearSearch;
+
+  /// Etiqueta de la sección del listado de niños
+  ///
+  /// In es, this message translates to:
+  /// **'SALA SOLES'**
+  String get kidsRoomLabel;
+
+  /// Cantidad total de niños de la sala
+  ///
+  /// In es, this message translates to:
+  /// **'{count, plural, =1{1 niño} other{{count} niños}}'**
+  String kidsCount(int count);
+
+  /// Edad de un niño en años
+  ///
+  /// In es, this message translates to:
+  /// **'{years, plural, =1{1 año} other{{years} años}}'**
+  String childAge(int years);
+
+  /// Cantidad de padres vinculados a un niño
+  ///
+  /// In es, this message translates to:
+  /// **'{count, plural, =0{sin padres vinculados} =1{1 padre vinculado} other{{count} padres vinculados}}'**
+  String linkedParents(int count);
+
+  /// Badge de un niño sin padres vinculados
+  ///
+  /// In es, this message translates to:
+  /// **'VINCULAR'**
+  String get linkParentBadge;
+
+  /// Estado vacío de la búsqueda de niños
+  ///
+  /// In es, this message translates to:
+  /// **'No encontramos niños con ese nombre'**
+  String get noKidsResults;
+
+  /// Mensaje genérico de error del listado de niños
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo cargar el listado de niños'**
+  String get kidsError;
+
+  /// Etiqueta accesible del indicador de carga del listado
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando niños'**
+  String get loadingKids;
 }
 
 class _AppLocalizationsDelegate

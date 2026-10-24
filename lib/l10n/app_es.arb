@@ -110,5 +110,72 @@
         "type": "int"
       }
     }
+  },
+  "kidsEyebrow": "GESTIÓN",
+  "@kidsEyebrow": {
+    "description": "Etiqueta sobre el título de la pantalla de niños"
+  },
+  "kidsTitle": "Niños",
+  "@kidsTitle": {
+    "description": "Título de la pantalla de niños"
+  },
+  "addChild": "Agregar niño",
+  "@addChild": {
+    "description": "Acción para dar de alta un niño"
+  },
+  "searchChildHint": "Buscar niño…",
+  "@searchChildHint": {
+    "description": "Texto de ayuda y etiqueta accesible del buscador de niños"
+  },
+  "clearSearch": "Limpiar búsqueda",
+  "@clearSearch": {
+    "description": "Etiqueta accesible de la acción que limpia el buscador"
+  },
+  "kidsRoomLabel": "SALA SOLES",
+  "@kidsRoomLabel": {
+    "description": "Etiqueta de la sección del listado de niños"
+  },
+  "kidsCount": "{count, plural, =1{1 niño} other{{count} niños}}",
+  "@kidsCount": {
+    "description": "Cantidad total de niños de la sala",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "childAge": "{years, plural, =1{1 año} other{{years} años}}",
+  "@childAge": {
+    "description": "Edad de un niño en años",
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "linkedParents": "{count, plural, =0{sin padres vinculados} =1{1 padre vinculado} other{{count} padres vinculados}}",
+  "@linkedParents": {
+    "description": "Cantidad de padres vinculados a un niño",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "linkParentBadge": "VINCULAR",
+  "@linkParentBadge": {
+    "description": "Badge de un niño sin padres vinculados"
+  },
+  "noKidsResults": "No encontramos niños con ese nombre",
+  "@noKidsResults": {
+    "description": "Estado vacío de la búsqueda de niños"
+  },
+  "kidsError": "No se pudo cargar el listado de niños",
+  "@kidsError": {
+    "description": "Mensaje genérico de error del listado de niños"
+  },
+  "loadingKids": "Cargando niños",
+  "@loadingKids": {
+    "description": "Etiqueta accesible del indicador de carga del listado"
   }
 }

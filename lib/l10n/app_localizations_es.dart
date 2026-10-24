@@ -153,4 +153,68 @@ class AppLocalizationsEs extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get kidsEyebrow => 'GESTIÓN';
+
+  @override
+  String get kidsTitle => 'Niños';
+
+  @override
+  String get addChild => 'Agregar niño';
+
+  @override
+  String get searchChildHint => 'Buscar niño…';
+
+  @override
+  String get clearSearch => 'Limpiar búsqueda';
+
+  @override
+  String get kidsRoomLabel => 'SALA SOLES';
+
+  @override
+  String kidsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count niños',
+      one: '1 niño',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String childAge(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years años',
+      one: '1 año',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String linkedParents(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count padres vinculados',
+      one: '1 padre vinculado',
+      zero: 'sin padres vinculados',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get linkParentBadge => 'VINCULAR';
+
+  @override
+  String get noKidsResults => 'No encontramos niños con ese nombre';
+
+  @override
+  String get kidsError => 'No se pudo cargar el listado de niños';
+
+  @override
+  String get loadingKids => 'Cargando niños';
 }
