@@ -20,7 +20,10 @@ class FeedHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final formattedDate = DateFormat('EEEE d MMM', 'es').format(date);
+    final formattedDate = DateFormat(
+      'EEEE d MMM',
+      Localizations.localeOf(context).toLanguageTag(),
+    ).format(date);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),

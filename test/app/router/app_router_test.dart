@@ -11,7 +11,7 @@ void main() {
     await initializeDateFormatting('es');
   });
 
-  testWidgets('resolves /login and falls back to the home on unknown routes', (
+  testWidgets('resolves /login and shows the error view on unknown routes', (
     tester,
   ) async {
     final container = ProviderContainer.test();
@@ -37,6 +37,6 @@ void main() {
 
     router.go('/ruta-inexistente');
     await tester.pumpAndSettle();
-    expect(find.text('Buenas, Caro'), findsOneWidget);
+    expect(find.text('No pudimos abrir esa pantalla'), findsOneWidget);
   });
 }

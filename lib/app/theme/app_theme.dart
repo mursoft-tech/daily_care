@@ -92,7 +92,10 @@ class FeedColors extends ThemeExtension<FeedColors> {
 }
 
 ThemeData buildAppTheme() {
-  final colorScheme = ColorScheme.light(
+  final colorScheme = ColorScheme.fromSeed(
+    seedColor: AppColors.primary,
+    brightness: Brightness.light,
+  ).copyWith(
     primary: AppColors.primary,
     onPrimary: AppColors.white,
     surface: AppColors.surface,
@@ -102,7 +105,6 @@ ThemeData buildAppTheme() {
   );
 
   return ThemeData(
-    useMaterial3: true,
     colorScheme: colorScheme,
     scaffoldBackgroundColor: AppColors.background,
     textTheme: AppTypography.textTheme(),

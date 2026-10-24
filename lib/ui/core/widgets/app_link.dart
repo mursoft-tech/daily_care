@@ -22,10 +22,13 @@ class AppLink extends StatelessWidget {
       cursor: SystemMouseCursors.click,
       child: Semantics(
         link: true,
-        child: InkWell(
-          onTap: onTap ?? () => _showComingSoon(context),
-          borderRadius: borderRadius ?? BorderRadius.circular(10),
-          child: child,
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            onTap: onTap ?? () => _showComingSoon(context),
+            borderRadius: borderRadius ?? BorderRadius.circular(10),
+            child: child,
+          ),
         ),
       ),
     );

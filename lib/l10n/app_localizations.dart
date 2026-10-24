@@ -172,6 +172,18 @@ abstract class AppLocalizations {
   /// **'Volver al feed'**
   String get backToFeed;
 
+  /// Título del error de navegación
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos abrir esa pantalla'**
+  String get routeErrorTitle;
+
+  /// Mensaje genérico del error de navegación
+  ///
+  /// In es, this message translates to:
+  /// **'Revisá la dirección o volvé al feed para seguir navegando.'**
+  String get routeErrorBody;
+
   /// No description provided for @teacherRole.
   ///
   /// In es, this message translates to:

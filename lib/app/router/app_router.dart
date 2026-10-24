@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../ui/core/views/route_error_view.dart';
 import '../../ui/features/feed/views/home_view.dart';
 import '../../ui/features/login/views/login_placeholder_view.dart';
 
@@ -12,8 +13,12 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/login',
         builder: (context, state) => const LoginPlaceholderView(),
       ),
+      GoRoute(
+        path: RouteErrorView.path,
+        builder: (context, state) => const RouteErrorView(),
+      ),
     ],
-    errorBuilder: (context, state) => const HomeView(),
+    onException: (context, state, router) => router.go(RouteErrorView.path),
   );
 
   ref.onDispose(router.dispose);

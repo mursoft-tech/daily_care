@@ -19,6 +19,14 @@
   "loginComingSoonTitle": "Inicio de sesión en preparación",
   "loginComingSoonBody": "La autenticación real llegará en la próxima etapa. Mientras tanto, podés volver al feed.",
   "backToFeed": "Volver al feed",
+  "routeErrorTitle": "No pudimos abrir esa pantalla",
+  "@routeErrorTitle": {
+    "description": "Título del error de navegación"
+  },
+  "routeErrorBody": "Revisá la dirección o volvé al feed para seguir navegando.",
+  "@routeErrorBody": {
+    "description": "Mensaje genérico del error de navegación"
+  },
   "teacherRole": "Maestra · Soles",
   "familyRole": "Familia",
   "greeting": "Buenas, {name}",

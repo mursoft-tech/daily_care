@@ -50,6 +50,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get backToFeed => 'Volver al feed';
 
   @override
+  String get routeErrorTitle => 'No pudimos abrir esa pantalla';
+
+  @override
+  String get routeErrorBody =>
+      'Revisá la dirección o volvé al feed para seguir navegando.';
+
+  @override
   String get teacherRole => 'Maestra · Soles';
 
   @override

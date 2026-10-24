@@ -6,20 +6,15 @@ import '../../../../domain/models/post.dart';
 
 class FeedViewModel extends AsyncNotifier<List<Post>> {
   @override
-  Future<List<Post>> build() => _load();
-
-  Future<void> retry() async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(_load);
-  }
-
-  Future<List<Post>> _load() async {
-    final result = await ref.read(feedRepositoryProvider).loadPosts();
+  Future<List<Post>> build() async {
+    final result = await ref.watch(feedRepositoryProvider).loadPosts();
     return switch (result) {
       Success(:final value) => value,
       Failure(:final failure) => throw failure,
     };
   }
+
+  void retry() => ref.invalidateSelf();
 }
 
 final feedViewModelProvider = AsyncNotifierProvider<FeedViewModel, List<Post>>(
