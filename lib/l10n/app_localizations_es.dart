@@ -153,4 +153,138 @@ class AppLocalizationsEs extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get kidsEyebrow => 'GESTIÓN';
+
+  @override
+  String get kidsTitle => 'Niños';
+
+  @override
+  String get addChild => 'Agregar niño';
+
+  @override
+  String get searchChildHint => 'Buscar niño…';
+
+  @override
+  String get clearSearch => 'Limpiar búsqueda';
+
+  @override
+  String get kidsRoomLabel => 'SALA SOLES';
+
+  @override
+  String kidsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count niños',
+      one: '1 niño',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String childAge(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years años',
+      one: '1 año',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String linkedParents(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count padres vinculados',
+      one: '1 padre vinculado',
+      zero: 'sin padres vinculados',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get linkParentBadge => 'VINCULAR';
+
+  @override
+  String get noKidsResults => 'No encontramos niños con ese nombre';
+
+  @override
+  String get kidsError => 'No se pudo cargar el listado de niños';
+
+  @override
+  String get loadingKids => 'Cargando niños';
+
+  @override
+  String get backToKids => 'Volver a Niños';
+
+  @override
+  String get childProfileAllergyTitle => 'Alergias y notas';
+
+  @override
+  String get childProfileBirthDate => 'Fecha de nacimiento';
+
+  @override
+  String get childProfileRoom => 'Sala';
+
+  @override
+  String get childProfileEnrollment => 'Ingreso';
+
+  @override
+  String get childProfileParentsTitle => 'PADRES VINCULADOS';
+
+  @override
+  String get childProfileDaySummary => 'Resumen del día';
+
+  @override
+  String get childProfileNoParents => 'Sin padres vinculados';
+
+  @override
+  String get linkParent => 'Vincular un padre';
+
+  @override
+  String get linkAnotherParent => 'Vincular otro padre';
+
+  @override
+  String get parentRoleMother => 'Mamá';
+
+  @override
+  String get parentRoleFather => 'Papá';
+
+  @override
+  String get parentRoleGuardian => 'Tutor';
+
+  @override
+  String get parentStatusActiveFemale => 'activa';
+
+  @override
+  String get parentStatusActiveMale => 'activo';
+
+  @override
+  String get parentStatusActiveNeutral => 'con cuenta activa';
+
+  @override
+  String get parentStatusInvited => 'invitación enviada';
+
+  @override
+  String get parentBadgeActive => 'ACTIVA';
+
+  @override
+  String get parentBadgePending => 'PENDIENTE';
+
+  @override
+  String get childProfileLoading => 'Cargando ficha';
+
+  @override
+  String get childProfileError => 'No se pudo cargar la ficha';
+
+  @override
+  String get childProfileNotFound => 'No encontramos este perfil';
+
+  @override
+  String get childProfileNotFoundBody =>
+      'El niño que buscás no está en esta sala.';
 }

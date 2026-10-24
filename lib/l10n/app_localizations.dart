@@ -315,6 +315,222 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'{count, plural, =1{1 comentario} other{{count} comentarios}}'**
   String commentsSemantics(int count);
+
+  /// Etiqueta sobre el título de la pantalla de niños
+  ///
+  /// In es, this message translates to:
+  /// **'GESTIÓN'**
+  String get kidsEyebrow;
+
+  /// Título de la pantalla de niños
+  ///
+  /// In es, this message translates to:
+  /// **'Niños'**
+  String get kidsTitle;
+
+  /// Acción para dar de alta un niño
+  ///
+  /// In es, this message translates to:
+  /// **'Agregar niño'**
+  String get addChild;
+
+  /// Texto de ayuda y etiqueta accesible del buscador de niños
+  ///
+  /// In es, this message translates to:
+  /// **'Buscar niño…'**
+  String get searchChildHint;
+
+  /// Etiqueta accesible de la acción que limpia el buscador
+  ///
+  /// In es, this message translates to:
+  /// **'Limpiar búsqueda'**
+  String get clearSearch;
+
+  /// Etiqueta de la sección del listado de niños
+  ///
+  /// In es, this message translates to:
+  /// **'SALA SOLES'**
+  String get kidsRoomLabel;
+
+  /// Cantidad total de niños de la sala
+  ///
+  /// In es, this message translates to:
+  /// **'{count, plural, =1{1 niño} other{{count} niños}}'**
+  String kidsCount(int count);
+
+  /// Edad de un niño en años
+  ///
+  /// In es, this message translates to:
+  /// **'{years, plural, =1{1 año} other{{years} años}}'**
+  String childAge(int years);
+
+  /// Cantidad de padres vinculados a un niño
+  ///
+  /// In es, this message translates to:
+  /// **'{count, plural, =0{sin padres vinculados} =1{1 padre vinculado} other{{count} padres vinculados}}'**
+  String linkedParents(int count);
+
+  /// Badge de un niño sin padres vinculados
+  ///
+  /// In es, this message translates to:
+  /// **'VINCULAR'**
+  String get linkParentBadge;
+
+  /// Estado vacío de la búsqueda de niños
+  ///
+  /// In es, this message translates to:
+  /// **'No encontramos niños con ese nombre'**
+  String get noKidsResults;
+
+  /// Mensaje genérico de error del listado de niños
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo cargar el listado de niños'**
+  String get kidsError;
+
+  /// Etiqueta accesible del indicador de carga del listado
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando niños'**
+  String get loadingKids;
+
+  /// Acción para volver al listado de niños desde la ficha
+  ///
+  /// In es, this message translates to:
+  /// **'Volver a Niños'**
+  String get backToKids;
+
+  /// Título del bloque de alergias de la ficha
+  ///
+  /// In es, this message translates to:
+  /// **'Alergias y notas'**
+  String get childProfileAllergyTitle;
+
+  /// Etiqueta de la fecha de nacimiento en la ficha
+  ///
+  /// In es, this message translates to:
+  /// **'Fecha de nacimiento'**
+  String get childProfileBirthDate;
+
+  /// Etiqueta de la sala en la ficha
+  ///
+  /// In es, this message translates to:
+  /// **'Sala'**
+  String get childProfileRoom;
+
+  /// Etiqueta del mes de ingreso en la ficha
+  ///
+  /// In es, this message translates to:
+  /// **'Ingreso'**
+  String get childProfileEnrollment;
+
+  /// Título del bloque de padres vinculados
+  ///
+  /// In es, this message translates to:
+  /// **'PADRES VINCULADOS'**
+  String get childProfileParentsTitle;
+
+  /// Acción principal de la ficha
+  ///
+  /// In es, this message translates to:
+  /// **'Resumen del día'**
+  String get childProfileDaySummary;
+
+  /// Estado vacío del bloque de padres
+  ///
+  /// In es, this message translates to:
+  /// **'Sin padres vinculados'**
+  String get childProfileNoParents;
+
+  /// Acción para vincular al primer padre
+  ///
+  /// In es, this message translates to:
+  /// **'Vincular un padre'**
+  String get linkParent;
+
+  /// Acción para vincular a otro padre
+  ///
+  /// In es, this message translates to:
+  /// **'Vincular otro padre'**
+  String get linkAnotherParent;
+
+  /// Rol de madre en la ficha
+  ///
+  /// In es, this message translates to:
+  /// **'Mamá'**
+  String get parentRoleMother;
+
+  /// Rol de padre en la ficha
+  ///
+  /// In es, this message translates to:
+  /// **'Papá'**
+  String get parentRoleFather;
+
+  /// Rol de tutor en la ficha
+  ///
+  /// In es, this message translates to:
+  /// **'Tutor'**
+  String get parentRoleGuardian;
+
+  /// Estado de una madre con cuenta activa
+  ///
+  /// In es, this message translates to:
+  /// **'activa'**
+  String get parentStatusActiveFemale;
+
+  /// Estado de un padre con cuenta activa
+  ///
+  /// In es, this message translates to:
+  /// **'activo'**
+  String get parentStatusActiveMale;
+
+  /// Estado de un tutor con cuenta activa
+  ///
+  /// In es, this message translates to:
+  /// **'con cuenta activa'**
+  String get parentStatusActiveNeutral;
+
+  /// Estado de un padre con invitación pendiente
+  ///
+  /// In es, this message translates to:
+  /// **'invitación enviada'**
+  String get parentStatusInvited;
+
+  /// Badge de una cuenta activa
+  ///
+  /// In es, this message translates to:
+  /// **'ACTIVA'**
+  String get parentBadgeActive;
+
+  /// Badge de una invitación pendiente
+  ///
+  /// In es, this message translates to:
+  /// **'PENDIENTE'**
+  String get parentBadgePending;
+
+  /// Etiqueta accesible de la carga de la ficha
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando ficha'**
+  String get childProfileLoading;
+
+  /// Mensaje genérico de error de la ficha
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo cargar la ficha'**
+  String get childProfileError;
+
+  /// Título del estado de perfil inexistente
+  ///
+  /// In es, this message translates to:
+  /// **'No encontramos este perfil'**
+  String get childProfileNotFound;
+
+  /// Detalle del estado de perfil inexistente
+  ///
+  /// In es, this message translates to:
+  /// **'El niño que buscás no está en esta sala.'**
+  String get childProfileNotFoundBody;
 }
 
 class _AppLocalizationsDelegate
