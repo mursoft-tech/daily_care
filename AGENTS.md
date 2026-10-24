@@ -14,8 +14,19 @@
 - `cupertino_ui` (1.1.4) es hoy dependencia transitiva: añádela con `flutter pub add cupertino_ui` antes de importarla o `depend_on_referenced_packages` fallará.
 - Si una dependencia todavía usa los imports legacy, envuélvela con `MaterialUiCompatibilityBridge` en `MaterialApp.builder` solo durante la transición.
 
+## Documentación de dependencias (Context7)
+
+- **Obligatorio antes de generar código** que use una API externa (framework, paquete, SDK, CLI o lenguaje), sin importar el stack:
+  1. `resolve-library-id` con el nombre oficial y, si existe, la versión del proyecto.
+  2. `query-docs` con **una consulta por concepto** (no mezclar temas).
+- Fija la versión real del proyecto (`flutter_riverpod 3.4.3`, `go_router 18.1.1`, Flutter 3.47.7 / Dart 3.13.5, `material_ui` 1.8.0…) para evitar APIs deprecadas, renombradas o eliminadas.
+- Si la biblioteca no está indexada o la consulta falla, implementa con la API documentada del SDK y dilo en el resumen final.
+- Única excepción: que se indique expresamente que no hace falta recurrir a Context7.
+- Las consultas no incluyen PHI, tokens, credenciales ni código propietario.
+
 ## Orden de aplicación de skills
 
+0. `context7` para validar las APIs de los paquetes implicados antes de la primera skill.
 1. `flutter-apply-architecture-best-practices`
 2. `flutter-implement-json-serialization`
 3. `flutter-setup-localization`
