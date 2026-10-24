@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../../../app/router/app_routes.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../domain/models/session_user.dart';
@@ -11,17 +12,18 @@ import 'app_logo_mark.dart';
 import 'app_logout_button.dart';
 
 class AppDestination {
-  const AppDestination(this.asset, this.label);
+  const AppDestination(this.asset, this.label, this.route);
 
   final String asset;
   final String label;
+  final String? route;
 }
 
 List<AppDestination> appNavigationDestinations(AppLocalizations l10n) => [
-  AppDestination('assets/icons/home.svg', l10n.navFeed),
-  AppDestination('assets/icons/children.svg', l10n.navChildren),
-  AppDestination('assets/icons/bell.svg', l10n.navNotices),
-  AppDestination('assets/icons/account.svg', l10n.navAccount),
+  AppDestination('assets/icons/home.svg', l10n.navFeed, AppRoutes.home),
+  AppDestination('assets/icons/children.svg', l10n.navChildren, AppRoutes.kids),
+  AppDestination('assets/icons/bell.svg', l10n.navNotices, null),
+  AppDestination('assets/icons/account.svg', l10n.navAccount, null),
 ];
 
 String sessionRoleLabel(AppLocalizations l10n, SessionRole role) =>

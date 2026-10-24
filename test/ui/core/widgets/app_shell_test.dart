@@ -84,7 +84,7 @@ void main() {
     expect(find.text('Maestra · Soles'), findsOneWidget);
     expect(find.byKey(const Key('app-panel-logout')), findsOneWidget);
 
-    await tester.tap(find.text('Niños'));
+    await tester.tap(find.text('Avisos'));
     await tester.pumpAndSettle();
 
     expect(scaffold.isDrawerOpen, isFalse);
