@@ -5,7 +5,7 @@ import '../../ui/core/views/route_error_view.dart';
 import '../../ui/features/feed/views/home_view.dart';
 import '../../ui/features/kids/views/child_profile_view.dart';
 import '../../ui/features/kids/views/kids_view.dart';
-import '../../ui/features/login/views/login_placeholder_view.dart';
+import '../../ui/features/login/views/login_view.dart';
 import 'app_routes.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -27,7 +27,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.login,
-        builder: (context, state) => const LoginPlaceholderView(),
+        builder: (context, state) => const LoginView(),
       ),
       GoRoute(
         path: RouteErrorView.path,

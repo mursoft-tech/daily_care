@@ -154,6 +154,114 @@ abstract class AppLocalizations {
   /// **'Abrir menú'**
   String get menuTooltip;
 
+  /// No description provided for @loginTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Iniciar sesión'**
+  String get loginTitle;
+
+  /// No description provided for @loginSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Ingresá para ver el día de hoy.'**
+  String get loginSubtitle;
+
+  /// No description provided for @loginHeroClaim.
+  ///
+  /// In es, this message translates to:
+  /// **'El día de cada niño,\ncompartido con su familia.'**
+  String get loginHeroClaim;
+
+  /// No description provided for @loginHeroDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Publicá momentos, gestioná las salas y mantené a las familias cerca, desde un solo lugar.'**
+  String get loginHeroDescription;
+
+  /// No description provided for @loginHeroFooter.
+  ///
+  /// In es, this message translates to:
+  /// **'🌿 Guardería Sala Soles'**
+  String get loginHeroFooter;
+
+  /// No description provided for @loginRoleEyebrow.
+  ///
+  /// In es, this message translates to:
+  /// **'INGRESO COMO'**
+  String get loginRoleEyebrow;
+
+  /// No description provided for @loginRoleStaff.
+  ///
+  /// In es, this message translates to:
+  /// **'Personal'**
+  String get loginRoleStaff;
+
+  /// No description provided for @loginRoleParent.
+  ///
+  /// In es, this message translates to:
+  /// **'Familia'**
+  String get loginRoleParent;
+
+  /// No description provided for @loginEmailLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'EMAIL'**
+  String get loginEmailLabel;
+
+  /// No description provided for @loginPasswordLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'CONTRASEÑA'**
+  String get loginPasswordLabel;
+
+  /// No description provided for @loginPasswordPlaceholder.
+  ///
+  /// In es, this message translates to:
+  /// **'••••••••'**
+  String get loginPasswordPlaceholder;
+
+  /// No description provided for @loginForgotPassword.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Olvidaste tu contraseña?'**
+  String get loginForgotPassword;
+
+  /// No description provided for @loginSubmitButton.
+  ///
+  /// In es, this message translates to:
+  /// **'Iniciar sesión'**
+  String get loginSubmitButton;
+
+  /// No description provided for @loginInvitationPrompt.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Te invitó la guardería?'**
+  String get loginInvitationPrompt;
+
+  /// No description provided for @loginActivateAccount.
+  ///
+  /// In es, this message translates to:
+  /// **'Activá tu cuenta'**
+  String get loginActivateAccount;
+
+  /// No description provided for @loginInvalidEmailError.
+  ///
+  /// In es, this message translates to:
+  /// **'Ingresá un correo electrónico válido'**
+  String get loginInvalidEmailError;
+
+  /// No description provided for @loginInvalidCredentialsError.
+  ///
+  /// In es, this message translates to:
+  /// **'Credenciales incorrectas. Verificá tu usuario y contraseña'**
+  String get loginInvalidCredentialsError;
+
+  /// No description provided for @loginEmptyPasswordError.
+  ///
+  /// In es, this message translates to:
+  /// **'Ingresá tu contraseña'**
+  String get loginEmptyPasswordError;
+
   /// No description provided for @loginComingSoonTitle.
   ///
   /// In es, this message translates to:
