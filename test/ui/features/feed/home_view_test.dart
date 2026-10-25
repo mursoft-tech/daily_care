@@ -11,7 +11,7 @@ import 'package:daily_care/domain/models/post_type.dart';
 import 'package:daily_care/domain/repositories/feed_repository.dart';
 import 'package:daily_care/ui/core/widgets/app_shell.dart';
 import 'package:daily_care/ui/features/feed/views/home_view.dart';
-import 'package:daily_care/ui/features/login/views/login_placeholder_view.dart';
+import 'package:daily_care/ui/features/login/views/login_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -201,7 +201,7 @@ void main() {
     await tester.tapAt(logoutRect.topLeft + const Offset(3, 3));
     await tester.pumpAndSettle();
 
-    expect(find.byType(LoginPlaceholderView), findsOneWidget);
+    expect(find.byType(LoginView), findsOneWidget);
     expect(find.byKey(const Key('app-drawer')), findsNothing);
   });
 }
