@@ -71,4 +71,15 @@ abstract final class AppColors {
   static const shadow = Color(0x1A785A3C);
   static const shadowStrong = Color(0x66785A3C);
   static const white = Color(0xFFFFFFFF);
+
+  // Login Template Specifics (docs/templates/login.dc.html)
+  static const loginBackground = Color(0xFFFBF4EC);
+  static const loginBorder = Color(0xFFEADFD0);
+  static const loginHeroGradientStart = Color(0xFFF6A98E);
+  static const loginHeroGradientMiddle = Color(0xFFF2937A);
+  static const loginHeroGradientEnd = Color(0xFFEC7E62);
+  static const loginHeroCircleLight = Color(0x1FFFFFFF);
+  static const loginHeroCircleSofter = Color(0x1AFFFFFF);
+  static const loginHeroLogoBg = Color(0x38FFFFFF);
+
 }

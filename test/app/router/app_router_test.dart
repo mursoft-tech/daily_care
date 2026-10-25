@@ -34,7 +34,7 @@ void main() {
 
     router.go('/login');
     await tester.pumpAndSettle();
-    expect(find.text('Inicio de sesión en preparación'), findsOneWidget);
+    expect(find.text('Ingresá para ver el día de hoy.'), findsOneWidget);
 
     router.go('/kids');
     await tester.pumpAndSettle();

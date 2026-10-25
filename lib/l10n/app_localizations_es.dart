@@ -40,6 +40,63 @@ class AppLocalizationsEs extends AppLocalizations {
   String get menuTooltip => 'Abrir menú';
 
   @override
+  String get loginTitle => 'Iniciar sesión';
+
+  @override
+  String get loginSubtitle => 'Ingresá para ver el día de hoy.';
+
+  @override
+  String get loginHeroClaim =>
+      'El día de cada niño,\ncompartido con su familia.';
+
+  @override
+  String get loginHeroDescription =>
+      'Publicá momentos, gestioná las salas y mantené a las familias cerca, desde un solo lugar.';
+
+  @override
+  String get loginHeroFooter => '🌿 Guardería Sala Soles';
+
+  @override
+  String get loginRoleEyebrow => 'INGRESO COMO';
+
+  @override
+  String get loginRoleStaff => 'Personal';
+
+  @override
+  String get loginRoleParent => 'Familia';
+
+  @override
+  String get loginEmailLabel => 'EMAIL';
+
+  @override
+  String get loginPasswordLabel => 'CONTRASEÑA';
+
+  @override
+  String get loginPasswordPlaceholder => '••••••••';
+
+  @override
+  String get loginForgotPassword => '¿Olvidaste tu contraseña?';
+
+  @override
+  String get loginSubmitButton => 'Iniciar sesión';
+
+  @override
+  String get loginInvitationPrompt => '¿Te invitó la guardería?';
+
+  @override
+  String get loginActivateAccount => 'Activá tu cuenta';
+
+  @override
+  String get loginInvalidEmailError => 'Ingresá un correo electrónico válido';
+
+  @override
+  String get loginInvalidCredentialsError =>
+      'Credenciales incorrectas. Verificá tu usuario y contraseña';
+
+  @override
+  String get loginEmptyPasswordError => 'Ingresá tu contraseña';
+
+  @override
   String get loginComingSoonTitle => 'Inicio de sesión en preparación';
 
   @override
