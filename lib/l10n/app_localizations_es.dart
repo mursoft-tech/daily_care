@@ -344,4 +344,64 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get childProfileNotFoundBody =>
       'El niño que buscás no está en esta sala.';
+
+  @override
+  String get activateAccountTitle => 'Bienvenida a OpenDayCare';
+
+  @override
+  String get activateAccountSubtitle =>
+      'Te invitaron a seguir el día de tu hijo. Creá tu contraseña para activar la cuenta.';
+
+  @override
+  String get activateInvitedTo => 'Te invitaron a seguir a';
+
+  @override
+  String activateChildRoom(String childName, String roomName) {
+    return '$childName · $roomName';
+  }
+
+  @override
+  String get activateCodeLabel => 'CÓDIGO DE INVITACIÓN';
+
+  @override
+  String get activatePasswordLabel => 'CREAR CONTRASEÑA';
+
+  @override
+  String get activatePhotoConsent =>
+      'Autorizo a la guardería a tomar y compartir fotos de mi hijo dentro de la app.';
+
+  @override
+  String get activateSubmitButton => 'Activar mi cuenta';
+
+  @override
+  String get activateHaveAccountPrompt => '¿Ya tenés cuenta?';
+
+  @override
+  String get activateSignInLink => 'Iniciar sesión';
+
+  @override
+  String get activateInvalidCodeError =>
+      'No encontramos una invitación con ese código';
+
+  @override
+  String get activateEmailMismatchError =>
+      'Ese email no coincide con la invitación';
+
+  @override
+  String get activateWeakPasswordError =>
+      'La contraseña debe tener al menos 8 caracteres';
+
+  @override
+  String get activateConsentRequiredError =>
+      'Necesitamos tu autorización para continuar';
+
+  @override
+  String get activateGenericError =>
+      'No pudimos completar la activación. Probá de nuevo.';
+
+  @override
+  String get activateLoadingInvitation => 'Cargando invitación';
+
+  @override
+  String get activateLoadError => 'No pudimos cargar tu invitación';
 }

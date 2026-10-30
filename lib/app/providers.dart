@@ -1,14 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../data/datasources/account_activation_data_source.dart';
 import '../data/datasources/feed_data_source.dart';
 import '../data/datasources/kids_data_source.dart';
+import '../data/datasources/local/demo_account_activation_data_source.dart';
 import '../data/datasources/local/demo_feed_datasource.dart';
 import '../data/datasources/local/demo_kids_data_source.dart';
+import '../data/repositories/account_activation_repository_impl.dart';
 import '../data/repositories/feed_repository_impl.dart';
 import '../data/repositories/kids_repository_impl.dart';
 import '../domain/models/session_user.dart';
+import '../domain/repositories/account_activation_repository.dart';
 import '../domain/repositories/feed_repository.dart';
 import '../domain/repositories/kids_repository.dart';
+import '../domain/use_cases/activate_account.dart';
 
 final sessionUserProvider = Provider<SessionUser>(
   (ref) => const SessionUser.demo(),
@@ -31,3 +36,21 @@ final kidsDataSourceProvider = Provider<KidsDataSource>(
 final kidsRepositoryProvider = Provider<KidsRepository>((ref) {
   return KidsRepositoryImpl(ref.watch(kidsDataSourceProvider));
 });
+
+final accountActivationDataSourceProvider = Provider<AccountActivationDataSource>(
+  (ref) => const DemoAccountActivationDataSource(),
+);
+
+final demoInvitationCodeProvider = Provider<String>(
+  (ref) => DemoAccountActivationDataSource.invitation.code,
+);
+
+final accountActivationRepositoryProvider = Provider<AccountActivationRepository>(
+  (ref) => AccountActivationRepositoryImpl(
+    ref.watch(accountActivationDataSourceProvider),
+  ),
+);
+
+final activateAccountUseCaseProvider = Provider<ActivateAccount>(
+  (ref) => ActivateAccount(ref.watch(accountActivationRepositoryProvider)),
+);

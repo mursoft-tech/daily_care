@@ -21,7 +21,7 @@ void main() {
     await initializeDateFormatting('es');
   });
 
-  testWidgets('logout from the compact shell opens the login placeholder', (
+  testWidgets('logout from the compact shell opens the login screen', (
     tester,
   ) async {
     await tester.pumpWidget(
@@ -42,7 +42,8 @@ void main() {
     await tester.tapAt(logoutRect.topLeft + const Offset(3, 3));
     await tester.pumpAndSettle();
 
-    expect(find.text('Inicio de sesión en preparación'), findsOneWidget);
+    expect(find.text('Ingresá para ver el día de hoy.'), findsOneWidget);
+    expect(find.byKey(const Key('login-submit-button')), findsOneWidget);
     expect(find.byKey(const Key('app-drawer')), findsNothing);
   });
 }

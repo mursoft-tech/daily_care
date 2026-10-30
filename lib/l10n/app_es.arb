@@ -287,5 +287,81 @@
   "childProfileNotFoundBody": "El niño que buscás no está en esta sala.",
   "@childProfileNotFoundBody": {
     "description": "Detalle del estado de perfil inexistente"
+  },
+  "activateAccountTitle": "Bienvenida a OpenDayCare",
+  "@activateAccountTitle": {
+    "description": "Título de la pantalla de activación de cuenta"
+  },
+  "activateAccountSubtitle": "Te invitaron a seguir el día de tu hijo. Creá tu contraseña para activar la cuenta.",
+  "@activateAccountSubtitle": {
+    "description": "Subtítulo de la pantalla de activación de cuenta"
+  },
+  "activateInvitedTo": "Te invitaron a seguir a",
+  "@activateInvitedTo": {
+    "description": "Texto sobre el nombre del niño invitado"
+  },
+  "activateChildRoom": "{childName} · {roomName}",
+  "@activateChildRoom": {
+    "description": "Nombre del niño y sala de la invitación",
+    "placeholders": {
+      "childName": {
+        "type": "String"
+      },
+      "roomName": {
+        "type": "String"
+      }
+    }
+  },
+  "activateCodeLabel": "CÓDIGO DE INVITACIÓN",
+  "@activateCodeLabel": {
+    "description": "Etiqueta del campo de código de invitación"
+  },
+  "activatePasswordLabel": "CREAR CONTRASEÑA",
+  "@activatePasswordLabel": {
+    "description": "Etiqueta del campo para crear la contraseña"
+  },
+  "activatePhotoConsent": "Autorizo a la guardería a tomar y compartir fotos de mi hijo dentro de la app.",
+  "@activatePhotoConsent": {
+    "description": "Autorización para tomar y compartir fotos del niño"
+  },
+  "activateSubmitButton": "Activar mi cuenta",
+  "@activateSubmitButton": {
+    "description": "Acción principal de la pantalla de activación"
+  },
+  "activateHaveAccountPrompt": "¿Ya tenés cuenta?",
+  "@activateHaveAccountPrompt": {
+    "description": "Texto previo al enlace de inicio de sesión"
+  },
+  "activateSignInLink": "Iniciar sesión",
+  "@activateSignInLink": {
+    "description": "Enlace para volver al inicio de sesión desde la activación"
+  },
+  "activateInvalidCodeError": "No encontramos una invitación con ese código",
+  "@activateInvalidCodeError": {
+    "description": "Error cuando el código de invitación no existe"
+  },
+  "activateEmailMismatchError": "Ese email no coincide con la invitación",
+  "@activateEmailMismatchError": {
+    "description": "Error cuando el email no corresponde a la invitación"
+  },
+  "activateWeakPasswordError": "La contraseña debe tener al menos 8 caracteres",
+  "@activateWeakPasswordError": {
+    "description": "Error cuando la contraseña es demasiado corta"
+  },
+  "activateConsentRequiredError": "Necesitamos tu autorización para continuar",
+  "@activateConsentRequiredError": {
+    "description": "Error cuando falta la autorización de fotos"
+  },
+  "activateGenericError": "No pudimos completar la activación. Probá de nuevo.",
+  "@activateGenericError": {
+    "description": "Error genérico de activación"
+  },
+  "activateLoadingInvitation": "Cargando invitación",
+  "@activateLoadingInvitation": {
+    "description": "Etiqueta accesible de la carga de la invitación"
+  },
+  "activateLoadError": "No pudimos cargar tu invitación",
+  "@activateLoadError": {
+    "description": "Mensaje genérico cuando falla la carga de la invitación"
   }
 }

@@ -639,6 +639,108 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'El niño que buscás no está en esta sala.'**
   String get childProfileNotFoundBody;
+
+  /// Título de la pantalla de activación de cuenta
+  ///
+  /// In es, this message translates to:
+  /// **'Bienvenida a OpenDayCare'**
+  String get activateAccountTitle;
+
+  /// Subtítulo de la pantalla de activación de cuenta
+  ///
+  /// In es, this message translates to:
+  /// **'Te invitaron a seguir el día de tu hijo. Creá tu contraseña para activar la cuenta.'**
+  String get activateAccountSubtitle;
+
+  /// Texto sobre el nombre del niño invitado
+  ///
+  /// In es, this message translates to:
+  /// **'Te invitaron a seguir a'**
+  String get activateInvitedTo;
+
+  /// Nombre del niño y sala de la invitación
+  ///
+  /// In es, this message translates to:
+  /// **'{childName} · {roomName}'**
+  String activateChildRoom(String childName, String roomName);
+
+  /// Etiqueta del campo de código de invitación
+  ///
+  /// In es, this message translates to:
+  /// **'CÓDIGO DE INVITACIÓN'**
+  String get activateCodeLabel;
+
+  /// Etiqueta del campo para crear la contraseña
+  ///
+  /// In es, this message translates to:
+  /// **'CREAR CONTRASEÑA'**
+  String get activatePasswordLabel;
+
+  /// Autorización para tomar y compartir fotos del niño
+  ///
+  /// In es, this message translates to:
+  /// **'Autorizo a la guardería a tomar y compartir fotos de mi hijo dentro de la app.'**
+  String get activatePhotoConsent;
+
+  /// Acción principal de la pantalla de activación
+  ///
+  /// In es, this message translates to:
+  /// **'Activar mi cuenta'**
+  String get activateSubmitButton;
+
+  /// Texto previo al enlace de inicio de sesión
+  ///
+  /// In es, this message translates to:
+  /// **'¿Ya tenés cuenta?'**
+  String get activateHaveAccountPrompt;
+
+  /// Enlace para volver al inicio de sesión desde la activación
+  ///
+  /// In es, this message translates to:
+  /// **'Iniciar sesión'**
+  String get activateSignInLink;
+
+  /// Error cuando el código de invitación no existe
+  ///
+  /// In es, this message translates to:
+  /// **'No encontramos una invitación con ese código'**
+  String get activateInvalidCodeError;
+
+  /// Error cuando el email no corresponde a la invitación
+  ///
+  /// In es, this message translates to:
+  /// **'Ese email no coincide con la invitación'**
+  String get activateEmailMismatchError;
+
+  /// Error cuando la contraseña es demasiado corta
+  ///
+  /// In es, this message translates to:
+  /// **'La contraseña debe tener al menos 8 caracteres'**
+  String get activateWeakPasswordError;
+
+  /// Error cuando falta la autorización de fotos
+  ///
+  /// In es, this message translates to:
+  /// **'Necesitamos tu autorización para continuar'**
+  String get activateConsentRequiredError;
+
+  /// Error genérico de activación
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos completar la activación. Probá de nuevo.'**
+  String get activateGenericError;
+
+  /// Etiqueta accesible de la carga de la invitación
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando invitación'**
+  String get activateLoadingInvitation;
+
+  /// Mensaje genérico cuando falla la carga de la invitación
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos cargar tu invitación'**
+  String get activateLoadError;
 }
 
 class _AppLocalizationsDelegate
