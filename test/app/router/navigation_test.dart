@@ -1,6 +1,7 @@
 import 'package:daily_care/app/localization.dart';
 import 'package:daily_care/app/router/app_router.dart';
 import 'package:daily_care/app/theme/app_theme.dart';
+import 'package:daily_care/ui/features/account_activation/views/activate_account_view.dart';
 import 'package:daily_care/ui/features/feed/views/home_view.dart';
 import 'package:daily_care/ui/features/kids/views/kids_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -81,5 +82,31 @@ void main() {
 
     expect(find.byType(KidsView), findsOneWidget);
     expect(find.byKey(const Key('app-drawer')), findsNothing);
+  });
+
+  testWidgets('navigates from login to the account activation screen', (
+    tester,
+  ) async {
+    addTearDown(tester.view.reset);
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(1200, 900);
+
+    final container = ProviderContainer.test();
+    addTearDown(container.dispose);
+    final router = container.read(routerProvider);
+    await tester.pumpWidget(_pumpRouter(container, router));
+    await tester.pumpAndSettle();
+
+    router.go('/login');
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('login-activate-account-link')));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ActivateAccountView), findsOneWidget);
+    expect(
+      router.routerDelegate.currentConfiguration.uri.path,
+      '/activar-cuenta',
+    );
   });
 }

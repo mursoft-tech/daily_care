@@ -3,6 +3,7 @@ abstract final class AppRoutes {
   static const kids = '/kids';
   static const childProfile = '/kids/:childId';
   static const login = '/login';
+  static const activateAccount = '/activar-cuenta';
 
   static String childProfilePath(String childId) =>
       '/kids/${Uri.encodeComponent(childId)}';

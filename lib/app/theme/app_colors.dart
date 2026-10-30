@@ -82,4 +82,9 @@ abstract final class AppColors {
   static const loginHeroCircleSofter = Color(0x1AFFFFFF);
   static const loginHeroLogoBg = Color(0x38FFFFFF);
 
+  // Activación de cuenta (docs/templates/activar-cuenta.dc.html)
+  static const consentBackground = Color(0xFFFBF1D6);
+  static const consentForeground = Color(0xFF8A7234);
+  static const consentCheckBackground = Color(0xFF5FB97E);
+
 }
