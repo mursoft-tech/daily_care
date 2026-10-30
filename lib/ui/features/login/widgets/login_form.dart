@@ -2,9 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../../app/router/app_routes.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../core/widgets/app_link.dart';
+import '../../../core/widgets/app_text_field.dart';
 import '../view_models/login_view_model.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
@@ -113,120 +116,29 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                 ],
               ),
               const SizedBox(height: 22),
-              Text(
-                l10n.loginEmailLabel,
-                style: AppTypography.nunito(
-                  size: 12,
-                  weight: FontWeight.w700,
-                  color: AppColors.textMuted,
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                key: const Key('login-email-input'),
+              AppTextField(
+                label: l10n.loginEmailLabel,
+                fieldKey: const Key('login-email-input'),
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
-                style: AppTypography.nunito(
-                  size: 15,
-                  color: AppColors.textStrong,
-                ),
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: AppColors.white,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 14,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: AppColors.loginBorder, width: 1.5),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: AppColors.loginBorder, width: 1.5),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
-                  ),
-                ),
+                errorText: state.errorType == LoginErrorType.invalidEmail
+                    ? l10n.loginInvalidEmailError
+                    : null,
               ),
-              if (state.errorType == LoginErrorType.invalidEmail) ...[
-                const SizedBox(height: 6),
-                Text(
-                  l10n.loginInvalidEmailError,
-                  style: AppTypography.nunito(
-                    size: 12.5,
-                    weight: FontWeight.w600,
-                    color: AppColors.primaryDark,
-                  ),
-                ),
-              ],
               const SizedBox(height: 18),
-              Text(
-                l10n.loginPasswordLabel,
-                style: AppTypography.nunito(
-                  size: 12,
-                  weight: FontWeight.w700,
-                  color: AppColors.textMuted,
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                key: const Key('login-password-input'),
+              AppTextField(
+                label: l10n.loginPasswordLabel,
+                fieldKey: const Key('login-password-input'),
                 controller: _passwordController,
                 obscureText: true,
-                style: AppTypography.nunito(
-                  size: 15,
-                  color: AppColors.textStrong,
-                ),
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: AppColors.white,
-                  hintText: l10n.loginPasswordPlaceholder,
-                  hintStyle: AppTypography.nunito(
-                    size: 15,
-                    color: AppColors.textSoft,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 14,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: AppColors.loginBorder, width: 1.5),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: AppColors.loginBorder, width: 1.5),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
-                  ),
-                ),
+                hintText: l10n.loginPasswordPlaceholder,
+                errorText: switch (state.errorType) {
+                  LoginErrorType.emptyPassword => l10n.loginEmptyPasswordError,
+                  LoginErrorType.invalidCredentials =>
+                    l10n.loginInvalidCredentialsError,
+                  _ => null,
+                },
               ),
-              if (state.errorType == LoginErrorType.emptyPassword) ...[
-                const SizedBox(height: 6),
-                Text(
-                  l10n.loginEmptyPasswordError,
-                  style: AppTypography.nunito(
-                    size: 12.5,
-                    weight: FontWeight.w600,
-                    color: AppColors.primaryDark,
-                  ),
-                ),
-              ] else if (state.errorType == LoginErrorType.invalidCredentials) ...[
-                const SizedBox(height: 6),
-                Text(
-                  l10n.loginInvalidCredentialsError,
-                  style: AppTypography.nunito(
-                    size: 12.5,
-                    weight: FontWeight.w600,
-                    color: AppColors.primaryDark,
-                  ),
-                ),
-              ],
               const SizedBox(height: 10),
               Align(
                 alignment: Alignment.centerRight,
@@ -301,11 +213,15 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                       color: AppColors.textMuted,
                     ),
                   ),
-                  MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      key: const Key('login-activate-account-link'),
-                      onTap: () {},
+                  AppLink(
+                    key: const Key('login-activate-account-link'),
+                    onTap: () => context.go(AppRoutes.activateAccount),
+                    borderRadius: BorderRadius.circular(8),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 2,
+                        vertical: 2,
+                      ),
                       child: Text(
                         l10n.loginActivateAccount,
                         style: AppTypography.nunito(
