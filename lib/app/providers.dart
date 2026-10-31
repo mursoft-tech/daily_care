@@ -14,6 +14,7 @@ import '../domain/repositories/account_activation_repository.dart';
 import '../domain/repositories/feed_repository.dart';
 import '../domain/repositories/kids_repository.dart';
 import '../domain/use_cases/activate_account.dart';
+import '../domain/use_cases/create_child.dart';
 
 final sessionUserProvider = Provider<SessionUser>(
   (ref) => const SessionUser.demo(),
@@ -30,11 +31,18 @@ final feedRepositoryProvider = Provider<FeedRepository>((ref) {
 });
 
 final kidsDataSourceProvider = Provider<KidsDataSource>(
-  (ref) => const DemoKidsDataSource(),
+  (ref) => DemoKidsDataSource(),
 );
 
 final kidsRepositoryProvider = Provider<KidsRepository>((ref) {
   return KidsRepositoryImpl(ref.watch(kidsDataSourceProvider));
+});
+
+final createChildUseCaseProvider = Provider<CreateChild>((ref) {
+  return CreateChild(
+    ref.watch(kidsRepositoryProvider),
+    ref.watch(todayProvider),
+  );
 });
 
 final accountActivationDataSourceProvider = Provider<AccountActivationDataSource>(

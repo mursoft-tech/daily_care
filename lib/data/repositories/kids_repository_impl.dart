@@ -29,4 +29,16 @@ class KidsRepositoryImpl implements KidsRepository {
       return const Failure(UnexpectedFailure());
     }
   }
+
+  @override
+  Future<Result<Child>> addChild(Child child) async {
+    try {
+      await _dataSource.saveChild(child);
+      return Success(child);
+    } on Exception {
+      return const Failure(DataFailure());
+    } catch (_) {
+      return const Failure(UnexpectedFailure());
+    }
+  }
 }

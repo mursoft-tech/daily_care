@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../app/theme/app_colors.dart';
@@ -12,6 +13,8 @@ class AppTextField extends StatelessWidget {
     this.hintText,
     this.keyboardType,
     this.obscureText = false,
+    this.maxLines = 1,
+    this.inputFormatters,
     this.errorText,
     this.onChanged,
     this.textStyle,
@@ -24,6 +27,8 @@ class AppTextField extends StatelessWidget {
   final String? hintText;
   final TextInputType? keyboardType;
   final bool obscureText;
+  final int maxLines;
+  final List<TextInputFormatter>? inputFormatters;
   final String? errorText;
   final ValueChanged<String>? onChanged;
   final TextStyle? textStyle;
@@ -49,6 +54,8 @@ class AppTextField extends StatelessWidget {
           controller: controller,
           keyboardType: keyboardType,
           obscureText: obscureText,
+          maxLines: maxLines,
+          inputFormatters: inputFormatters,
           onChanged: onChanged,
           style: textStyle ??
               AppTypography.nunito(size: 15, color: AppColors.textStrong),

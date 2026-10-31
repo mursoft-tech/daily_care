@@ -12,11 +12,24 @@ class _FailingDataSource implements KidsDataSource {
 
   @override
   Future<Child?> fetchChild(String id) async => throw Exception('boom');
+
+  @override
+  Future<void> saveChild(Child child) async => throw Exception('boom');
 }
+
+Child _child({String id = 'martina-lopez'}) => Child(
+  id: id,
+  firstName: 'Martina',
+  lastName: 'López',
+  birthDate: DateTime(2023, 3, 12),
+  room: 'Soles',
+  enrolledAt: DateTime(2026, 10, 24),
+  colorToken: 'blue',
+);
 
 void main() {
   group('KidsRepositoryImpl', () {
-    final repository = KidsRepositoryImpl(const DemoKidsDataSource());
+    final repository = KidsRepositoryImpl(DemoKidsDataSource());
 
     test('returns Success with the eight demo children', () async {
       final result = await repository.loadChildren();
@@ -37,7 +50,7 @@ void main() {
       expect(child.birthDate, DateTime(2023, 3, 12));
       expect(child.room, 'Soles');
       expect(child.enrolledAt, DateTime(2025, 2));
-      expect(child.allergy!.notes, contains('inhalador'));
+      expect(child.allergies.first.notes, contains('inhalador'));
       expect(child.linkedParents, 2);
       expect(child.guardians.first.status, GuardianStatus.active);
       expect(child.guardians.last.status, GuardianStatus.invited);
@@ -50,16 +63,31 @@ void main() {
       expect((result as Success<Child?>).value, isNull);
     });
 
+    test('adds a child that can be read back from the list', () async {
+      final added = await repository.addChild(_child());
+
+      expect(added, isA<Success<Child>>());
+      final children = await repository.loadChildren();
+      expect((children as Success<List<Child>>).value, hasLength(9));
+
+      final stored = await repository.loadChild('martina-lopez');
+      expect((stored as Success<Child?>).value, isNotNull);
+      expect(stored.value!.fullName, 'Martina López');
+    });
+
     test('returns Failure when the data source fails', () async {
       final failing = KidsRepositoryImpl(_FailingDataSource());
 
       final children = await failing.loadChildren();
       final child = await failing.loadChild('mateo-fernandez');
+      final added = await failing.addChild(_child());
 
       expect(children, isA<Failure<List<Child>>>());
       expect((children as Failure<List<Child>>).failure, isA<DataFailure>());
       expect(child, isA<Failure<Child?>>());
       expect((child as Failure<Child?>).failure, isA<DataFailure>());
+      expect(added, isA<Failure<Child>>());
+      expect((added as Failure<Child>).failure, isA<DataFailure>());
     });
   });
 }

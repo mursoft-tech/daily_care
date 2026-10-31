@@ -89,9 +89,12 @@ class _ProfileContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ProfileHeader(child: child, ageYears: state.ageYears!),
-        if (child.allergy != null) ...[
+        if (child.hasAllergy || child.hasMedicalNotes) ...[
           const SizedBox(height: 18),
-          ProfileAllergyBanner(allergy: child.allergy!),
+          ProfileAllergyBanner(
+            allergies: child.allergies,
+            medicalNotes: child.medicalNotes,
+          ),
         ],
         const SizedBox(height: 18),
         ProfileInfoCard(child: child),

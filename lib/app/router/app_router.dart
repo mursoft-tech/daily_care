@@ -6,6 +6,7 @@ import '../../ui/features/account_activation/views/activate_account_view.dart';
 import '../../ui/features/feed/views/home_view.dart';
 import '../../ui/features/kids/views/child_profile_view.dart';
 import '../../ui/features/kids/views/kids_view.dart';
+import '../../ui/features/kids/views/new_child_view.dart';
 import '../../ui/features/login/views/login_view.dart';
 import '../providers.dart';
 import 'app_routes.dart';
@@ -20,6 +21,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.kids,
         builder: (context, state) => const KidsView(),
+      ),
+      GoRoute(
+        path: AppRoutes.newChild,
+        builder: (context, state) => const NewChildView(),
       ),
       GoRoute(
         path: AppRoutes.childProfile,

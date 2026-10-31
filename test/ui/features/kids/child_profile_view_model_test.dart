@@ -31,6 +31,9 @@ class _FakeKidsRepository implements KidsRepository {
     if (failing) return const Failure(DataFailure());
     return Success(id == _mateo.id ? _mateo : null);
   }
+
+  @override
+  Future<Result<Child>> addChild(Child child) async => Success(child);
 }
 
 void main() {

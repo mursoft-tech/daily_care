@@ -42,7 +42,9 @@ class KidsView extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const KidsHeader(),
+                      KidsHeader(
+                        onAddChild: () => context.go(AppRoutes.newChild),
+                      ),
                       const SizedBox(height: 22),
                       KidsSearchField(
                         query: state?.query ?? '',
