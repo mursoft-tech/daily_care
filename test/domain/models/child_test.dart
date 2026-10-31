@@ -31,11 +31,12 @@ void main() {
       room: 'Soles',
       enrolledAt: DateTime(2025, 2),
       colorToken: 'blue',
-      allergy: Allergy(
-        label: 'MANÍ',
-        notes: 'Alergia al maní.',
-      ),
-      guardians: [_lucia, _diego],
+      allergies: const [
+        Allergy(label: 'MANÍ', notes: 'Alergia al maní.'),
+        Allergy(label: 'LACTOSA', notes: 'Sin lácteos.'),
+      ],
+      medicalNotes: 'Lleva inhalador en la mochila.',
+      guardians: const [_lucia, _diego],
     );
 
     test('builds the full name, initial and dates', () {
@@ -46,13 +47,35 @@ void main() {
       expect(child.room, 'Soles');
     });
 
-    test('exposes the allergy label and notes', () {
-      expect(child.hasAllergy, isTrue);
-      expect(child.allergy!.label, 'MANÍ');
-      expect(child.allergy!.notes, 'Alergia al maní.');
+    test('trims the full name when there is no last name', () {
+      final single = Child(
+        id: 'martina',
+        firstName: 'Martina',
+        lastName: '',
+        birthDate: DateTime(2024, 1, 1),
+        room: 'Soles',
+        enrolledAt: DateTime(2025, 2),
+        colorToken: 'blue',
+      );
+
+      expect(single.fullName, 'Martina');
     });
 
-    test('reports no allergy when it is absent', () {
+    test('exposes the allergy labels and notes', () {
+      expect(child.hasAllergy, isTrue);
+      expect(child.allergies.map((allergy) => allergy.label), [
+        'MANÍ',
+        'LACTOSA',
+      ]);
+      expect(child.allergies.first.notes, 'Alergia al maní.');
+    });
+
+    test('exposes the medical notes', () {
+      expect(child.hasMedicalNotes, isTrue);
+      expect(child.medicalNotes, 'Lleva inhalador en la mochila.');
+    });
+
+    test('reports no allergy when the list is empty', () {
       final other = Child(
         id: 'sofia-mendez',
         firstName: 'Sofía',
@@ -64,7 +87,9 @@ void main() {
       );
 
       expect(other.hasAllergy, isFalse);
-      expect(other.allergy, isNull);
+      expect(other.allergies, isEmpty);
+      expect(other.medicalNotes, isEmpty);
+      expect(other.hasMedicalNotes, isFalse);
     });
 
     test('derives the linked parent count from the guardians', () {
@@ -85,7 +110,7 @@ void main() {
         room: 'Soles',
         enrolledAt: DateTime(2025, 2),
         colorToken: 'pink',
-        guardians: [_lucia],
+        guardians: const [_lucia],
       );
 
       expect(withoutGuardians.linkedParents, 0);

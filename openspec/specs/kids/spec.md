@@ -68,6 +68,11 @@ Cada tarjeta SHALL mostrar el avatar con la inicial y el color del niño, el nom
 - **WHEN** se renderiza una tarjeta de un niño con alergia registrada
 - **THEN** la tarjeta muestra el badge con el nombre de la alergia ("MANÍ" o "LACTOSA")
 
+#### Scenario: Niño con varias alergias
+
+- **WHEN** se renderiza una tarjeta de un niño con más de una alergia registrada
+- **THEN** el badge muestra la primera etiqueta seguida de la cantidad restante, por ejemplo "MANÍ +1"
+
 #### Scenario: Niño sin padres vinculados
 
 - **WHEN** se renderiza una tarjeta de un niño sin padres vinculados y sin alergia
@@ -153,14 +158,14 @@ La grilla SHALL usar dos columnas cuando el ancho disponible del contenido sea s
 - **WHEN** el contenido dispone de menos de 700 px de ancho
 - **THEN** las tarjetas se distribuyen en una columna y no hay overflow horizontal
 
-### Requirement: Kids placeholder actions
+### Requirement: Kids navigation actions
 
-La acción "Agregar niño" SHALL mostrar el aviso "Próximamente" sin cambiar de ruta. Cada tarjeta de niño SHALL navegar a la ficha de ese niño al activarse y SHALL mostrar cursor de mano y una elevación ligera al pasar el puntero.
+La acción "Agregar niño" SHALL navegar a `/kids/nuevo`. Cada tarjeta de niño SHALL navegar a la ficha de ese niño al activarse y SHALL mostrar cursor de mano y una elevación ligera al pasar el puntero.
 
 #### Scenario: Agregar niño
 
 - **WHEN** el usuario activa "Agregar niño"
-- **THEN** aparece el aviso "Próximamente" y la ruta sigue siendo `/kids`
+- **THEN** la aplicación navega a `/kids/nuevo` y muestra el formulario de alta
 
 #### Scenario: Abrir una tarjeta
 

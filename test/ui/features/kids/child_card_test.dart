@@ -35,7 +35,7 @@ void main() {
           room: 'Soles',
           enrolledAt: DateTime(2025, 2),
           colorToken: 'blue',
-          allergy: const Allergy(label: 'MANÍ', notes: 'Alergia al maní.'),
+          allergies: const [Allergy(label: 'MANÍ', notes: 'Alergia al maní.')],
         ),
         ageYears: 3,
       ),
@@ -68,5 +68,30 @@ void main() {
 
     expect(find.text('VINCULAR'), findsOneWidget);
     expect(find.text('2 años · sin padres vinculados'), findsOneWidget);
+  });
+
+  testWidgets('summarizes several allergies in one badge', (tester) async {
+    await tester.pumpWidget(
+      _pumpCard(
+        Child(
+          id: 'tomas',
+          firstName: 'Tomás',
+          lastName: 'Díaz',
+          birthDate: DateTime(2023, 1, 30),
+          room: 'Soles',
+          enrolledAt: DateTime(2025, 2),
+          colorToken: 'purple',
+          allergies: const [
+            Allergy(label: 'MANÍ', notes: ''),
+            Allergy(label: 'LACTOSA', notes: ''),
+          ],
+        ),
+        ageYears: 3,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('MANÍ +1'), findsOneWidget);
+    expect(find.text('LACTOSA'), findsNothing);
   });
 }

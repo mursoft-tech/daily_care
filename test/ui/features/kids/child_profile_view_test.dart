@@ -8,6 +8,7 @@ import 'package:daily_care/core/result.dart';
 import 'package:daily_care/data/repositories/kids_repository_impl.dart';
 import 'package:daily_care/domain/models/child.dart';
 import 'package:daily_care/domain/repositories/kids_repository.dart';
+import 'package:daily_care/domain/value_objects/allergy.dart';
 import 'package:daily_care/data/datasources/local/demo_kids_data_source.dart';
 import 'package:daily_care/ui/features/kids/views/child_profile_view.dart';
 import 'package:daily_care/ui/features/kids/widgets/linked_parents_card.dart';
@@ -39,6 +40,9 @@ class _FakeKidsRepository implements KidsRepository {
     if (error != null) return Failure(error);
     return Success(child);
   }
+
+  @override
+  Future<Result<Child>> addChild(Child child) async => Success(child);
 }
 
 void main() {
@@ -89,6 +93,58 @@ void main() {
     expect(find.text('Sofía Méndez'), findsOneWidget);
     expect(find.text('Alergias y notas'), findsNothing);
     expect(find.text('Sin padres vinculados'), findsNothing);
+  });
+
+  testWidgets('shows every allergy chip for a child with several allergies', (
+    tester,
+  ) async {
+    final child = Child(
+      id: 'tomas-diaz',
+      firstName: 'Tomás',
+      lastName: 'Díaz',
+      birthDate: DateTime(2023, 1, 30),
+      room: 'Soles',
+      enrolledAt: DateTime(2025, 2),
+      colorToken: 'purple',
+      allergies: const [
+        Allergy(label: 'MANÍ', notes: ''),
+        Allergy(label: 'LACTOSA', notes: ''),
+      ],
+    );
+    await _pumpProfile(
+      tester,
+      child.id,
+      size: const Size(1200, 900),
+      repository: _FakeKidsRepository(child: child),
+    );
+
+    expect(find.text('Alergias y notas'), findsOneWidget);
+    expect(find.text('MANÍ'), findsOneWidget);
+    expect(find.text('LACTOSA'), findsOneWidget);
+  });
+
+  testWidgets('shows the block when the child only has medical notes', (
+    tester,
+  ) async {
+    final child = Child(
+      id: 'nina-paz',
+      firstName: 'Nina',
+      lastName: 'Paz',
+      birthDate: DateTime(2024, 1, 10),
+      room: 'Soles',
+      enrolledAt: DateTime(2025, 2),
+      colorToken: 'pink',
+      medicalNotes: 'Lleva aerosol por las tardes.',
+    );
+    await _pumpProfile(
+      tester,
+      child.id,
+      size: const Size(1200, 900),
+      repository: _FakeKidsRepository(child: child),
+    );
+
+    expect(find.text('Alergias y notas'), findsOneWidget);
+    expect(find.text('Lleva aerosol por las tardes.'), findsOneWidget);
   });
 
   testWidgets('shows the empty parents state for a child without guardians', (
@@ -264,7 +320,7 @@ Future<void> _pumpProfile(
     ProviderScope(
       overrides: [
         kidsRepositoryProvider.overrideWithValue(
-          repository ?? KidsRepositoryImpl(const DemoKidsDataSource()),
+          repository ?? KidsRepositoryImpl(DemoKidsDataSource()),
         ),
         todayProvider.overrideWithValue(() => DateTime(2026, 10, 24)),
       ],
