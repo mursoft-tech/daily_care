@@ -43,6 +43,12 @@ class _FakeKidsRepository implements KidsRepository {
     }
     return const Success(null);
   }
+
+  @override
+  Future<Result<Child>> addChild(Child child) async {
+    _children.add(child);
+    return Success(child);
+  }
 }
 
 void main() {

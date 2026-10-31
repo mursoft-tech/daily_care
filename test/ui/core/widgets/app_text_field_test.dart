@@ -1,10 +1,16 @@
 import 'package:daily_care/app/theme/app_colors.dart';
 import 'package:daily_care/app/theme/app_typography.dart';
 import 'package:daily_care/ui/core/widgets/app_text_field.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 
-Widget _buildField({String? errorText, TextEditingController? controller}) {
+Widget _buildField({
+  String? errorText,
+  TextEditingController? controller,
+  int maxLines = 1,
+  List<TextInputFormatter>? inputFormatters,
+}) {
   return MaterialApp(
     home: Scaffold(
       body: Padding(
@@ -15,6 +21,8 @@ Widget _buildField({String? errorText, TextEditingController? controller}) {
           controller: controller,
           hintText: 'tu@correo.com',
           errorText: errorText,
+          maxLines: maxLines,
+          inputFormatters: inputFormatters,
         ),
       ),
     ),
@@ -67,5 +75,18 @@ void main() {
     expect(border.borderSide.color, AppColors.loginBorder);
     expect(border.borderRadius, BorderRadius.circular(14));
     expect(field.style?.fontFamily, AppTypography.nunitoFamily);
+  });
+
+  testWidgets('supports multiline fields and input formatters', (tester) async {
+    await tester.pumpWidget(
+      _buildField(
+        maxLines: 4,
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      ),
+    );
+
+    final field = tester.widget<TextField>(find.byType(TextField));
+    expect(field.maxLines, 4);
+    expect(field.inputFormatters, hasLength(1));
   });
 }

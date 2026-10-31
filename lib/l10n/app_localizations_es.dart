@@ -404,4 +404,69 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get activateLoadError => 'No pudimos cargar tu invitación';
+
+  @override
+  String get childFormTitle => 'Agregar niño';
+
+  @override
+  String get childFormCancel => 'Cancelar';
+
+  @override
+  String get childFormSave => 'Guardar';
+
+  @override
+  String get childFormSaving => 'Guardando niño';
+
+  @override
+  String get childFormNameLabel => 'NOMBRE COMPLETO';
+
+  @override
+  String get childFormNameHint => 'Ej. Martina López';
+
+  @override
+  String get childFormBirthDateLabel => 'FECHA DE NACIMIENTO';
+
+  @override
+  String get childFormBirthDateHint => 'dd/mm/aaaa';
+
+  @override
+  String get childFormRoomLabel => 'SALA';
+
+  @override
+  String get childFormAllergiesLabel => 'ALERGIAS (ETIQUETAS)';
+
+  @override
+  String get childFormAllergiesHint => 'Ej. Maní, Lactosa';
+
+  @override
+  String get childFormMedicalNotesLabel => 'NOTAS MÉDICAS';
+
+  @override
+  String get childFormMedicalNotesHint =>
+      'Indicaciones, medicación, contactos…';
+
+  @override
+  String get childFormNameRequiredError => 'Ingresá el nombre completo';
+
+  @override
+  String get childFormBirthDateRequiredError =>
+      'Ingresá la fecha de nacimiento';
+
+  @override
+  String get childFormBirthDateInvalidError =>
+      'Ingresá una fecha válida (dd/mm/aaaa)';
+
+  @override
+  String get childFormBirthDateFutureError => 'La fecha no puede ser futura';
+
+  @override
+  String get childFormBirthDateTooOldError =>
+      'Solo se pueden registrar niños de hasta 6 años';
+
+  @override
+  String get childFormRoomRequiredError => 'Elegí una sala';
+
+  @override
+  String get childFormSaveError =>
+      'No pudimos guardar el niño. Probá de nuevo.';
 }

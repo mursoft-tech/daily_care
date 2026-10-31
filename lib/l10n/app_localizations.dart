@@ -741,6 +741,126 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'No pudimos cargar tu invitación'**
   String get activateLoadError;
+
+  /// Título del formulario de alta de un niño
+  ///
+  /// In es, this message translates to:
+  /// **'Agregar niño'**
+  String get childFormTitle;
+
+  /// Acción que descarta el alta y vuelve al listado
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get childFormCancel;
+
+  /// Acción que guarda el niño del formulario
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar'**
+  String get childFormSave;
+
+  /// Etiqueta accesible mientras se guarda el alta
+  ///
+  /// In es, this message translates to:
+  /// **'Guardando niño'**
+  String get childFormSaving;
+
+  /// Etiqueta del campo de nombre completo
+  ///
+  /// In es, this message translates to:
+  /// **'NOMBRE COMPLETO'**
+  String get childFormNameLabel;
+
+  /// Ayuda del campo de nombre completo
+  ///
+  /// In es, this message translates to:
+  /// **'Ej. Martina López'**
+  String get childFormNameHint;
+
+  /// Etiqueta del campo de fecha de nacimiento
+  ///
+  /// In es, this message translates to:
+  /// **'FECHA DE NACIMIENTO'**
+  String get childFormBirthDateLabel;
+
+  /// Ayuda del formato de fecha de nacimiento
+  ///
+  /// In es, this message translates to:
+  /// **'dd/mm/aaaa'**
+  String get childFormBirthDateHint;
+
+  /// Etiqueta del selector de sala
+  ///
+  /// In es, this message translates to:
+  /// **'SALA'**
+  String get childFormRoomLabel;
+
+  /// Etiqueta del campo de alergias
+  ///
+  /// In es, this message translates to:
+  /// **'ALERGIAS (ETIQUETAS)'**
+  String get childFormAllergiesLabel;
+
+  /// Ayuda del campo de alergias
+  ///
+  /// In es, this message translates to:
+  /// **'Ej. Maní, Lactosa'**
+  String get childFormAllergiesHint;
+
+  /// Etiqueta del campo de notas médicas
+  ///
+  /// In es, this message translates to:
+  /// **'NOTAS MÉDICAS'**
+  String get childFormMedicalNotesLabel;
+
+  /// Ayuda del campo de notas médicas
+  ///
+  /// In es, this message translates to:
+  /// **'Indicaciones, medicación, contactos…'**
+  String get childFormMedicalNotesHint;
+
+  /// Error cuando falta el nombre completo
+  ///
+  /// In es, this message translates to:
+  /// **'Ingresá el nombre completo'**
+  String get childFormNameRequiredError;
+
+  /// Error cuando falta la fecha de nacimiento
+  ///
+  /// In es, this message translates to:
+  /// **'Ingresá la fecha de nacimiento'**
+  String get childFormBirthDateRequiredError;
+
+  /// Error cuando la fecha no existe o está incompleta
+  ///
+  /// In es, this message translates to:
+  /// **'Ingresá una fecha válida (dd/mm/aaaa)'**
+  String get childFormBirthDateInvalidError;
+
+  /// Error cuando la fecha de nacimiento es posterior a hoy
+  ///
+  /// In es, this message translates to:
+  /// **'La fecha no puede ser futura'**
+  String get childFormBirthDateFutureError;
+
+  /// Error cuando el niño supera la edad máxima
+  ///
+  /// In es, this message translates to:
+  /// **'Solo se pueden registrar niños de hasta 6 años'**
+  String get childFormBirthDateTooOldError;
+
+  /// Error cuando falta la sala
+  ///
+  /// In es, this message translates to:
+  /// **'Elegí una sala'**
+  String get childFormRoomRequiredError;
+
+  /// Error genérico cuando falla el guardado
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos guardar el niño. Probá de nuevo.'**
+  String get childFormSaveError;
 }
 
 class _AppLocalizationsDelegate

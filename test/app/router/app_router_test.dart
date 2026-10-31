@@ -3,6 +3,7 @@ import 'package:daily_care/app/router/app_router.dart';
 import 'package:daily_care/app/theme/app_theme.dart';
 import 'package:daily_care/ui/features/account_activation/views/activate_account_view.dart';
 import 'package:daily_care/ui/features/kids/views/kids_view.dart';
+import 'package:daily_care/ui/features/kids/views/new_child_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -47,6 +48,12 @@ void main() {
     expect(find.text('Mateo Fernández'), findsOneWidget);
     expect(find.text('Fecha de nacimiento'), findsOneWidget);
     expect(find.text('Alergias y notas'), findsOneWidget);
+
+    router.go('/kids/nuevo');
+    await tester.pumpAndSettle();
+    expect(find.byType(NewChildView), findsOneWidget);
+    expect(find.text('NOMBRE COMPLETO'), findsOneWidget);
+    expect(find.text('No encontramos este perfil'), findsNothing);
 
     router.go('/activar-cuenta?codigo=7K4P9');
     await tester.pumpAndSettle();
