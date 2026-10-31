@@ -110,7 +110,7 @@ class _ChildCardState extends State<ChildCard> {
   Widget _trailing(AppLocalizations l10n, Child child) {
     if (child.hasAllergy) {
       return _ChildBadge(
-        label: child.allergy!.label,
+        label: _allergyBadgeLabel(child),
         background: AppColors.allergyBackground,
         foreground: AppColors.allergyForeground,
       );
@@ -134,9 +134,16 @@ class _ChildCardState extends State<ChildCard> {
       child.fullName,
       l10n.childAge(widget.ageYears),
       l10n.linkedParents(child.linkedParents),
-      if (child.hasAllergy) child.allergy!.label,
+      if (child.hasAllergy)
+        child.allergies.map((allergy) => allergy.label).join(', '),
     ];
     return parts.join('. ');
+  }
+
+  String _allergyBadgeLabel(Child child) {
+    final first = child.allergies.first.label;
+    final extra = child.allergies.length - 1;
+    return extra > 0 ? '$first +$extra' : first;
   }
 }
 

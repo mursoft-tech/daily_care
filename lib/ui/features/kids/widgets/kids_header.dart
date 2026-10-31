@@ -7,7 +7,9 @@ import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/app_link.dart';
 
 class KidsHeader extends StatelessWidget {
-  const KidsHeader({super.key});
+  const KidsHeader({required this.onAddChild, super.key});
+
+  final VoidCallback onAddChild;
 
   static const _stackBreakpoint = 480.0;
 
@@ -33,7 +35,7 @@ class KidsHeader extends StatelessWidget {
             Text(l10n.kidsTitle, style: AppTypography.fredoka(size: 30)),
           ],
         );
-        const button = _AddChildButton();
+        final button = _AddChildButton(onTap: onAddChild);
 
         if (constraints.maxWidth < _stackBreakpoint) {
           return Column(
@@ -56,11 +58,15 @@ class KidsHeader extends StatelessWidget {
 }
 
 class _AddChildButton extends StatelessWidget {
-  const _AddChildButton();
+  const _AddChildButton({required this.onTap});
+
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return AppLink(
+      key: const Key('kids-add-child'),
+      onTap: onTap,
       borderRadius: BorderRadius.circular(14),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 11),

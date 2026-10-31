@@ -31,13 +31,16 @@ class _FakeKidsRepository implements KidsRepository {
     final failure = result;
     if (failure != null) return failure;
 
-    return Success(await const DemoKidsDataSource().fetchChildren());
+    return Success(await DemoKidsDataSource().fetchChildren());
   }
 
   @override
   Future<Result<Child?>> loadChild(String id) async {
     return const Success(null);
   }
+
+  @override
+  Future<Result<Child>> addChild(Child child) async => Success(child);
 }
 
 Widget _pumpKids(KidsRepository repository) {
@@ -47,6 +50,11 @@ Widget _pumpKids(KidsRepository repository) {
       GoRoute(
         path: AppRoutes.kids,
         builder: (context, state) => const KidsView(),
+      ),
+      GoRoute(
+        path: AppRoutes.newChild,
+        builder: (context, state) =>
+            const Scaffold(body: Text('Formulario de alta')),
       ),
       GoRoute(
         path: AppRoutes.childProfile,
@@ -141,6 +149,19 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Perfil mateo-fernandez'), findsOneWidget);
+  });
+
+  testWidgets('opens the registration form from the add button', (
+    tester,
+  ) async {
+    await tester.pumpWidget(_pumpKids(_FakeKidsRepository()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('kids-add-child')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Formulario de alta'), findsOneWidget);
+    expect(find.text('Próximamente'), findsNothing);
   });
 
   testWidgets('keeps the search text and filter after returning from a profile', (

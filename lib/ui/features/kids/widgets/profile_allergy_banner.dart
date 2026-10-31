@@ -7,13 +7,23 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../core/widgets/app_icon.dart';
 
 class ProfileAllergyBanner extends StatelessWidget {
-  const ProfileAllergyBanner({required this.allergy, super.key});
+  const ProfileAllergyBanner({
+    required this.allergies,
+    this.medicalNotes = '',
+    super.key,
+  });
 
-  final Allergy allergy;
+  final List<Allergy> allergies;
+  final String medicalNotes;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final details = [
+      for (final allergy in allergies)
+        if (allergy.notes.trim().isNotEmpty) allergy.notes.trim(),
+      if (medicalNotes.trim().isNotEmpty) medicalNotes.trim(),
+    ];
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
@@ -43,32 +53,34 @@ class ProfileAllergyBanner extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 6,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Flexible(
-                      child: Text(
-                        l10n.childProfileAllergyTitle,
-                        style: AppTypography.nunito(
-                          size: 15,
-                          weight: FontWeight.w800,
-                          color: AppColors.allergyBannerTitle,
-                        ),
+                    Text(
+                      l10n.childProfileAllergyTitle,
+                      style: AppTypography.nunito(
+                        size: 15,
+                        weight: FontWeight.w800,
+                        color: AppColors.allergyBannerTitle,
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    _AllergyChip(label: allergy.label),
+                    for (final allergy in allergies)
+                      _AllergyChip(label: allergy.label),
                   ],
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  allergy.notes,
-                  style: AppTypography.nunito(
-                    size: 14.5,
-                    height: 1.5,
-                    color: AppColors.allergyBannerBody,
+                if (details.isNotEmpty) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    details.join('\n'),
+                    style: AppTypography.nunito(
+                      size: 14.5,
+                      height: 1.5,
+                      color: AppColors.allergyBannerBody,
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),

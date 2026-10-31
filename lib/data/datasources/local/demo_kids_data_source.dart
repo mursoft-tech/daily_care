@@ -4,9 +4,9 @@ import '../../../domain/value_objects/allergy.dart';
 import '../kids_data_source.dart';
 
 class DemoKidsDataSource implements KidsDataSource {
-  const DemoKidsDataSource();
+  DemoKidsDataSource();
 
-  static final _children = <Child>[
+  final List<Child> _children = <Child>[
     Child(
       id: 'mateo-fernandez',
       firstName: 'Mateo',
@@ -15,12 +15,14 @@ class DemoKidsDataSource implements KidsDataSource {
       room: 'Soles',
       enrolledAt: DateTime(2025, 2),
       colorToken: 'blue',
-      allergy: const Allergy(
-        label: 'MANÍ',
-        notes:
-            'Alergia al maní. Evitar frutos secos. '
-            'Lleva inhalador en la mochila.',
-      ),
+      allergies: const [
+        Allergy(
+          label: 'MANÍ',
+          notes:
+              'Alergia al maní. Evitar frutos secos. '
+              'Lleva inhalador en la mochila.',
+        ),
+      ],
       guardians: const [
         Guardian(
           id: 'lucia-fernandez',
@@ -103,12 +105,14 @@ class DemoKidsDataSource implements KidsDataSource {
       room: 'Soles',
       enrolledAt: DateTime(2025, 2),
       colorToken: 'purple',
-      allergy: const Allergy(
-        label: 'LACTOSA',
-        notes:
-            'Intolerancia a la lactosa. Sin lácteos. '
-            'Lleva leche sin lactosa.',
-      ),
+      allergies: const [
+        Allergy(
+          label: 'LACTOSA',
+          notes:
+              'Intolerancia a la lactosa. Sin lácteos. '
+              'Lleva leche sin lactosa.',
+        ),
+      ],
       guardians: const [
         Guardian(
           id: 'mariana-diaz',
@@ -180,7 +184,7 @@ class DemoKidsDataSource implements KidsDataSource {
   ];
 
   @override
-  Future<List<Child>> fetchChildren() async => _children;
+  Future<List<Child>> fetchChildren() async => List.unmodifiable(_children);
 
   @override
   Future<Child?> fetchChild(String id) async {
@@ -189,4 +193,7 @@ class DemoKidsDataSource implements KidsDataSource {
     }
     return null;
   }
+
+  @override
+  Future<void> saveChild(Child child) async => _children.add(child);
 }

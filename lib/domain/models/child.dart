@@ -11,7 +11,8 @@ class Child {
     required this.room,
     required this.enrolledAt,
     required this.colorToken,
-    this.allergy,
+    this.allergies = const <Allergy>[],
+    this.medicalNotes = '',
     this.guardians = const <Guardian>[],
   });
 
@@ -22,16 +23,19 @@ class Child {
   final String room;
   final DateTime enrolledAt;
   final String colorToken;
-  final Allergy? allergy;
+  final List<Allergy> allergies;
+  final String medicalNotes;
   final List<Guardian> guardians;
 
-  String get fullName => '$firstName $lastName';
+  String get fullName => '$firstName $lastName'.trim();
 
   String get initial => firstName.isEmpty
       ? ''
       : firstName.substring(0, 1).toUpperCase();
 
-  bool get hasAllergy => allergy != null;
+  bool get hasAllergy => allergies.isNotEmpty;
+
+  bool get hasMedicalNotes => medicalNotes.trim().isNotEmpty;
 
   int get linkedParents => guardians.length;
 }

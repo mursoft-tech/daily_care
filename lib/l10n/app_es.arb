@@ -363,5 +363,85 @@
   "activateLoadError": "No pudimos cargar tu invitación",
   "@activateLoadError": {
     "description": "Mensaje genérico cuando falla la carga de la invitación"
+  },
+  "childFormTitle": "Agregar niño",
+  "@childFormTitle": {
+    "description": "Título del formulario de alta de un niño"
+  },
+  "childFormCancel": "Cancelar",
+  "@childFormCancel": {
+    "description": "Acción que descarta el alta y vuelve al listado"
+  },
+  "childFormSave": "Guardar",
+  "@childFormSave": {
+    "description": "Acción que guarda el niño del formulario"
+  },
+  "childFormSaving": "Guardando niño",
+  "@childFormSaving": {
+    "description": "Etiqueta accesible mientras se guarda el alta"
+  },
+  "childFormNameLabel": "NOMBRE COMPLETO",
+  "@childFormNameLabel": {
+    "description": "Etiqueta del campo de nombre completo"
+  },
+  "childFormNameHint": "Ej. Martina López",
+  "@childFormNameHint": {
+    "description": "Ayuda del campo de nombre completo"
+  },
+  "childFormBirthDateLabel": "FECHA DE NACIMIENTO",
+  "@childFormBirthDateLabel": {
+    "description": "Etiqueta del campo de fecha de nacimiento"
+  },
+  "childFormBirthDateHint": "dd/mm/aaaa",
+  "@childFormBirthDateHint": {
+    "description": "Ayuda del formato de fecha de nacimiento"
+  },
+  "childFormRoomLabel": "SALA",
+  "@childFormRoomLabel": {
+    "description": "Etiqueta del selector de sala"
+  },
+  "childFormAllergiesLabel": "ALERGIAS (ETIQUETAS)",
+  "@childFormAllergiesLabel": {
+    "description": "Etiqueta del campo de alergias"
+  },
+  "childFormAllergiesHint": "Ej. Maní, Lactosa",
+  "@childFormAllergiesHint": {
+    "description": "Ayuda del campo de alergias"
+  },
+  "childFormMedicalNotesLabel": "NOTAS MÉDICAS",
+  "@childFormMedicalNotesLabel": {
+    "description": "Etiqueta del campo de notas médicas"
+  },
+  "childFormMedicalNotesHint": "Indicaciones, medicación, contactos…",
+  "@childFormMedicalNotesHint": {
+    "description": "Ayuda del campo de notas médicas"
+  },
+  "childFormNameRequiredError": "Ingresá el nombre completo",
+  "@childFormNameRequiredError": {
+    "description": "Error cuando falta el nombre completo"
+  },
+  "childFormBirthDateRequiredError": "Ingresá la fecha de nacimiento",
+  "@childFormBirthDateRequiredError": {
+    "description": "Error cuando falta la fecha de nacimiento"
+  },
+  "childFormBirthDateInvalidError": "Ingresá una fecha válida (dd/mm/aaaa)",
+  "@childFormBirthDateInvalidError": {
+    "description": "Error cuando la fecha no existe o está incompleta"
+  },
+  "childFormBirthDateFutureError": "La fecha no puede ser futura",
+  "@childFormBirthDateFutureError": {
+    "description": "Error cuando la fecha de nacimiento es posterior a hoy"
+  },
+  "childFormBirthDateTooOldError": "Solo se pueden registrar niños de hasta 6 años",
+  "@childFormBirthDateTooOldError": {
+    "description": "Error cuando el niño supera la edad máxima"
+  },
+  "childFormRoomRequiredError": "Elegí una sala",
+  "@childFormRoomRequiredError": {
+    "description": "Error cuando falta la sala"
+  },
+  "childFormSaveError": "No pudimos guardar el niño. Probá de nuevo.",
+  "@childFormSaveError": {
+    "description": "Error genérico cuando falla el guardado"
   }
 }
