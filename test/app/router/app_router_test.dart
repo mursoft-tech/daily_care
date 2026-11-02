@@ -2,6 +2,7 @@ import 'package:daily_care/app/localization.dart';
 import 'package:daily_care/app/router/app_router.dart';
 import 'package:daily_care/app/theme/app_theme.dart';
 import 'package:daily_care/ui/features/account_activation/views/activate_account_view.dart';
+import 'package:daily_care/ui/features/feed/views/create_post_view.dart';
 import 'package:daily_care/ui/features/kids/views/kids_view.dart';
 import 'package:daily_care/ui/features/kids/views/link_parent_view.dart';
 import 'package:daily_care/ui/features/kids/views/new_child_view.dart';
@@ -43,6 +44,16 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(KidsView), findsOneWidget);
     expect(find.text('SALA SOLES'), findsOneWidget);
+
+    router.go('/publicaciones/nueva');
+    await tester.pumpAndSettle();
+    expect(find.byType(CreatePostView), findsOneWidget);
+    expect(find.text('Nueva publicación'), findsOneWidget);
+    expect(find.text('PARA'), findsOneWidget);
+    expect(
+      tester.widget<NavigationRail>(find.byType(NavigationRail)).selectedIndex,
+      0,
+    );
 
     router.go('/kids/mateo-fernandez');
     await tester.pumpAndSettle();

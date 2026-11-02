@@ -13,6 +13,7 @@ class Post {
     required this.body,
     required this.likes,
     required this.comments,
+    this.recipientNames = const <String>[],
     this.photoLabel,
   });
 
@@ -26,6 +27,7 @@ class Post {
   final String body;
   final int likes;
   final int comments;
+  final List<String> recipientNames;
   final String? photoLabel;
 
   bool get hasPhoto => photoLabel != null;

@@ -45,7 +45,10 @@ class HomeView extends ConsumerWidget {
                         childCount: 12,
                         date: _demoDate,
                       ),
-                      ComposerBar(initial: sessionUser.initial),
+                      ComposerBar(
+                        initial: sessionUser.initial,
+                        onTap: () => context.go(AppRoutes.newPost),
+                      ),
                       const SizedBox(height: 24),
                       FeedSectionLabel(label: l10n.publishedToday),
                       switch (feed) {

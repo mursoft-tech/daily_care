@@ -156,6 +156,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get audienceAll => 'Para: toda la sala';
 
   @override
+  String audienceFamilies(String names) {
+    return 'Para: familias de $names';
+  }
+
+  @override
   String postMeta(String time) {
     return '$time · publicado por vos';
   }
@@ -168,6 +173,54 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get typeAnnouncement => 'ANUNCIO';
+
+  @override
+  String get typeFood => 'COMIDA';
+
+  @override
+  String get typeNap => 'SIESTA';
+
+  @override
+  String get typeMood => 'ÁNIMO';
+
+  @override
+  String get typePhoto => 'FOTO';
+
+  @override
+  String get composerCancel => 'Cancelar';
+
+  @override
+  String get composerPublish => 'Publicar';
+
+  @override
+  String get composerFor => 'PARA';
+
+  @override
+  String get composerType => 'TIPO';
+
+  @override
+  String get composerDescription => 'DESCRIPCIÓN';
+
+  @override
+  String get composerPhotos => 'FOTOS';
+
+  @override
+  String get composerDescriptionHint => 'Contá cómo le fue hoy…';
+
+  @override
+  String get composerAddPhoto => 'Agregar';
+
+  @override
+  String get composerBodyRequired => 'Contá cómo le fue hoy';
+
+  @override
+  String get composerSaveError => 'No pudimos publicar. Probá de nuevo.';
+
+  @override
+  String get composerSaving => 'Publicando';
+
+  @override
+  String get composerRoomAudience => 'Toda la sala';
 
   @override
   String get edit => 'Editar';

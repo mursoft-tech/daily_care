@@ -8,15 +8,21 @@ import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/app_link.dart';
 
 class ComposerBar extends StatelessWidget {
-  const ComposerBar({required this.initial, super.key});
+  const ComposerBar({
+    required this.initial,
+    required this.onTap,
+    super.key,
+  });
 
   final String initial;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
     return AppLink(
+      onTap: onTap,
       borderRadius: BorderRadius.circular(18),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
@@ -51,9 +57,8 @@ class ComposerBar extends StatelessWidget {
                 ),
               ),
             ),
-            AppLink(
-              tooltip: l10n.composerPhotoTooltip,
-              borderRadius: BorderRadius.circular(12),
+            Tooltip(
+              message: l10n.composerPhotoTooltip,
               child: Container(
                 width: 38,
                 height: 38,

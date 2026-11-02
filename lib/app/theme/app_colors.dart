@@ -62,6 +62,14 @@ abstract final class AppColors {
   static const achievementForeground = Color(0xFF3E9B6C);
   static const activityBackground = Color(0xFFC7E7F1);
   static const activityForeground = Color(0xFF2E89A6);
+  static const foodBackground = Color(0xFFF7E7A6);
+  static const foodForeground = Color(0xFF9A7B1E);
+  static const napBackground = Color(0xFFE7DCF6);
+  static const napForeground = Color(0xFF7B5FC0);
+  static const moodBackground = Color(0xFFF9D2DE);
+  static const moodForeground = Color(0xFFC56486);
+  static const photoTypeBackground = Color(0xFFFBD8CC);
+  static const photoTypeForeground = Color(0xFFD9684A);
 
   static const photoBackground = Color(0xFFF4ECE1);
   static const photoBorder = Color(0xFFDBCDBA);

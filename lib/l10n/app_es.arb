@@ -85,6 +85,15 @@
     }
   },
   "audienceAll": "Para: toda la sala",
+  "audienceFamilies": "Para: familias de {names}",
+  "@audienceFamilies": {
+    "description": "Audiencia de una publicación dirigida a varios niños",
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
   "postMeta": "{time} · publicado por vos",
   "@postMeta": {
     "description": "Hora y autor de la publicación",
@@ -97,6 +106,70 @@
   "typeAchievement": "LOGRO",
   "typeActivity": "ACTIVIDAD",
   "typeAnnouncement": "ANUNCIO",
+  "typeFood": "COMIDA",
+  "@typeFood": {
+    "description": "Tipo de publicación comida"
+  },
+  "typeNap": "SIESTA",
+  "@typeNap": {
+    "description": "Tipo de publicación siesta"
+  },
+  "typeMood": "ÁNIMO",
+  "@typeMood": {
+    "description": "Tipo de publicación ánimo"
+  },
+  "typePhoto": "FOTO",
+  "@typePhoto": {
+    "description": "Tipo de publicación foto"
+  },
+  "composerCancel": "Cancelar",
+  "@composerCancel": {
+    "description": "Acción que descarta la publicación y vuelve al feed"
+  },
+  "composerPublish": "Publicar",
+  "@composerPublish": {
+    "description": "Acción principal del formulario de publicación"
+  },
+  "composerFor": "PARA",
+  "@composerFor": {
+    "description": "Etiqueta del bloque de destinatarios"
+  },
+  "composerType": "TIPO",
+  "@composerType": {
+    "description": "Etiqueta del bloque de tipos de publicación"
+  },
+  "composerDescription": "DESCRIPCIÓN",
+  "@composerDescription": {
+    "description": "Etiqueta del campo de descripción"
+  },
+  "composerPhotos": "FOTOS",
+  "@composerPhotos": {
+    "description": "Etiqueta del bloque de fotos"
+  },
+  "composerDescriptionHint": "Contá cómo le fue hoy…",
+  "@composerDescriptionHint": {
+    "description": "Ayuda del campo de descripción"
+  },
+  "composerAddPhoto": "Agregar",
+  "@composerAddPhoto": {
+    "description": "Acción para agregar una foto"
+  },
+  "composerBodyRequired": "Contá cómo le fue hoy",
+  "@composerBodyRequired": {
+    "description": "Error cuando falta la descripción"
+  },
+  "composerSaveError": "No pudimos publicar. Probá de nuevo.",
+  "@composerSaveError": {
+    "description": "Error genérico al publicar"
+  },
+  "composerSaving": "Publicando",
+  "@composerSaving": {
+    "description": "Etiqueta accesible mientras se publica"
+  },
+  "composerRoomAudience": "Toda la sala",
+  "@composerRoomAudience": {
+    "description": "Destinatario que abarca toda la sala"
+  },
   "edit": "Editar",
   "comingSoon": "Próximamente",
   "retry": "Reintentar",

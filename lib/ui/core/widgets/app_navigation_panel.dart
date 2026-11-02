@@ -38,6 +38,7 @@ class AppNavigationPanel extends StatelessWidget {
     required this.selectedIndex,
     required this.onDestinationSelected,
     required this.onLogout,
+    required this.onNewPost,
     required this.sessionUser,
     super.key,
   });
@@ -45,6 +46,7 @@ class AppNavigationPanel extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onDestinationSelected;
   final VoidCallback onLogout;
+  final VoidCallback onNewPost;
   final SessionUser sessionUser;
 
   @override
@@ -86,7 +88,7 @@ class AppNavigationPanel extends StatelessWidget {
             ),
           ),
         ),
-        _NewPostButton(label: l10n.newPost),
+        _NewPostButton(label: l10n.newPost, onTap: onNewPost),
         const SizedBox(height: 18),
         for (var i = 0; i < destinations.length; i++)
           Padding(
@@ -105,13 +107,15 @@ class AppNavigationPanel extends StatelessWidget {
 }
 
 class _NewPostButton extends StatelessWidget {
-  const _NewPostButton({required this.label});
+  const _NewPostButton({required this.label, required this.onTap});
 
   final String label;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return AppLink(
+      onTap: onTap,
       borderRadius: BorderRadius.circular(14),
       child: Container(
         padding: const EdgeInsets.all(12),

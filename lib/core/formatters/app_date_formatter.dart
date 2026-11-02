@@ -8,6 +8,13 @@ String formatMonthYear(DateTime date, String locale) {
   return DateFormat('MMM y', locale).format(date);
 }
 
+/// Hora `HH:mm` sin depender del locale, para la etiqueta del feed.
+String formatPostTime(DateTime date) {
+  final hour = date.hour.toString().padLeft(2, '0');
+  final minute = date.minute.toString().padLeft(2, '0');
+  return '$hour:$minute';
+}
+
 /// Parsea `dd/mm/aaaa` y descarta fechas que no existen en el calendario.
 DateTime? parseBirthDate(String value) {
   final match = RegExp(r'^(\d{2})/(\d{2})/(\d{4})$').firstMatch(value.trim());

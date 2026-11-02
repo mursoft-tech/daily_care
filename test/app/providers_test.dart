@@ -3,6 +3,9 @@ import 'package:daily_care/app/providers.dart';
 import 'package:daily_care/core/result.dart';
 import 'package:daily_care/domain/models/account_invitation.dart';
 import 'package:daily_care/domain/models/child.dart';
+import 'package:daily_care/domain/models/post.dart';
+import 'package:daily_care/domain/models/post_audience.dart';
+import 'package:daily_care/domain/models/post_type.dart';
 import 'package:daily_care/domain/repositories/account_activation_repository.dart';
 import 'package:daily_care/domain/repositories/kids_repository.dart';
 import 'package:daily_care/domain/use_cases/activate_account.dart';
@@ -127,5 +130,37 @@ void main() {
     expect(result, isA<ChildCreated>());
     expect((result as ChildCreated).child.enrolledAt, fixed);
     expect(fake.children, hasLength(1));
+  });
+
+  test('feedDataSourceProvider no comparte publicaciones entre contenedores', () async {
+    final first = ProviderContainer.test();
+    final second = ProviderContainer.test();
+    const post = Post(
+      id: 'post-new',
+      childName: 'Toda la sala',
+      childInitial: null,
+      childColorToken: 'announcement',
+      timeLabel: '09:05',
+      audience: PostAudience.room,
+      type: PostType.food,
+      body: 'Almorzaron guiso',
+      likes: 0,
+      comments: 0,
+    );
+
+    final created = await first.read(feedRepositoryProvider).createPost(post);
+    final firstPosts = await first.read(feedRepositoryProvider).loadPosts();
+    final secondPosts = await second.read(feedRepositoryProvider).loadPosts();
+
+    expect(created, isA<Success<Post>>());
+    expect((firstPosts as Success<List<Post>>).value.first.id, post.id);
+    expect((secondPosts as Success<List<Post>>).value, hasLength(3));
+    expect(
+      identical(
+        first.read(feedDataSourceProvider),
+        second.read(feedDataSourceProvider),
+      ),
+      isFalse,
+    );
   });
 }

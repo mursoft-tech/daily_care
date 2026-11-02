@@ -18,4 +18,16 @@ class FeedRepositoryImpl implements FeedRepository {
       return const Failure(UnexpectedFailure());
     }
   }
+
+  @override
+  Future<Result<Post>> createPost(Post post) async {
+    try {
+      await _dataSource.addPost(post);
+      return Success(post);
+    } on Exception {
+      return const Failure(DataFailure());
+    } catch (_) {
+      return const Failure(UnexpectedFailure());
+    }
+  }
 }
