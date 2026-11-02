@@ -861,6 +861,126 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'No pudimos guardar el niño. Probá de nuevo.'**
   String get childFormSaveError;
+
+  /// Título de la pantalla de vinculación de padre
+  ///
+  /// In es, this message translates to:
+  /// **'Vincular padre'**
+  String get linkParentTitle;
+
+  /// Subtítulo indicando a qué niño se vincula el tutor
+  ///
+  /// In es, this message translates to:
+  /// **'a {childName}'**
+  String linkParentSubtitle(String childName);
+
+  /// Texto del banner informativo en la pantalla de vinculación
+  ///
+  /// In es, this message translates to:
+  /// **'Le enviaremos un correo con un código para que active su cuenta. Solo verá el feed de {childName}.'**
+  String linkParentBanner(String childName);
+
+  /// Etiqueta para el campo de nombre del tutor
+  ///
+  /// In es, this message translates to:
+  /// **'NOMBRE DEL PADRE/MADRE'**
+  String get linkParentNameLabel;
+
+  /// Placeholder para el campo de nombre del tutor
+  ///
+  /// In es, this message translates to:
+  /// **'Ej. Diego Fernández'**
+  String get linkParentNamePlaceholder;
+
+  /// Error cuando el nombre está vacío
+  ///
+  /// In es, this message translates to:
+  /// **'Ingresá el nombre completo'**
+  String get linkParentNameRequired;
+
+  /// Etiqueta para el campo de email
+  ///
+  /// In es, this message translates to:
+  /// **'EMAIL'**
+  String get linkParentEmailLabel;
+
+  /// Placeholder para el campo de email
+  ///
+  /// In es, this message translates to:
+  /// **'correo@ejemplo.com'**
+  String get linkParentEmailPlaceholder;
+
+  /// Error cuando el email está vacío
+  ///
+  /// In es, this message translates to:
+  /// **'Ingresá un correo electrónico'**
+  String get linkParentEmailRequired;
+
+  /// Error cuando el formato del email es inválido
+  ///
+  /// In es, this message translates to:
+  /// **'Ingresá un correo electrónico válido'**
+  String get linkParentEmailInvalid;
+
+  /// Error cuando el correo ya pertenece a un tutor vinculado
+  ///
+  /// In es, this message translates to:
+  /// **'Ese correo ya está vinculado a este niño'**
+  String get linkParentEmailAlreadyLinked;
+
+  /// Etiqueta para la selección de parentesco
+  ///
+  /// In es, this message translates to:
+  /// **'PARENTESCO'**
+  String get linkParentRelationshipLabel;
+
+  /// Opción Mamá
+  ///
+  /// In es, this message translates to:
+  /// **'Mamá'**
+  String get linkParentRoleMother;
+
+  /// Opción Papá
+  ///
+  /// In es, this message translates to:
+  /// **'Papá'**
+  String get linkParentRoleFather;
+
+  /// Opción Tutor/a
+  ///
+  /// In es, this message translates to:
+  /// **'Tutor/a'**
+  String get linkParentRoleGuardian;
+
+  /// Etiqueta para el bloque de código de invitación
+  ///
+  /// In es, this message translates to:
+  /// **'CÓDIGO DE INVITACIÓN'**
+  String get linkParentCodeLabel;
+
+  /// Vigencia del código de invitación
+  ///
+  /// In es, this message translates to:
+  /// **'Vence en 7 días'**
+  String get linkParentCodeExpires;
+
+  /// Botón de acción para enviar la invitación
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar invitación'**
+  String get linkParentSubmit;
+
+  /// Mensaje de éxito al enviar invitación
+  ///
+  /// In es, this message translates to:
+  /// **'Invitación enviada a {name}'**
+  String linkParentSuccess(String name);
+
+  /// Acción para cerrar la pantalla
+  ///
+  /// In es, this message translates to:
+  /// **'Cerrar'**
+  String get linkParentClose;
 }
 
 class _AppLocalizationsDelegate

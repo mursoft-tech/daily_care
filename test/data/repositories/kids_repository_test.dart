@@ -15,6 +15,15 @@ class _FailingDataSource implements KidsDataSource {
 
   @override
   Future<void> saveChild(Child child) async => throw Exception('boom');
+
+  @override
+  Future<Guardian> linkGuardian({
+    required String childId,
+    required String fullName,
+    required String email,
+    required GuardianRelationship relationship,
+    required String invitationCode,
+  }) async => throw Exception('boom');
 }
 
 Child _child({String id = 'martina-lopez'}) => Child(
@@ -75,12 +84,84 @@ void main() {
       expect(stored.value!.fullName, 'Martina López');
     });
 
+    test('links a new guardian to a child with invited status', () async {
+      final result = await repository.linkGuardian(
+        childId: 'mateo-fernandez',
+        fullName: 'Carlos Gómez',
+        email: 'carlos@ejemplo.com',
+        relationship: GuardianRelationship.guardian,
+        invitationCode: '7K4P9',
+      );
+
+      expect(result, isA<Success<Guardian>>());
+      final guardian = (result as Success<Guardian>).value;
+      expect(guardian.fullName, 'Carlos Gómez');
+      expect(guardian.email, 'carlos@ejemplo.com');
+      expect(guardian.invitationCode, '7K4P9');
+      expect(guardian.relationship, GuardianRelationship.guardian);
+      expect(guardian.status, GuardianStatus.invited);
+      expect(guardian.isActive, isFalse);
+
+      final childResult = await repository.loadChild('mateo-fernandez');
+      final updatedChild = (childResult as Success<Child?>).value!;
+      expect(updatedChild.guardians.any((g) => g.fullName == 'Carlos Gómez'), isTrue);
+      expect(updatedChild.linkedParents, 3);
+    });
+
+    test('rejects a guardian whose email is already linked to the child', () async {
+      final repo = KidsRepositoryImpl(DemoKidsDataSource());
+
+      final result = await repo.linkGuardian(
+        childId: 'mateo-fernandez',
+        fullName: 'Lucía Duplicada',
+        email: '  LUCIA@EJEMPLO.COM ',
+        relationship: GuardianRelationship.mother,
+        invitationCode: 'ABCDE',
+      );
+
+      expect(result, isA<Failure<Guardian>>());
+      expect(
+        (result as Failure<Guardian>).failure,
+        isA<GuardianAlreadyLinkedFailure>(),
+      );
+
+      final childResult = await repo.loadChild('mateo-fernandez');
+      final child = (childResult as Success<Child?>).value!;
+      expect(child.linkedParents, 2);
+      expect(child.guardians.any((g) => g.fullName == 'Lucía Duplicada'), isFalse);
+    });
+
+    test('links a different email to a child that already has guardians', () async {
+      final repo = KidsRepositoryImpl(DemoKidsDataSource());
+
+      final result = await repo.linkGuardian(
+        childId: 'mateo-fernandez',
+        fullName: 'Carlos Gómez',
+        email: 'carlos@ejemplo.com',
+        relationship: GuardianRelationship.guardian,
+        invitationCode: 'ABCDE',
+      );
+
+      expect(result, isA<Success<Guardian>>());
+      final childResult = await repo.loadChild('mateo-fernandez');
+      final child = (childResult as Success<Child?>).value!;
+      expect(child.linkedParents, 3);
+      expect(child.guardians.last.email, 'carlos@ejemplo.com');
+    });
+
     test('returns Failure when the data source fails', () async {
       final failing = KidsRepositoryImpl(_FailingDataSource());
 
       final children = await failing.loadChildren();
       final child = await failing.loadChild('mateo-fernandez');
       final added = await failing.addChild(_child());
+      final linked = await failing.linkGuardian(
+        childId: 'mateo-fernandez',
+        fullName: 'Carlos Gómez',
+        email: 'carlos@ejemplo.com',
+        relationship: GuardianRelationship.guardian,
+        invitationCode: '7K4P9',
+      );
 
       expect(children, isA<Failure<List<Child>>>());
       expect((children as Failure<List<Child>>).failure, isA<DataFailure>());
@@ -88,6 +169,8 @@ void main() {
       expect((child as Failure<Child?>).failure, isA<DataFailure>());
       expect(added, isA<Failure<Child>>());
       expect((added as Failure<Child>).failure, isA<DataFailure>());
+      expect(linked, isA<Failure<Guardian>>());
+      expect((linked as Failure<Guardian>).failure, isA<DataFailure>());
     });
   });
 }

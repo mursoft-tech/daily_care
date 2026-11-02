@@ -28,6 +28,7 @@ class DemoKidsDataSource implements KidsDataSource {
           id: 'lucia-fernandez',
           firstName: 'Lucía',
           lastName: 'Fernández',
+          email: 'lucia@ejemplo.com',
           relationship: GuardianRelationship.mother,
           status: GuardianStatus.active,
           colorToken: 'purple',
@@ -36,9 +37,11 @@ class DemoKidsDataSource implements KidsDataSource {
           id: 'diego-fernandez',
           firstName: 'Diego',
           lastName: 'Fernández',
+          email: 'diego@ejemplo.com',
           relationship: GuardianRelationship.father,
           status: GuardianStatus.invited,
           colorToken: 'blue',
+          invitationCode: 'K7M2P',
         ),
       ],
     ),
@@ -55,6 +58,7 @@ class DemoKidsDataSource implements KidsDataSource {
           id: 'camila-mendez',
           firstName: 'Camila',
           lastName: 'Méndez',
+          email: 'camila@ejemplo.com',
           relationship: GuardianRelationship.mother,
           status: GuardianStatus.active,
           colorToken: 'pink',
@@ -74,6 +78,7 @@ class DemoKidsDataSource implements KidsDataSource {
           id: 'andres-ruiz',
           firstName: 'Andrés',
           lastName: 'Ruiz',
+          email: 'andres@ejemplo.com',
           relationship: GuardianRelationship.father,
           status: GuardianStatus.active,
           colorToken: 'blue',
@@ -82,6 +87,7 @@ class DemoKidsDataSource implements KidsDataSource {
           id: 'paula-gomez',
           firstName: 'Paula',
           lastName: 'Gómez',
+          email: 'paula@ejemplo.com',
           relationship: GuardianRelationship.mother,
           status: GuardianStatus.active,
           colorToken: 'pink',
@@ -118,6 +124,7 @@ class DemoKidsDataSource implements KidsDataSource {
           id: 'mariana-diaz',
           firstName: 'Mariana',
           lastName: 'Díaz',
+          email: 'mariana@ejemplo.com',
           relationship: GuardianRelationship.mother,
           status: GuardianStatus.active,
           colorToken: 'purple',
@@ -137,6 +144,7 @@ class DemoKidsDataSource implements KidsDataSource {
           id: 'julian-castro',
           firstName: 'Julián',
           lastName: 'Castro',
+          email: 'julian@ejemplo.com',
           relationship: GuardianRelationship.father,
           status: GuardianStatus.active,
           colorToken: 'green',
@@ -156,6 +164,7 @@ class DemoKidsDataSource implements KidsDataSource {
           id: 'carla-romero',
           firstName: 'Carla',
           lastName: 'Romero',
+          email: 'carla@ejemplo.com',
           relationship: GuardianRelationship.mother,
           status: GuardianStatus.active,
           colorToken: 'pink',
@@ -175,6 +184,7 @@ class DemoKidsDataSource implements KidsDataSource {
           id: 'martin-vega',
           firstName: 'Martín',
           lastName: 'Vega',
+          email: 'martin@ejemplo.com',
           relationship: GuardianRelationship.father,
           status: GuardianStatus.active,
           colorToken: 'blue',
@@ -196,4 +206,38 @@ class DemoKidsDataSource implements KidsDataSource {
 
   @override
   Future<void> saveChild(Child child) async => _children.add(child);
+
+  @override
+  Future<Guardian> linkGuardian({
+    required String childId,
+    required String fullName,
+    required String email,
+    required GuardianRelationship relationship,
+    required String invitationCode,
+  }) async {
+    final parts = fullName.trim().split(RegExp(r'\s+'));
+    final firstName = parts.isNotEmpty ? parts.first : '';
+    final lastName = parts.length > 1 ? parts.sublist(1).join(' ') : '';
+    final normalizedEmail = email.trim().toLowerCase();
+    final guardianId = 'guardian-$childId-$normalizedEmail';
+
+    final guardian = Guardian(
+      id: guardianId,
+      firstName: firstName,
+      lastName: lastName,
+      email: normalizedEmail,
+      relationship: relationship,
+      status: GuardianStatus.invited,
+      colorToken: 'blue',
+      invitationCode: invitationCode,
+    );
+
+    final index = _children.indexWhere((c) => c.id == childId);
+    if (index != -1) {
+      final child = _children[index];
+      final updatedGuardians = List<Guardian>.from(child.guardians)..add(guardian);
+      _children[index] = child.copyWith(guardians: updatedGuardians);
+    }
+    return guardian;
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:daily_care/domain/models/guardian.dart';
 import 'package:daily_care/app/providers.dart';
 import 'package:daily_care/core/result.dart';
 import 'package:daily_care/domain/models/child.dart';
@@ -34,6 +35,27 @@ class _FakeKidsRepository implements KidsRepository {
 
   @override
   Future<Result<Child>> addChild(Child child) async => Success(child);
+  @override
+  Future<Result<Guardian>> linkGuardian({
+    required String childId,
+    required String fullName,
+    required String email,
+    required GuardianRelationship relationship,
+    required String invitationCode,
+  }) async {
+    final parts = fullName.trim().split(RegExp(r'\s+'));
+    final guardian = Guardian(
+      id: 'mock-guardian',
+      firstName: parts.isNotEmpty ? parts.first : '',
+      lastName: parts.length > 1 ? parts.sublist(1).join(' ') : '',
+      email: email,
+      relationship: relationship,
+      status: GuardianStatus.invited,
+      colorToken: 'blue',
+      invitationCode: invitationCode,
+    );
+    return Success(guardian);
+  }
 }
 
 void main() {

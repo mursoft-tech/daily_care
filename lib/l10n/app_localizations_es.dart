@@ -469,4 +469,71 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get childFormSaveError =>
       'No pudimos guardar el niño. Probá de nuevo.';
+
+  @override
+  String get linkParentTitle => 'Vincular padre';
+
+  @override
+  String linkParentSubtitle(String childName) {
+    return 'a $childName';
+  }
+
+  @override
+  String linkParentBanner(String childName) {
+    return 'Le enviaremos un correo con un código para que active su cuenta. Solo verá el feed de $childName.';
+  }
+
+  @override
+  String get linkParentNameLabel => 'NOMBRE DEL PADRE/MADRE';
+
+  @override
+  String get linkParentNamePlaceholder => 'Ej. Diego Fernández';
+
+  @override
+  String get linkParentNameRequired => 'Ingresá el nombre completo';
+
+  @override
+  String get linkParentEmailLabel => 'EMAIL';
+
+  @override
+  String get linkParentEmailPlaceholder => 'correo@ejemplo.com';
+
+  @override
+  String get linkParentEmailRequired => 'Ingresá un correo electrónico';
+
+  @override
+  String get linkParentEmailInvalid => 'Ingresá un correo electrónico válido';
+
+  @override
+  String get linkParentEmailAlreadyLinked =>
+      'Ese correo ya está vinculado a este niño';
+
+  @override
+  String get linkParentRelationshipLabel => 'PARENTESCO';
+
+  @override
+  String get linkParentRoleMother => 'Mamá';
+
+  @override
+  String get linkParentRoleFather => 'Papá';
+
+  @override
+  String get linkParentRoleGuardian => 'Tutor/a';
+
+  @override
+  String get linkParentCodeLabel => 'CÓDIGO DE INVITACIÓN';
+
+  @override
+  String get linkParentCodeExpires => 'Vence en 7 días';
+
+  @override
+  String get linkParentSubmit => 'Enviar invitación';
+
+  @override
+  String linkParentSuccess(String name) {
+    return 'Invitación enviada a $name';
+  }
+
+  @override
+  String get linkParentClose => 'Cerrar';
 }

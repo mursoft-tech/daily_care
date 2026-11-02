@@ -15,6 +15,7 @@ import '../domain/repositories/feed_repository.dart';
 import '../domain/repositories/kids_repository.dart';
 import '../domain/use_cases/activate_account.dart';
 import '../domain/use_cases/create_child.dart';
+import '../domain/use_cases/generate_invitation_code.dart';
 
 final sessionUserProvider = Provider<SessionUser>(
   (ref) => const SessionUser.demo(),
@@ -44,6 +45,10 @@ final createChildUseCaseProvider = Provider<CreateChild>((ref) {
     ref.watch(todayProvider),
   );
 });
+
+final generateInvitationCodeProvider = Provider<GenerateInvitationCode>(
+  (ref) => GenerateInvitationCode(),
+);
 
 final accountActivationDataSourceProvider = Provider<AccountActivationDataSource>(
   (ref) => const DemoAccountActivationDataSource(),
