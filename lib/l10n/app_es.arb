@@ -443,5 +443,100 @@
   "childFormSaveError": "No pudimos guardar el niño. Probá de nuevo.",
   "@childFormSaveError": {
     "description": "Error genérico cuando falla el guardado"
+  },
+  "linkParentTitle": "Vincular padre",
+  "@linkParentTitle": {
+    "description": "Título de la pantalla de vinculación de padre"
+  },
+  "linkParentSubtitle": "a {childName}",
+  "@linkParentSubtitle": {
+    "description": "Subtítulo indicando a qué niño se vincula el tutor",
+    "placeholders": {
+      "childName": {
+        "type": "String"
+      }
+    }
+  },
+  "linkParentBanner": "Le enviaremos un correo con un código para que active su cuenta. Solo verá el feed de {childName}.",
+  "@linkParentBanner": {
+    "description": "Texto del banner informativo en la pantalla de vinculación",
+    "placeholders": {
+      "childName": {
+        "type": "String"
+      }
+    }
+  },
+  "linkParentNameLabel": "NOMBRE DEL PADRE/MADRE",
+  "@linkParentNameLabel": {
+    "description": "Etiqueta para el campo de nombre del tutor"
+  },
+  "linkParentNamePlaceholder": "Ej. Diego Fernández",
+  "@linkParentNamePlaceholder": {
+    "description": "Placeholder para el campo de nombre del tutor"
+  },
+  "linkParentNameRequired": "Ingresá el nombre completo",
+  "@linkParentNameRequired": {
+    "description": "Error cuando el nombre está vacío"
+  },
+  "linkParentEmailLabel": "EMAIL",
+  "@linkParentEmailLabel": {
+    "description": "Etiqueta para el campo de email"
+  },
+  "linkParentEmailPlaceholder": "correo@ejemplo.com",
+  "@linkParentEmailPlaceholder": {
+    "description": "Placeholder para el campo de email"
+  },
+  "linkParentEmailRequired": "Ingresá un correo electrónico",
+  "@linkParentEmailRequired": {
+    "description": "Error cuando el email está vacío"
+  },
+  "linkParentEmailInvalid": "Ingresá un correo electrónico válido",
+  "@linkParentEmailInvalid": {
+    "description": "Error cuando el formato del email es inválido"
+  },
+  "linkParentEmailAlreadyLinked": "Ese correo ya está vinculado a este niño",
+  "@linkParentEmailAlreadyLinked": {
+    "description": "Error cuando el correo ya pertenece a un tutor vinculado"
+  },
+  "linkParentRelationshipLabel": "PARENTESCO",
+  "@linkParentRelationshipLabel": {
+    "description": "Etiqueta para la selección de parentesco"
+  },
+  "linkParentRoleMother": "Mamá",
+  "@linkParentRoleMother": {
+    "description": "Opción Mamá"
+  },
+  "linkParentRoleFather": "Papá",
+  "@linkParentRoleFather": {
+    "description": "Opción Papá"
+  },
+  "linkParentRoleGuardian": "Tutor/a",
+  "@linkParentRoleGuardian": {
+    "description": "Opción Tutor/a"
+  },
+  "linkParentCodeLabel": "CÓDIGO DE INVITACIÓN",
+  "@linkParentCodeLabel": {
+    "description": "Etiqueta para el bloque de código de invitación"
+  },
+  "linkParentCodeExpires": "Vence en 7 días",
+  "@linkParentCodeExpires": {
+    "description": "Vigencia del código de invitación"
+  },
+  "linkParentSubmit": "Enviar invitación",
+  "@linkParentSubmit": {
+    "description": "Botón de acción para enviar la invitación"
+  },
+  "linkParentSuccess": "Invitación enviada a {name}",
+  "@linkParentSuccess": {
+    "description": "Mensaje de éxito al enviar invitación",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "linkParentClose": "Cerrar",
+  "@linkParentClose": {
+    "description": "Acción para cerrar la pantalla"
   }
 }

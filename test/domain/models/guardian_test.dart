@@ -7,6 +7,7 @@ void main() {
       id: 'lucia-fernandez',
       firstName: 'Lucía',
       lastName: 'Fernández',
+      email: 'lucia@ejemplo.com',
       relationship: GuardianRelationship.mother,
       status: GuardianStatus.active,
       colorToken: 'purple',
@@ -16,9 +17,11 @@ void main() {
       id: 'diego-fernandez',
       firstName: 'Diego',
       lastName: 'Fernández',
+      email: '  DIEGO@Ejemplo.com ',
       relationship: GuardianRelationship.father,
       status: GuardianStatus.invited,
       colorToken: 'blue',
+      invitationCode: 'K7M2P',
     );
 
     test('builds the full name and initial', () {
@@ -31,6 +34,12 @@ void main() {
       expect(invited.isActive, isFalse);
       expect(active.status, GuardianStatus.active);
       expect(invited.status, GuardianStatus.invited);
+    });
+
+    test('exposes the invitation code and normalized email', () {
+      expect(invited.invitationCode, 'K7M2P');
+      expect(invited.normalizedEmail, 'diego@ejemplo.com');
+      expect(active.invitationCode, isEmpty);
     });
   });
 }

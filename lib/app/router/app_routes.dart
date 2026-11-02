@@ -3,9 +3,13 @@ abstract final class AppRoutes {
   static const kids = '/kids';
   static const newChild = '/kids/nuevo';
   static const childProfile = '/kids/:childId';
+  static const linkParent = '/kids/:childId/vincular-padre';
   static const login = '/login';
   static const activateAccount = '/activar-cuenta';
 
   static String childProfilePath(String childId) =>
       '/kids/${Uri.encodeComponent(childId)}';
+
+  static String linkParentPath(String childId) =>
+      '/kids/${Uri.encodeComponent(childId)}/vincular-padre';
 }

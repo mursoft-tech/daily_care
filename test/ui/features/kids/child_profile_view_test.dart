@@ -1,3 +1,5 @@
+import 'package:daily_care/ui/features/kids/views/link_parent_view.dart';
+import 'package:daily_care/domain/models/guardian.dart';
 import 'dart:async';
 
 import 'package:daily_care/app/localization.dart';
@@ -43,6 +45,27 @@ class _FakeKidsRepository implements KidsRepository {
 
   @override
   Future<Result<Child>> addChild(Child child) async => Success(child);
+  @override
+  Future<Result<Guardian>> linkGuardian({
+    required String childId,
+    required String fullName,
+    required String email,
+    required GuardianRelationship relationship,
+    required String invitationCode,
+  }) async {
+    final parts = fullName.trim().split(RegExp(r'\s+'));
+    final guardian = Guardian(
+      id: 'mock-guardian',
+      firstName: parts.isNotEmpty ? parts.first : '',
+      lastName: parts.length > 1 ? parts.sublist(1).join(' ') : '',
+      email: email,
+      relationship: relationship,
+      status: GuardianStatus.invited,
+      colorToken: 'blue',
+      invitationCode: invitationCode,
+    );
+    return Success(guardian);
+  }
 }
 
 void main() {
@@ -184,7 +207,7 @@ void main() {
   ) async {
     await _pumpProfile(tester, 'mateo-fernandez', size: const Size(1200, 900));
 
-    final actions = ['Editar', 'Resumen del día', 'Vincular otro padre'];
+    final actions = ['Editar', 'Resumen del día'];
     for (final action in actions) {
       await tester.ensureVisible(find.text(action));
       await tester.tap(find.text(action));
@@ -195,6 +218,51 @@ void main() {
     }
   });
 
+
+  testWidgets('link parent action navigates to link parent view', (
+    tester,
+  ) async {
+    await _pumpProfile(tester, 'mateo-fernandez', size: const Size(1200, 900));
+
+    await tester.ensureVisible(find.text('Vincular otro padre'));
+    await tester.tap(find.text('Vincular otro padre'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Vincular padre'), findsOneWidget);
+    expect(find.text('a Mateo Fernández'), findsOneWidget);
+  });
+
+  testWidgets('links two guardians successively and lists both as pending', (
+    tester,
+  ) async {
+    final repository = KidsRepositoryImpl(DemoKidsDataSource());
+    await _pumpProfile(
+      tester,
+      'mateo-fernandez',
+      size: const Size(1200, 1400),
+      repository: repository,
+    );
+
+    await _linkGuardian(
+      tester,
+      name: 'Marcela Gómez',
+      email: 'marcela@ejemplo.com',
+    );
+    await _linkGuardian(
+      tester,
+      name: 'Carlos Pérez',
+      email: 'carlos@ejemplo.com',
+    );
+
+    expect(find.text('Marcela Gómez'), findsOneWidget);
+    expect(find.text('Carlos Pérez'), findsOneWidget);
+    expect(find.text('PENDIENTE'), findsNWidgets(3));
+    expect(find.text('Vincular otro padre'), findsOneWidget);
+
+    final result = await repository.loadChild('mateo-fernandez');
+    final child = (result as Success<Child?>).value!;
+    expect(child.linkedParents, 4);
+  });
   testWidgets('goes back to the kids list', (tester) async {
     await _pumpProfile(tester, 'mateo-fernandez', size: const Size(1200, 900));
 
@@ -287,6 +355,29 @@ void main() {
   });
 }
 
+Future<void> _linkGuardian(
+  WidgetTester tester, {
+  required String name,
+  required String email,
+}) async {
+  await tester.pump(const Duration(seconds: 5));
+  await tester.pumpAndSettle();
+
+  await tester.ensureVisible(find.text('Vincular otro padre'));
+  await tester.tap(find.text('Vincular otro padre'));
+  await tester.pumpAndSettle();
+
+  await tester.enterText(find.byKey(const Key('link-parent-name-input')), name);
+  await tester.enterText(
+    find.byKey(const Key('link-parent-email-input')),
+    email,
+  );
+  await tester.tap(find.byKey(const Key('link-parent-submit-button')));
+  await tester.pumpAndSettle();
+
+  expect(find.text('Mateo Fernández'), findsOneWidget);
+}
+
 Future<void> _pumpProfile(
   WidgetTester tester,
   String childId, {
@@ -305,6 +396,12 @@ Future<void> _pumpProfile(
         path: AppRoutes.kids,
         builder: (context, state) =>
             const Scaffold(body: Text('Listado de niños')),
+      ),
+      GoRoute(
+        path: AppRoutes.linkParent,
+        builder: (context, state) => LinkParentView(
+          childId: state.pathParameters['childId'] ?? '',
+        ),
       ),
       GoRoute(
         path: AppRoutes.childProfile,

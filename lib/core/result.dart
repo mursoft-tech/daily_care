@@ -25,3 +25,8 @@ final class DataFailure extends AppFailure {
 final class UnexpectedFailure extends AppFailure {
   const UnexpectedFailure();
 }
+
+/// El correo ya pertenece a un tutor vinculado al mismo niño.
+final class GuardianAlreadyLinkedFailure extends AppFailure {
+  const GuardianAlreadyLinkedFailure();
+}

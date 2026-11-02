@@ -8,19 +8,25 @@ class Guardian {
     required this.id,
     required this.firstName,
     required this.lastName,
+    required this.email,
     required this.relationship,
     required this.status,
     required this.colorToken,
+    this.invitationCode = '',
   });
 
   final String id;
   final String firstName;
   final String lastName;
+  final String email;
   final GuardianRelationship relationship;
   final GuardianStatus status;
   final String colorToken;
+  final String invitationCode;
 
   String get fullName => '$firstName $lastName';
+
+  String get normalizedEmail => email.trim().toLowerCase();
 
   String get initial => firstName.isEmpty
       ? ''

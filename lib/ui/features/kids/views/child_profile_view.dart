@@ -105,7 +105,7 @@ class _ProfileContent extends StatelessWidget {
       children: [
         const _DaySummaryButton(),
         const SizedBox(height: 14),
-        LinkedParentsCard(guardians: child.guardians),
+        LinkedParentsCard(guardians: child.guardians, childId: child.id),
       ],
     );
 

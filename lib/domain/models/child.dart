@@ -38,4 +38,30 @@ class Child {
   bool get hasMedicalNotes => medicalNotes.trim().isNotEmpty;
 
   int get linkedParents => guardians.length;
+
+  Child copyWith({
+    String? id,
+    String? firstName,
+    String? lastName,
+    DateTime? birthDate,
+    String? room,
+    DateTime? enrolledAt,
+    String? colorToken,
+    List<Allergy>? allergies,
+    String? medicalNotes,
+    List<Guardian>? guardians,
+  }) {
+    return Child(
+      id: id ?? this.id,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      birthDate: birthDate ?? this.birthDate,
+      room: room ?? this.room,
+      enrolledAt: enrolledAt ?? this.enrolledAt,
+      colorToken: colorToken ?? this.colorToken,
+      allergies: allergies ?? this.allergies,
+      medicalNotes: medicalNotes ?? this.medicalNotes,
+      guardians: guardians ?? this.guardians,
+    );
+  }
 }

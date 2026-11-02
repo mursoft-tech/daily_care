@@ -1,5 +1,7 @@
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../../app/router/app_routes.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../domain/models/guardian.dart';
@@ -11,9 +13,14 @@ import '../../../core/widgets/dashed_box.dart';
 import 'child_avatar_palette.dart';
 
 class LinkedParentsCard extends StatelessWidget {
-  const LinkedParentsCard({required this.guardians, super.key});
+  const LinkedParentsCard({
+    required this.guardians,
+    this.childId,
+    super.key,
+  });
 
   final List<Guardian> guardians;
+  final String? childId;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +65,9 @@ class LinkedParentsCard extends StatelessWidget {
               ),
           _LinkParentAction(
             label: guardians.isEmpty ? l10n.linkParent : l10n.linkAnotherParent,
+            onTap: childId != null
+                ? () => context.go(AppRoutes.linkParentPath(childId!))
+                : null,
           ),
         ],
       ),
@@ -167,13 +177,15 @@ class _StatusBadge extends StatelessWidget {
 }
 
 class _LinkParentAction extends StatelessWidget {
-  const _LinkParentAction({required this.label});
+  const _LinkParentAction({required this.label, this.onTap});
 
   final String label;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return AppLink(
+      onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4),

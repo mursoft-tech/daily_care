@@ -7,6 +7,7 @@ const _lucia = Guardian(
   id: 'lucia-fernandez',
   firstName: 'Lucía',
   lastName: 'Fernández',
+  email: 'lucia@ejemplo.com',
   relationship: GuardianRelationship.mother,
   status: GuardianStatus.active,
   colorToken: 'purple',
@@ -16,9 +17,11 @@ const _diego = Guardian(
   id: 'diego-fernandez',
   firstName: 'Diego',
   lastName: 'Fernández',
+  email: 'diego@ejemplo.com',
   relationship: GuardianRelationship.father,
   status: GuardianStatus.invited,
   colorToken: 'blue',
+  invitationCode: 'K7M2P',
 );
 
 void main() {
