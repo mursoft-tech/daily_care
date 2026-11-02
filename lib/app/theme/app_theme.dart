@@ -6,46 +6,88 @@ import 'app_typography.dart';
 @immutable
 class FeedColors extends ThemeExtension<FeedColors> {
   const FeedColors({
+    required this.foodBackground,
+    required this.foodForeground,
+    required this.napBackground,
+    required this.napForeground,
     required this.achievementBackground,
     required this.achievementForeground,
     required this.activityBackground,
     required this.activityForeground,
+    required this.moodBackground,
+    required this.moodForeground,
+    required this.photoTypeBackground,
+    required this.photoTypeForeground,
     required this.announcementBackground,
     required this.announcementForeground,
   });
 
   static const standard = FeedColors(
+    foodBackground: AppColors.foodBackground,
+    foodForeground: AppColors.foodForeground,
+    napBackground: AppColors.napBackground,
+    napForeground: AppColors.napForeground,
     achievementBackground: AppColors.achievementBackground,
     achievementForeground: AppColors.achievementForeground,
     activityBackground: AppColors.activityBackground,
     activityForeground: AppColors.activityForeground,
+    moodBackground: AppColors.moodBackground,
+    moodForeground: AppColors.moodForeground,
+    photoTypeBackground: AppColors.photoTypeBackground,
+    photoTypeForeground: AppColors.photoTypeForeground,
     announcementBackground: AppColors.announcementBackground,
     announcementForeground: AppColors.announcementForeground,
   );
 
+  final Color foodBackground;
+  final Color foodForeground;
+  final Color napBackground;
+  final Color napForeground;
   final Color achievementBackground;
   final Color achievementForeground;
   final Color activityBackground;
   final Color activityForeground;
+  final Color moodBackground;
+  final Color moodForeground;
+  final Color photoTypeBackground;
+  final Color photoTypeForeground;
   final Color announcementBackground;
   final Color announcementForeground;
 
   @override
   FeedColors copyWith({
+    Color? foodBackground,
+    Color? foodForeground,
+    Color? napBackground,
+    Color? napForeground,
     Color? achievementBackground,
     Color? achievementForeground,
     Color? activityBackground,
     Color? activityForeground,
+    Color? moodBackground,
+    Color? moodForeground,
+    Color? photoTypeBackground,
+    Color? photoTypeForeground,
     Color? announcementBackground,
     Color? announcementForeground,
   }) {
     return FeedColors(
+      foodBackground: foodBackground ?? this.foodBackground,
+      foodForeground: foodForeground ?? this.foodForeground,
+      napBackground: napBackground ?? this.napBackground,
+      napForeground: napForeground ?? this.napForeground,
       achievementBackground:
           achievementBackground ?? this.achievementBackground,
       achievementForeground:
           achievementForeground ?? this.achievementForeground,
       activityBackground: activityBackground ?? this.activityBackground,
       activityForeground: activityForeground ?? this.activityForeground,
+      moodBackground: moodBackground ?? this.moodBackground,
+      moodForeground: moodForeground ?? this.moodForeground,
+      photoTypeBackground:
+          photoTypeBackground ?? this.photoTypeBackground,
+      photoTypeForeground:
+          photoTypeForeground ?? this.photoTypeForeground,
       announcementBackground:
           announcementBackground ?? this.announcementBackground,
       announcementForeground:
@@ -57,6 +99,10 @@ class FeedColors extends ThemeExtension<FeedColors> {
   FeedColors lerp(ThemeExtension<FeedColors>? other, double t) {
     if (other is! FeedColors) return this;
     return FeedColors(
+      foodBackground: Color.lerp(foodBackground, other.foodBackground, t)!,
+      foodForeground: Color.lerp(foodForeground, other.foodForeground, t)!,
+      napBackground: Color.lerp(napBackground, other.napBackground, t)!,
+      napForeground: Color.lerp(napForeground, other.napForeground, t)!,
       achievementBackground: Color.lerp(
         achievementBackground,
         other.achievementBackground,
@@ -75,6 +121,18 @@ class FeedColors extends ThemeExtension<FeedColors> {
       activityForeground: Color.lerp(
         activityForeground,
         other.activityForeground,
+        t,
+      )!,
+      moodBackground: Color.lerp(moodBackground, other.moodBackground, t)!,
+      moodForeground: Color.lerp(moodForeground, other.moodForeground, t)!,
+      photoTypeBackground: Color.lerp(
+        photoTypeBackground,
+        other.photoTypeBackground,
+        t,
+      )!,
+      photoTypeForeground: Color.lerp(
+        photoTypeForeground,
+        other.photoTypeForeground,
         t,
       )!,
       announcementBackground: Color.lerp(

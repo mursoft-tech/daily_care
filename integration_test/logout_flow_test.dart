@@ -12,6 +12,9 @@ import 'package:material_ui/material_ui.dart';
 class _FakeFeedRepository implements FeedRepository {
   @override
   Future<Result<List<Post>>> loadPosts() async => const Success([]);
+
+  @override
+  Future<Result<Post>> createPost(Post post) async => Success(post);
 }
 
 void main() {

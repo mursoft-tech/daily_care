@@ -10,7 +10,9 @@ import 'package:daily_care/domain/models/post_audience.dart';
 import 'package:daily_care/domain/models/post_type.dart';
 import 'package:daily_care/domain/repositories/feed_repository.dart';
 import 'package:daily_care/ui/core/widgets/app_shell.dart';
+import 'package:daily_care/ui/features/feed/views/create_post_view.dart';
 import 'package:daily_care/ui/features/feed/views/home_view.dart';
+import 'package:daily_care/ui/features/feed/widgets/composer_bar.dart';
 import 'package:daily_care/ui/features/login/views/login_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -71,6 +73,9 @@ class _FakeFeedRepository implements FeedRepository {
     if (pending != null) return pending.future;
     return Future.value(result ?? const Success(_posts));
   }
+
+  @override
+  Future<Result<Post>> createPost(Post post) async => Success(post);
 }
 
 Widget _pumpHome(FeedRepository repository) {
@@ -203,5 +208,67 @@ void main() {
 
     expect(find.byType(LoginView), findsOneWidget);
     expect(find.byKey(const Key('app-drawer')), findsNothing);
+  });
+
+  testWidgets('composer opens the new post form', (tester) async {
+    final container = ProviderContainer.test(
+      overrides: [
+        feedRepositoryProvider.overrideWithValue(_FakeFeedRepository()),
+      ],
+    );
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp.router(
+          locale: const Locale('es'),
+          localizationsDelegates: appLocalizationsDelegates,
+          supportedLocales: appSupportedLocales,
+          theme: buildAppTheme(),
+          routerConfig: container.read(routerProvider),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byType(ComposerBar));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(CreatePostView), findsOneWidget);
+    expect(find.text('Próximamente'), findsNothing);
+  });
+
+  testWidgets('sidebar new post button opens the new post form', (
+    tester,
+  ) async {
+    addTearDown(tester.view.reset);
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(1200, 900);
+
+    final container = ProviderContainer.test(
+      overrides: [
+        feedRepositoryProvider.overrideWithValue(_FakeFeedRepository()),
+      ],
+    );
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp.router(
+          locale: const Locale('es'),
+          localizationsDelegates: appLocalizationsDelegates,
+          supportedLocales: appSupportedLocales,
+          theme: buildAppTheme(),
+          routerConfig: container.read(routerProvider),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Nueva publicación'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(CreatePostView), findsOneWidget);
+    expect(find.text('Próximamente'), findsNothing);
   });
 }

@@ -4,9 +4,9 @@ import '../../../domain/models/post_type.dart';
 import '../feed_data_source.dart';
 
 class DemoFeedDataSource implements FeedDataSource {
-  const DemoFeedDataSource();
+  DemoFeedDataSource();
 
-  static const _posts = <Post>[
+  static const _seed = <Post>[
     Post(
       id: 'achievement-1',
       childName: 'Mateo',
@@ -52,6 +52,13 @@ class DemoFeedDataSource implements FeedDataSource {
     ),
   ];
 
+  final List<Post> _posts = List.of(_seed);
+
   @override
-  Future<List<Post>> fetchPosts() async => _posts;
+  Future<List<Post>> fetchPosts() async => List.unmodifiable(_posts);
+
+  @override
+  Future<void> addPost(Post post) async {
+    _posts.insert(0, post);
+  }
 }

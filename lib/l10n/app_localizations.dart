@@ -352,6 +352,12 @@ abstract class AppLocalizations {
   /// **'Para: toda la sala'**
   String get audienceAll;
 
+  /// Audiencia de una publicación dirigida a varios niños
+  ///
+  /// In es, this message translates to:
+  /// **'Para: familias de {names}'**
+  String audienceFamilies(String names);
+
   /// Hora y autor de la publicación
   ///
   /// In es, this message translates to:
@@ -375,6 +381,102 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'ANUNCIO'**
   String get typeAnnouncement;
+
+  /// Tipo de publicación comida
+  ///
+  /// In es, this message translates to:
+  /// **'COMIDA'**
+  String get typeFood;
+
+  /// Tipo de publicación siesta
+  ///
+  /// In es, this message translates to:
+  /// **'SIESTA'**
+  String get typeNap;
+
+  /// Tipo de publicación ánimo
+  ///
+  /// In es, this message translates to:
+  /// **'ÁNIMO'**
+  String get typeMood;
+
+  /// Tipo de publicación foto
+  ///
+  /// In es, this message translates to:
+  /// **'FOTO'**
+  String get typePhoto;
+
+  /// Acción que descarta la publicación y vuelve al feed
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get composerCancel;
+
+  /// Acción principal del formulario de publicación
+  ///
+  /// In es, this message translates to:
+  /// **'Publicar'**
+  String get composerPublish;
+
+  /// Etiqueta del bloque de destinatarios
+  ///
+  /// In es, this message translates to:
+  /// **'PARA'**
+  String get composerFor;
+
+  /// Etiqueta del bloque de tipos de publicación
+  ///
+  /// In es, this message translates to:
+  /// **'TIPO'**
+  String get composerType;
+
+  /// Etiqueta del campo de descripción
+  ///
+  /// In es, this message translates to:
+  /// **'DESCRIPCIÓN'**
+  String get composerDescription;
+
+  /// Etiqueta del bloque de fotos
+  ///
+  /// In es, this message translates to:
+  /// **'FOTOS'**
+  String get composerPhotos;
+
+  /// Ayuda del campo de descripción
+  ///
+  /// In es, this message translates to:
+  /// **'Contá cómo le fue hoy…'**
+  String get composerDescriptionHint;
+
+  /// Acción para agregar una foto
+  ///
+  /// In es, this message translates to:
+  /// **'Agregar'**
+  String get composerAddPhoto;
+
+  /// Error cuando falta la descripción
+  ///
+  /// In es, this message translates to:
+  /// **'Contá cómo le fue hoy'**
+  String get composerBodyRequired;
+
+  /// Error genérico al publicar
+  ///
+  /// In es, this message translates to:
+  /// **'No pudimos publicar. Probá de nuevo.'**
+  String get composerSaveError;
+
+  /// Etiqueta accesible mientras se publica
+  ///
+  /// In es, this message translates to:
+  /// **'Publicando'**
+  String get composerSaving;
+
+  /// Destinatario que abarca toda la sala
+  ///
+  /// In es, this message translates to:
+  /// **'Toda la sala'**
+  String get composerRoomAudience;
 
   /// No description provided for @edit.
   ///

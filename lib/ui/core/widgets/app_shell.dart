@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../app/providers.dart';
+import '../../../app/router/app_routes.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../domain/models/session_user.dart';
@@ -49,6 +50,7 @@ class AppShell extends ConsumerWidget {
                   selectedIndex: selectedIndex,
                   sessionUser: sessionUser,
                   onLogout: onLogout,
+                  onNewPost: () => context.go(AppRoutes.newPost),
                 ),
                 Expanded(child: SafeArea(child: child)),
               ],
@@ -77,6 +79,7 @@ class AppShell extends ConsumerWidget {
           selectedIndex: selectedIndex,
           sessionUser: sessionUser,
           onLogout: onLogout,
+          onNewPost: () => context.go(AppRoutes.newPost),
           child: child,
         );
       },
@@ -106,12 +109,14 @@ class _Sidebar extends StatelessWidget {
     required this.selectedIndex,
     required this.sessionUser,
     required this.onLogout,
+    required this.onNewPost,
     super.key,
   });
 
   final int selectedIndex;
   final SessionUser sessionUser;
   final VoidCallback onLogout;
+  final VoidCallback onNewPost;
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +131,7 @@ class _Sidebar extends StatelessWidget {
         selectedIndex: selectedIndex,
         onDestinationSelected: (index) => _onDestination(context, index),
         onLogout: onLogout,
+        onNewPost: onNewPost,
         sessionUser: sessionUser,
       ),
     );
@@ -138,12 +144,14 @@ class _CompactShell extends StatelessWidget {
     required this.selectedIndex,
     required this.sessionUser,
     required this.onLogout,
+    required this.onNewPost,
   });
 
   final Widget child;
   final int selectedIndex;
   final SessionUser sessionUser;
   final VoidCallback onLogout;
+  final VoidCallback onNewPost;
 
   @override
   Widget build(BuildContext context) {
@@ -240,6 +248,10 @@ class _CompactShell extends StatelessWidget {
                 onLogout: () {
                   Scaffold.of(drawerContext).closeDrawer();
                   onLogout();
+                },
+                onNewPost: () {
+                  Scaffold.of(drawerContext).closeDrawer();
+                  onNewPost();
                 },
                 sessionUser: sessionUser,
               ),

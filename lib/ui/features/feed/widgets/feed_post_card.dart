@@ -4,8 +4,8 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../domain/models/post.dart';
 import '../../../../domain/models/post_audience.dart';
-import '../../../../domain/models/post_type.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../core/formatters/name_list_formatter.dart';
 import '../../../core/widgets/app_avatar.dart';
 import '../../../core/widgets/app_icon.dart';
 import '../../../core/widgets/app_link.dart';
@@ -46,7 +46,7 @@ class FeedPostCard extends StatelessWidget {
                 label: post.childInitial ?? '',
                 backgroundColor: avatar.background,
                 foregroundColor: avatar.foreground,
-                iconAsset: post.type == PostType.announcement
+                iconAsset: post.audience == PostAudience.room
                     ? 'assets/icons/megaphone.svg'
                     : null,
                 semanticLabel: post.childName,
@@ -199,9 +199,18 @@ class FeedPostCard extends StatelessWidget {
 
   String _audienceLabel(AppLocalizations l10n, Post post) {
     return switch (post.audience) {
-      PostAudience.family => l10n.audienceFamily(post.childName),
+      PostAudience.family => _familyAudience(l10n, post),
       PostAudience.room => l10n.audienceAll,
     };
+  }
+
+  String _familyAudience(AppLocalizations l10n, Post post) {
+    final names = post.recipientNames.isEmpty
+        ? <String>[post.childName]
+        : post.recipientNames;
+
+    if (names.length == 1) return l10n.audienceFamily(names.first);
+    return l10n.audienceFamilies(formatNameList(names));
   }
 
   ({Color background, Color foreground}) _avatarFor(String token) {
@@ -209,6 +218,22 @@ class FeedPostCard extends StatelessWidget {
       'blue' => (
         background: AppColors.avatarBlueBackground,
         foreground: AppColors.avatarBlueForeground,
+      ),
+      'pink' => (
+        background: AppColors.avatarPinkBackground,
+        foreground: AppColors.avatarPinkForeground,
+      ),
+      'green' => (
+        background: AppColors.avatarGreenBackground,
+        foreground: AppColors.avatarGreenForeground,
+      ),
+      'yellow' => (
+        background: AppColors.avatarYellowBackground,
+        foreground: AppColors.avatarYellowForeground,
+      ),
+      'purple' => (
+        background: AppColors.avatarPurpleBackground,
+        foreground: AppColors.avatarPurpleForeground,
       ),
       'announcement' => (
         background: AppColors.announcementBackground,

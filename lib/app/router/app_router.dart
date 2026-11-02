@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../ui/core/views/route_error_view.dart';
 import '../../ui/features/account_activation/views/activate_account_view.dart';
+import '../../ui/features/feed/views/create_post_view.dart';
 import '../../ui/features/feed/views/home_view.dart';
 import '../../ui/features/kids/views/child_profile_view.dart';
 import '../../ui/features/kids/views/kids_view.dart';
@@ -18,6 +19,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.home,
         builder: (context, state) => const HomeView(),
+      ),
+      GoRoute(
+        path: AppRoutes.newPost,
+        builder: (context, state) => const CreatePostView(),
       ),
       GoRoute(
         path: AppRoutes.kids,

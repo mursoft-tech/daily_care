@@ -6,6 +6,7 @@ abstract final class AppRoutes {
   static const linkParent = '/kids/:childId/vincular-padre';
   static const login = '/login';
   static const activateAccount = '/activar-cuenta';
+  static const newPost = '/publicaciones/nueva';
 
   static String childProfilePath(String childId) =>
       '/kids/${Uri.encodeComponent(childId)}';

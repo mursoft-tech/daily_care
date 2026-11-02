@@ -5,7 +5,11 @@ import 'package:daily_care/ui/core/widgets/app_navigation_panel.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 
-Widget _pumpPanel({VoidCallback? onLogout, VoidCallback? onDestination}) {
+Widget _pumpPanel({
+  VoidCallback? onLogout,
+  VoidCallback? onDestination,
+  VoidCallback? onNewPost,
+}) {
   return MaterialApp(
     locale: const Locale('es'),
     localizationsDelegates: appLocalizationsDelegates,
@@ -19,6 +23,7 @@ Widget _pumpPanel({VoidCallback? onLogout, VoidCallback? onDestination}) {
           selectedIndex: 0,
           onDestinationSelected: (_) => onDestination?.call(),
           onLogout: onLogout ?? () {},
+          onNewPost: onNewPost ?? () {},
           sessionUser: const SessionUser.demo(),
         ),
       ),
@@ -47,6 +52,20 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(logouts, 1);
+    expect(find.text('Próximamente'), findsNothing);
+  });
+
+  testWidgets('the new post button invokes the callback instead of coming soon', (
+    tester,
+  ) async {
+    var posts = 0;
+    await tester.pumpWidget(_pumpPanel(onNewPost: () => posts++));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Nueva publicación'));
+    await tester.pumpAndSettle();
+
+    expect(posts, 1);
     expect(find.text('Próximamente'), findsNothing);
   });
 }

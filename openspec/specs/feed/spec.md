@@ -17,19 +17,33 @@ En la ruta `/`, el sistema SHALL mostrar la cabecera del feed (saludo, cantidad 
 - **THEN** el contenido principal hace scroll mientras el sidebar permanece visible
 
 ### Requirement: Post card presentation
-Cada publicación SHALL mostrar autor, hora, audiencia, tipo (logro, actividad o anuncio), cuerpo, contadores de likes y comentarios, y la acción "Editar".
+
+Cada publicación SHALL mostrar autor, hora, audiencia, tipo (comida, siesta, actividad, logro, ánimo, foto o anuncio), cuerpo, contadores de likes y comentarios, y la acción "Editar".
 
 #### Scenario: Publicación de logro
+
 - **WHEN** se renderiza una publicación de tipo logro
 - **THEN** la tarjeta muestra el badge verde "LOGRO" y el texto dirigido a la familia
 
 #### Scenario: Publicación con foto
+
 - **WHEN** una publicación de actividad incluye una foto
 - **THEN** la tarjeta muestra un placeholder punteado con el ícono de imagen y la etiqueta de la foto
 
 #### Scenario: Publicación de anuncio
+
 - **WHEN** se renderiza un anuncio general
 - **THEN** la tarjeta muestra el badge azul "ANUNCIO" y la audiencia "toda la sala"
+
+#### Scenario: Publicación de los tipos nuevos
+
+- **WHEN** se renderiza una publicación de tipo comida, siesta, ánimo o foto
+- **THEN** la tarjeta muestra la etiqueta y el color correspondientes a ese tipo
+
+#### Scenario: Publicación para varias familias
+
+- **WHEN** se renderiza una publicación dirigida a dos o más niños
+- **THEN** la tarjeta muestra en la audiencia los nombres de todos los destinatarios
 
 ### Requirement: Feed states
 El sistema SHALL representar los estados de carga, error y datos del feed sin bloquear el shell de navegación.
@@ -44,7 +58,7 @@ El sistema SHALL representar los estados de carga, error y datos del feed sin bl
 
 ### Requirement: Navigation affordances
 
-Todo elemento interactivo de la plantilla SHALL comportarse como enlace: muestra cursor de mano al pasar el puntero, responde a teclado y, al activarse, ejecuta su acción. Los destinos "Feed" y "Niños" SHALL navegar a `/` y `/kids`; el resto de los enlaces no implementados SHALL mostrar el aviso "Próximamente" sin navegar a otra ruta. La acción de logout queda exceptuada y navega a `/login`.
+Todo elemento interactivo de la plantilla SHALL comportarse como enlace: muestra cursor de mano al pasar el puntero, responde a teclado y, al activarse, ejecuta su acción. Los destinos "Feed" y "Niños" SHALL navegar a `/` y `/kids`; el composer y el botón "Nueva publicación" SHALL navegar a `/publicaciones/nueva`; el resto de los enlaces no implementados SHALL mostrar el aviso "Próximamente" sin navegar a otra ruta. La acción de logout queda exceptuada y navega a `/login`.
 
 #### Scenario: Hover sobre un enlace
 
@@ -60,6 +74,16 @@ Todo elemento interactivo de la plantilla SHALL comportarse como enlace: muestra
 
 - **WHEN** el usuario activa "Feed" desde otra ruta
 - **THEN** la aplicación navega a `/` sin mostrar el aviso "Próximamente"
+
+#### Scenario: Navegación desde el composer
+
+- **WHEN** el usuario activa el composer del feed
+- **THEN** la aplicación navega a `/publicaciones/nueva` sin mostrar el aviso "Próximamente"
+
+#### Scenario: Navegación desde el botón de nueva publicación
+
+- **WHEN** el usuario activa "Nueva publicación" en el sidebar o en el menú lateral
+- **THEN** el menú lateral se cierra si estaba abierto y la aplicación navega a `/publicaciones/nueva`
 
 #### Scenario: Activación de un enlace
 

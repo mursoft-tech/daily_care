@@ -1,1 +1,1 @@
-enum PostType { achievement, activity, announcement }
+enum PostType { food, nap, activity, achievement, mood, photo, announcement }

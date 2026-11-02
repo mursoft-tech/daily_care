@@ -15,6 +15,7 @@ import '../domain/repositories/feed_repository.dart';
 import '../domain/repositories/kids_repository.dart';
 import '../domain/use_cases/activate_account.dart';
 import '../domain/use_cases/create_child.dart';
+import '../domain/use_cases/create_post.dart';
 import '../domain/use_cases/generate_invitation_code.dart';
 
 final sessionUserProvider = Provider<SessionUser>(
@@ -24,11 +25,19 @@ final sessionUserProvider = Provider<SessionUser>(
 final todayProvider = Provider<DateTime Function()>((ref) => DateTime.now);
 
 final feedDataSourceProvider = Provider<FeedDataSource>(
-  (ref) => const DemoFeedDataSource(),
+  (ref) => DemoFeedDataSource(),
 );
 
 final feedRepositoryProvider = Provider<FeedRepository>((ref) {
   return FeedRepositoryImpl(ref.watch(feedDataSourceProvider));
+});
+
+final createPostUseCaseProvider = Provider<CreatePost>((ref) {
+  return CreatePost(
+    ref.watch(feedRepositoryProvider),
+    ref.watch(kidsRepositoryProvider),
+    ref.watch(todayProvider),
+  );
 });
 
 final kidsDataSourceProvider = Provider<KidsDataSource>(
