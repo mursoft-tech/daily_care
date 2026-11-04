@@ -22,5 +22,21 @@
     { "action": "shell", "resource": "git push *", "effect": "ask" },
     { "action": "shell", "resource": "git reset --hard *", "effect": "ask" },
     { "action": "shell", "resource": "dart fix --apply*", "effect": "ask" }
-  ]
+  ],
+
+  "references": {
+    "docs": {
+      "path": "../07_db_schema",
+      "description": "Este es un esquema de BD. Contiene la estructura de tablas, relaciones y restricciones, esto no esta implementado."
+    }
+  },
+
+  "lsp": {
+    "dart": {
+      "enabled": true
+    },
+    "flutter": {
+      "enabled": true
+    }
+  }
 }
