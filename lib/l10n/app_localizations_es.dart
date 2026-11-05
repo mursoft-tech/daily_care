@@ -91,7 +91,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get loginInvalidCredentialsError =>
-      'Credenciales incorrectas, verificá tu usuario y contraseña';
+      'Credenciales incorrectas. Verificá tu usuario y contraseña';
 
   @override
   String get loginEmptyPasswordError => 'Ingresá tu contraseña';
