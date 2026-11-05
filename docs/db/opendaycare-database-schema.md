@@ -102,7 +102,7 @@ Niños inscritos en la guardería.
 
 ## 5. `parent_children` (vínculo padre ↔ niño)
 
-Tabla intermedia. Un padre puede tener varios hijos y un niño varios tutores.
+Tabla intermedia. Un padre puede tener varios hijos y un niño varios tutores en caso de ser necesario.
 
 | Campo          | Tipo                   | Notas                             |
 | -------------- | ---------------------- | --------------------------------- |
