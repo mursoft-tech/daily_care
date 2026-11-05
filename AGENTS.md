@@ -14,7 +14,7 @@
 - `package:flutter/material.dart` y `package:flutter/cupertino.dart` están congelados y serán deprecados en noviembre de 2026. El código nuevo importa `package:material_ui/material_ui.dart` o `package:cupertino_ui/cupertino_ui.dart`; migra un archivo legacy con `dart fix --apply --code=migrate_design_widgets` solo cuando lo modifiques, salvo que se pida una migración completa.
 - `cupertino_ui` (1.1.4) es hoy dependencia transitiva: añádela con `flutter pub add cupertino_ui` antes de importarla o `depend_on_referenced_packages` fallará.
 - Si una dependencia todavía usa los imports legacy, envuélvela con `MaterialUiCompatibilityBridge` en `MaterialApp.builder` solo durante la transición.
-- PostgreSQL 18 con dbmate `2.37.0` (`npx dbmate`), Supabase remoto y Node/npx para los MCP locales.
+- PostgreSQL 18 con dbmate `2.37.0` instalado global (`dbmate`, sin dependencia npm local), Supabase remoto y Node/npx para los MCP locales.
 
 ## Documentación de dependencias (Context7)
 
@@ -119,11 +119,11 @@ lib/
 - Comandos habituales:
 
 ```bash
-npx dbmate new <nombre>
-npx dbmate up
-npx dbmate status
-npx dbmate rollback
-npx dbmate dump
+dbmate new <nombre>
+dbmate up
+dbmate status
+dbmate rollback
+dbmate dump
 psql -v ON_ERROR_STOP=1 -f db/tests/tenant_isolation_smoke.sql
 ```
 
@@ -172,7 +172,7 @@ psql -v ON_ERROR_STOP=1 -f db/tests/tenant_isolation_smoke.sql
 flutter analyze
 flutter test
 flutter gen-l10n
-npx dbmate status
+dbmate status
 ```
 
 `analysis_options.yaml` usa `flutter_lints` y excluye `build/`, `android/` y `web/` del analyzer.
