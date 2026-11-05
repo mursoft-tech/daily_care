@@ -1,6 +1,6 @@
 # OpenDayCare — Esquema de base de datos
 
-Diccionario de tablas para PostgreSQL. Tipos en notación Postgres.
+Diccionario de tablas para Supabase/PostgreSQL. Tipos en notación Postgres.
 Convención: PK `id` tipo `uuid` (default `gen_random_uuid()`), y `created_at` / `updated_at` tipo `timestamptz`.
 
 **Convención de idioma:** todo lo que se persiste en la base de datos va en **inglés** (enums, tags, códigos). Las etiquetas visibles al usuario se traducen en la capa de UI (español).
