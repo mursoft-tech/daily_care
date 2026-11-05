@@ -1,0 +1,49 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  // Artefactos de Flutter/Dart e IDE: no aportan contexto y ensucian el watcher.
+  "watcher": {
+    "ignore": [
+      "**/build/**",
+      "**/.dart_tool/**",
+      "**/.idea/**",
+      "**/coverage/**"
+    ]
+  },
+
+  // Datos de salud: nada de credenciales locales en el contexto del modelo.
+  // El último patrón que coincide gana.
+  "permissions": [
+    { "action": "read", "resource": "*.env", "effect": "deny" },
+    { "action": "read", "resource": "*.env.*", "effect": "deny" },
+    { "action": "read", "resource": "*.env.example", "effect": "allow" },
+
+    // Operaciones con impacto remoto o masivo: confirmar antes de ejecutar.
+    { "action": "shell", "resource": "git push *", "effect": "ask" },
+    { "action": "shell", "resource": "git reset --hard *", "effect": "ask" },
+    { "action": "shell", "resource": "dart fix --apply*", "effect": "ask" }
+  ],
+
+  "references": {
+    "docs": {
+      "path": "../07_db_schema",
+      "description": "Este es un esquema de BD. Contiene la estructura de tablas, relaciones y restricciones, esto no esta implementado."
+    }
+  },
+
+  "lsp": {
+    "dart": {
+      "enabled": true
+    },
+    "flutter": {
+      "enabled": true
+    }
+  },
+  "mcp": {
+    "supabase": {
+      "type": "remote",
+      "url": "https://mcp.supabase.com/mcp?project_ref=tezdnundvrroyjcahkxz&features=docs%2Caccount%2Cdatabase%2Cdebugging%2Cdevelopment%2Cfunctions%2Cbranching%2Cfeedback",
+      "enabled": true
+    }
+  }
+}
