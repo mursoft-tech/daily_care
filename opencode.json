@@ -24,13 +24,6 @@
     { "action": "shell", "resource": "dart fix --apply*", "effect": "ask" }
   ],
 
-  "references": {
-    "docs": {
-      "path": "../07_db_schema",
-      "description": "Este es un esquema de BD. Contiene la estructura de tablas, relaciones y restricciones, esto no esta implementado."
-    }
-  },
-
   "lsp": {
     "dart": {
       "enabled": true
@@ -39,6 +32,7 @@
       "enabled": true
     }
   },
+  
   "mcp": {
     "supabase": {
       "type": "remote",
