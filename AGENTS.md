@@ -45,7 +45,7 @@
 
 ## Orden de aplicación de skills
 
-0. `context7` para validar las APIs de los paquetes implicados antes de la primera skill.
+1. `context7` para validar las APIs de los paquetes implicados antes de la primera skill.
 
 **Flutter / app**
 
